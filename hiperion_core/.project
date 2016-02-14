@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>hiperion_core</name>
+	<name>jano_core</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -31,12 +31,12 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>org.eclipse.m2e.core.maven2Builder</name>
+			<name>com.dell.toadext.editors.project.ToadextProjectBuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>com.dell.toadext.editors.project.ToadextProjectBuilder</name>
+			<name>org.eclipse.m2e.core.maven2Builder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
