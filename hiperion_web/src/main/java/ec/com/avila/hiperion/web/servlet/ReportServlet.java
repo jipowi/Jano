@@ -57,7 +57,7 @@ public class ReportServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 8795000477609113780L;
 
-	@Resource(mappedName = "java:/AvilaSgsDS")
+	@Resource(mappedName = "java:/JanoDS")
 	private DataSource dataSource;
 
 	Logger log = Logger.getLogger(ReportServlet.class);
