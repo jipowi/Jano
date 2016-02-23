@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:composition template="/templates/menuPrincipalTemplate.xhtml">
+	<ui:define name="content">
+		<h:form id="formEgreso">
+			<p:panel>
+				<div align="center">
+					<p:outputLabel value="#{emision['titulo.egreso']}" styleClass="negrita" />
+					<p:separator id="customSeparator" style="width:auto;height:1px" />
+					<p:spacer height="15px;" />
+				</div>
+				<p:messages id="messagesEgreso" showDetail="true" autoUpdate="true" closable="true" />
+				<h:panelGrid columns="2">
+
+					<p:outputLabel value="#{emision['lbl.periodo']}:" styleClass="negrita" />
+					<p:selectOneMenu id="idPeriodo" value="#{egresoBean.periodo}" effect="drop" required="true">
+						<f:selectItem itemLabel="Seleccione Periodo" noSelectionOption="true" />
+						<f:selectItems value="#{egresoBacking.periodoItems}" itemValue="" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="#{emision['lbl.facultad']}:" styleClass="negrita" />
+					<p:selectOneMenu id="idFacultad" value="#{egresoBean.facultad}" effect="drop" required="true">
+						<f:selectItem itemLabel="Seleccione Facultad" noSelectionOption="true" />
+						<f:selectItems value="#{egresoBacking.facultadItems}" itemValue="" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="#{emision['lbl.dependencia']}:" styleClass="negrita" />
+					<p:selectOneMenu id="idDependencia" value="#{egresoBean.dependencia}" effect="drop" required="true">
+						<f:selectItem itemLabel="Seleccione Dependencia" noSelectionOption="true" />
+						<f:selectItems value="#{egresoBacking.dependenciatems}" itemValue="" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="#{emision['lbl.departamento']}:" styleClass="negrita" />
+					<p:selectOneMenu id="idDepartamento" value="#{egresoBean.departamento}" effect="drop"  required="true">
+						<f:selectItem itemLabel="Seleccione Departamento" noSelectionOption="true" />
+						<f:selectItems value="#{egresoBacking.departamentoItems}" itemValue="" />
+					</p:selectOneMenu>
+
+				</h:panelGrid>
+
+			</p:panel>
+			<p:spacer height="15px;" />
+			<div align="center">
+				<p:commandButton id="guardarBtnId" actionListener="#{egresoBacking.guardarEgreso}" icon="icon-save" value="#{emision['boton.guardar']}"
+					title="Guardar" update="formEgreso" process="@this"/>
+			</div>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>
