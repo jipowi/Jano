@@ -41,4 +41,5 @@ public class CatalogoBean implements Serializable {
 	public void setSelectCatalogo(Catalogo selectCatalogo) {
 		this.selectCatalogo = selectCatalogo;
 	}
+	
 }
