@@ -10,22 +10,24 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
-import ec.com.avila.hiperion.dao.FinanciamientoDao;
-import ec.com.avila.hiperion.emision.entities.Financiamiento;
+import ec.com.avila.hiperion.dao.EgresoDao;
+import ec.com.avila.hiperion.emision.entities.Egreso;
 
 /**
- * <b>Permite implementar las operaciones de la tabla Financiamiento </b>
+ * <b>Permite implementar las operaciones de la interfaz local</b>
  * 
  * @author Paul Jimenez
- * @version 1.0,Dec 18, 2013
+ * @version 1.0,Dec 10, 2014
  * @since JDK1.6
  */
 @Stateless
-public class FinanciamientoDaoImpl extends GenericDAOImpl<Financiamiento, Long> implements FinanciamientoDao {
+public class EgresoDaoImpl extends GenericDAOImpl<Egreso, Long> implements EgresoDao {
 
-	Logger log = Logger.getLogger(FinanciamientoDaoImpl.class);
+	Logger log = Logger.getLogger(EgresoDaoImpl.class);
 
 	@PersistenceContext(unitName = "sgs_pu")
 	protected EntityManager em;
+
+	
 
 }
