@@ -5,7 +5,7 @@
 	<persistence-unit name="sgs_pu" transaction-type="JTA">
 		<jta-data-source>java:/JanoDS</jta-data-source>
 		<class>ec.com.uce.jano.entities.Auditoria</class>
-		<class>ec.com.avila.hiperion.comun.Consultas</class>
+		<class>ec.com.uce.jano.comun.Consultas</class>
 		<class>ec.com.uce.jano.entities.Catalogo</class>
 		<class>ec.com.uce.jano.entities.DetalleCatalogo</class>
 		<class>ec.com.uce.jano.entities.Menu</class>
