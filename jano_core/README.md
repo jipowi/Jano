@@ -1,4 +1,0 @@
-hiperion
-========
-
-Proyecto java
