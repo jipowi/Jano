@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:javaee="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+  <javaee:display-name>Archetype Created Web Application
+	</javaee:display-name>
+  <context-param>
+    <javaee:param-name>javax.faces.PROJECT_STAGE</javaee:param-name>
+    <javaee:param-value>Development</javaee:param-value>
+  </context-param>
+  <context-param>
+    <javaee:param-name>javax.faces.FACELETS_REFRESH_PERIOD</javaee:param-name>
+    <javaee:param-value>0</javaee:param-value>
+  </context-param>
+  <context-param>
+    <javaee:param-name>primefaces.THEME</javaee:param-name>
+    <javaee:param-value>redmond</javaee:param-value>
+  </context-param>
+  <servlet>
+    <servlet-name>Faces Servlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet>
+    <servlet-name>descargador</servlet-name>
+    <servlet-class>ec.com.avila.hiperion.web.servlet.Descargador</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>descargador</servlet-name>
+    <url-pattern>/descargador.jsf</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Faces Servlet</servlet-name>
+    <url-pattern>*.jsf</url-pattern>
+  </servlet-mapping>
+  <session-config>
+    <session-timeout>100</session-timeout>
+  </session-config>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+  <filter>
+    <filter-name>PrimeFaces FileUpload Filter</filter-name>
+    <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>PrimeFaces FileUpload Filter</filter-name>
+    <servlet-name>Faces Servlet</servlet-name>
+  </filter-mapping>
+  <filter>
+    <filter-name>LoginFilter</filter-name>
+    <filter-class>ec.com.avila.hiperion.web.filter.LoginFilter</filter-class>
+    <init-param>
+      <javaee:param-name>login</javaee:param-name>
+      <javaee:param-value>/login.jsf</javaee:param-value>
+    </init-param>
+    <init-param>
+      <javaee:param-name>error</javaee:param-name>
+      <javaee:param-value>/error.jsf</javaee:param-value>
+    </init-param>
+    <init-param>
+      <javaee:param-name>index</javaee:param-name>
+      <javaee:param-value>/index.jsf</javaee:param-value>
+    </init-param>
+    <init-param>
+      <javaee:param-name>autoriza</javaee:param-name>
+      <javaee:param-value>/notAutorizedPage.jsf</javaee:param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <url-pattern>/pages/*</url-pattern>
+  </filter-mapping>
+</web-app>
