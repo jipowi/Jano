@@ -21,7 +21,7 @@
   </servlet>
   <servlet>
     <servlet-name>descargador</servlet-name>
-    <servlet-class>ec.com.avila.hiperion.web.servlet.Descargador</servlet-class>
+    <servlet-class>ec.com.uce.jano.web.servlet.Descargador</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>descargador</servlet-name>
@@ -47,7 +47,7 @@
   </filter-mapping>
   <filter>
     <filter-name>LoginFilter</filter-name>
-    <filter-class>ec.com.avila.hiperion.web.filter.LoginFilter</filter-class>
+    <filter-class>ec.com.uce.jano.web.filter.LoginFilter</filter-class>
     <init-param>
       <javaee:param-name>login</javaee:param-name>
       <javaee:param-value>/login.jsf</javaee:param-value>
