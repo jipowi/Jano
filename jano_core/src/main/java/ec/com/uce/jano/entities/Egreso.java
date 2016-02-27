@@ -27,7 +27,7 @@ public class Egreso implements Serializable {
 	private String periodo;
 
 	//bi-directional many-to-one association to DetalleEgreso
-	@OneToMany(mappedBy="egreso", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="egreso")
 	private List<DetalleEgreso> detalleEgresos;
 
 	public Egreso() {

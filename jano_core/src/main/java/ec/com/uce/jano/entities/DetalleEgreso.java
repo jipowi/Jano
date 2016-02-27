@@ -3,6 +3,7 @@ package ec.com.uce.jano.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 
 /**
@@ -19,17 +20,16 @@ public class DetalleEgreso implements Serializable {
 	@Column(name="id_det_egreso")
 	private Integer idDetEgreso;
 
-	@Column(name="cod_partida")
-	private Integer codPartida;
-
-	private String partida;
-
 	private BigDecimal presupuesto;
 
 	//bi-directional many-to-one association to Egreso
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_egreso")
 	private Egreso egreso;
+
+	//bi-directional many-to-one association to Partida
+	@OneToMany(mappedBy="detalleEgreso")
+	private List<Partida> partidas;
 
 	public DetalleEgreso() {
 	}
@@ -40,22 +40,6 @@ public class DetalleEgreso implements Serializable {
 
 	public void setIdDetEgreso(Integer idDetEgreso) {
 		this.idDetEgreso = idDetEgreso;
-	}
-
-	public Integer getCodPartida() {
-		return this.codPartida;
-	}
-
-	public void setCodPartida(Integer codPartida) {
-		this.codPartida = codPartida;
-	}
-
-	public String getPartida() {
-		return this.partida;
-	}
-
-	public void setPartida(String partida) {
-		this.partida = partida;
 	}
 
 	public BigDecimal getPresupuesto() {
@@ -72,6 +56,28 @@ public class DetalleEgreso implements Serializable {
 
 	public void setEgreso(Egreso egreso) {
 		this.egreso = egreso;
+	}
+
+	public List<Partida> getPartidas() {
+		return this.partidas;
+	}
+
+	public void setPartidas(List<Partida> partidas) {
+		this.partidas = partidas;
+	}
+
+	public Partida addPartida(Partida partida) {
+		getPartidas().add(partida);
+		partida.setDetalleEgreso(this);
+
+		return partida;
+	}
+
+	public Partida removePartida(Partida partida) {
+		getPartidas().remove(partida);
+		partida.setDetalleEgreso(null);
+
+		return partida;
 	}
 
 }
