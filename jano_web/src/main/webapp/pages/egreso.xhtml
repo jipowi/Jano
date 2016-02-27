@@ -3,48 +3,101 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core">
 <ui:composition template="/templates/menuPrincipalTemplate.xhtml">
 	<ui:define name="content">
-		<h:form id="formEgreso">
-			<p:panel>
+		<p:panel>
+			<h:form id="formEgreso">
 				<div align="center">
 					<p:outputLabel value="#{emision['titulo.egreso']}" styleClass="negrita" />
 					<p:separator id="customSeparator" style="width:auto;height:1px" />
 					<p:spacer height="15px;" />
 				</div>
-				<p:messages id="messagesEgreso" showDetail="true" autoUpdate="true" closable="true" />
-				<h:panelGrid columns="2">
+				<p:panel>
+					<p:messages id="messagesEgreso" showDetail="true" autoUpdate="true" closable="true" />
+					<h:panelGrid columns="2">
 
-					<p:outputLabel value="#{emision['lbl.periodo']}:" styleClass="negrita" />
-					<p:selectOneMenu id="idPeriodo" value="#{egresoBean.periodo}" effect="drop" required="true">
-						<f:selectItem itemLabel="Seleccione Periodo" noSelectionOption="true" />
-						<f:selectItems value="#{egresoBacking.periodoItems}" itemValue="" />
-					</p:selectOneMenu>
+						<p:outputLabel value="#{emision['lbl.periodo']}:" styleClass="negrita" />
+						<p:selectOneMenu id="idPeriodo" value="#{egresoBean.periodo}" effect="drop" required="true">
+							<f:selectItem itemLabel="Seleccione Periodo" noSelectionOption="true" />
+							<f:selectItems value="#{egresoBacking.periodoItems}" itemValue="" />
+						</p:selectOneMenu>
 
-					<p:outputLabel value="#{emision['lbl.facultad']}:" styleClass="negrita" />
-					<p:selectOneMenu id="idFacultad" value="#{egresoBean.facultad}" effect="drop" required="true">
-						<f:selectItem itemLabel="Seleccione Facultad" noSelectionOption="true" />
-						<f:selectItems value="#{egresoBacking.facultadItems}" itemValue="" />
-					</p:selectOneMenu>
+						<p:outputLabel value="#{emision['lbl.facultad']}:" styleClass="negrita" />
+						<p:selectOneMenu id="idFacultad" value="#{egresoBean.facultad}" effect="drop" required="true">
+							<f:selectItem itemLabel="Seleccione Facultad" noSelectionOption="true" />
+							<f:selectItems value="#{egresoBacking.facultadItems}" itemValue="" />
+						</p:selectOneMenu>
 
-					<p:outputLabel value="#{emision['lbl.dependencia']}:" styleClass="negrita" />
-					<p:selectOneMenu id="idDependencia" value="#{egresoBean.dependencia}" effect="drop" required="true">
-						<f:selectItem itemLabel="Seleccione Dependencia" noSelectionOption="true" />
-						<f:selectItems value="#{egresoBacking.dependenciatems}" itemValue="" />
-					</p:selectOneMenu>
+						<p:outputLabel value="#{emision['lbl.dependencia']}:" styleClass="negrita" />
+						<p:selectOneMenu id="idDependencia" value="#{egresoBean.dependencia}" effect="drop" required="true">
+							<f:selectItem itemLabel="Seleccione Dependencia" noSelectionOption="true" />
+							<f:selectItems value="#{egresoBacking.dependenciatems}" itemValue="" />
+						</p:selectOneMenu>
 
-					<p:outputLabel value="#{emision['lbl.departamento']}:" styleClass="negrita" />
-					<p:selectOneMenu id="idDepartamento" value="#{egresoBean.departamento}" effect="drop"  required="true">
-						<f:selectItem itemLabel="Seleccione Departamento" noSelectionOption="true" />
-						<f:selectItems value="#{egresoBacking.departamentoItems}" itemValue="" />
-					</p:selectOneMenu>
-				</h:panelGrid>
-			</p:panel>
+						<p:outputLabel value="#{emision['lbl.departamento']}:" styleClass="negrita" />
+						<p:selectOneMenu id="idDepartamento" value="#{egresoBean.departamento}" effect="drop" required="true">
+							<f:selectItem itemLabel="Seleccione Departamento" noSelectionOption="true" />
+							<f:selectItems value="#{egresoBacking.departamentoItems}" itemValue="" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+				</p:panel>
+				<p:spacer height="15px;" />
+				<div align="center">
+					<p:commandButton id="guardarBtnId" actionListener="#{egresoBacking.guardarEgreso}" icon="icon-save" value="#{emision['boton.guardar']}"
+						title="Guardar" />
+				</div>
+			</h:form>
+			<!-- DETALLE EGRESOS -->
 			<p:spacer height="15px;" />
-			<div align="center">
-				<p:commandButton id="guardarBtnId" actionListener="#{egresoBacking.guardarEgreso}" icon="icon-save" value="#{emision['boton.guardar']}"
-					title="Guardar" update="formEgreso" process="@this"/>
-			</div>
-		</h:form>
+			<h:form id="formEgresos">
+				<p:panel>
+					<p:messages id="messagesEgresos" showDetail="true" autoUpdate="true" closable="true" />
+					<div align="center">
+						<h:panelGrid columns="1">
 
+							<p:growl id="messages" showDetail="true" />
+							<h:panelGrid columns="2">
+								<p:outputLabel value="#{emision['lbl.partida']}" styleClass="negrita" />
+								<p:selectOneMenu id="idPartida" value="#{egresoBacking.idPartida}" effect="drop" required="true">
+									<f:selectItem itemLabel="Seleccione Partida" noSelectionOption="true" />
+									<f:selectItems value="#{egresoBacking.partidaItems}" itemValue="" />
+								</p:selectOneMenu>
+
+								<p:outputLabel value="#{emision['lbl.presupuesto']}" styleClass="negrita" />
+								<p:inputText value="#{egresoBacking.presupuesto}" />
+
+							</h:panelGrid>
+							<f:facet name="footer">
+								<div align="center">
+									<p:commandButton id="agregarGrupo" update="formEgresos" icon="icon-add" value="#{emision['boton.agregar']}"
+										actionListener="#{egresoBacking.addEgreso}" title="Agregar" />
+								</div>
+							</f:facet>
+						</h:panelGrid>
+						<p:spacer height="30px;" />
+						<p:dataTable id="tablaEgresos" value="#{egresoBacking.egresosDTO}" var="egreso" widgetVar="50" style="width: 60%;" editable="true">
+							<p:ajax event="rowEdit" listener="#{egresoBacking.onEdit}" />
+							<p:ajax event="rowEditCancel" listener="#{egresoBacking.onCancel}" />
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="#{emision['lbl.partida']}" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{egreso.partida.partida}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{egreso.presupuesto}" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column headerText="Options" style="width:50px">
+								<p:rowEditor />
+							</p:column>
+						</p:dataTable>
+					</div>
+				</p:panel>
+			</h:form>
+		</p:panel>
 	</ui:define>
 </ui:composition>
 </html>
