@@ -14,5 +14,6 @@
 		<class>ec.com.uce.jano.entities.RolMenu</class>
 		<class>ec.com.uce.jano.entities.DetalleEgreso</class>
 		<class>ec.com.uce.jano.entities.Egreso</class>
+		<class>ec.com.uce.jano.entities.Partida</class>
 	</persistence-unit>
 </persistence>
