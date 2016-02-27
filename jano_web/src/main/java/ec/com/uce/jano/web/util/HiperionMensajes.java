@@ -17,7 +17,7 @@ import javax.persistence.Transient;
  */
 public class HiperionMensajes {
 	private final static HiperionMensajes INSTANCIA = new HiperionMensajes();
-	private final static String BUNDLE_NAME = "ec.com.avila.hiperion.web.util.hiperion";
+	private final static String BUNDLE_NAME = "ec.com.uce.jano.web.util.hiperion";
 
 	@Transient
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle(BUNDLE_NAME);
