@@ -20,6 +20,10 @@ public class EgresoDTO implements Serializable {
 
 	private Partida partida;
 	private Double presupuesto;
+	private String StringPeriodo;
+	private String StringFacultad;
+	private String StringDependencia;
+	private String StringDepartamento;
 
 	/**
 	 * @param partida

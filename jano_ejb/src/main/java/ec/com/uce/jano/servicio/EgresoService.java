@@ -56,7 +56,7 @@ public interface EgresoService {
 	 * @return
 	 * @throws HiperionException
 	 */
-	public List<Partida> obtenerPartidasEgreso(String tipoPartida) throws HiperionException;
+	public List<Partida> obtenerPartidas(String tipoPartida) throws HiperionException;
 
 	/**
 	 * 
@@ -70,5 +70,21 @@ public interface EgresoService {
 	 * @throws HiperionException
 	 */
 	public Partida obtenerPartidaById(Long idPartida) throws HiperionException;
+	
+	/**
+	 * 
+	 * <b> Permite listar los egresos que se encuentran en la base bajo los siguientes filtros. </b>
+	 * <p>
+	 * [Author: Paul Jimenez, Date: 28/03/2016]
+	 * </p>
+	 * 
+	 * @param periodo
+	 * @param facultad
+	 * @param dependencia
+	 * @param departamento
+	 * @return
+	 * @throws HiperionException
+	 */
+	public List<Egreso> buscarEgresos(String periodo, String facultad, String dependencia, String departamento) throws HiperionException;
 
 }

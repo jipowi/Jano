@@ -56,7 +56,7 @@ public class EgresoServiceImpl implements EgresoService {
 	 * @see ec.com.uce.jano.servicio.EgresoService#obtenerPartidasEgreso(java.lang.String)
 	 */
 	@Override
-	public List<Partida> obtenerPartidasEgreso(String tipoPartida) throws HiperionException {
+	public List<Partida> obtenerPartidas(String tipoPartida) throws HiperionException {
 		return partidaDao.obtenerPartidasEgreso(tipoPartida);
 	}
 
@@ -68,5 +68,14 @@ public class EgresoServiceImpl implements EgresoService {
 		return partidaDao.findById(idPartida);
 	}
 
+	/* (non-Javadoc)
+	 * @see ec.com.uce.jano.servicio.EgresoService#buscarEgresos(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public List<Egreso> buscarEgresos(String periodo, String facultad, String dependencia, String departamento) throws HiperionException {
+		return egresoDao.buscarEgresos(periodo, facultad, dependencia, departamento);
+	}
+
+	
 	
 }
