@@ -4,8 +4,11 @@
  */
 package ec.com.uce.jano.dao;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
+import ec.com.uce.jano.comun.HiperionException;
 import ec.com.uce.jano.entities.Egreso;
 
 /**
@@ -18,5 +21,21 @@ import ec.com.uce.jano.entities.Egreso;
  */
 @Local
 public interface EgresoDao extends GenericDAO<Egreso, Long> {
+
+	/**
+	 * 
+	 * <b> Permite listar los egresos que se encuentran en la base bajo los siguientes filtros. </b>
+	 * <p>
+	 * [Author: Paul Jimenez, Date: 28/03/2016]
+	 * </p>
+	 * 
+	 * @param periodo
+	 * @param facultad
+	 * @param dependencia
+	 * @param departamento
+	 * @return
+	 * @throws HiperionException
+	 */
+	public List<Egreso> buscarEgresos(String periodo, String facultad, String dependencia, String departamento) throws HiperionException;
 
 }

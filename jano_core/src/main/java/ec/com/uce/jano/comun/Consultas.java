@@ -23,6 +23,9 @@ import javax.persistence.NamedQuery;
 		
 		//PARTIDA
 		@NamedQuery(name = "Partida.findByTipoPartida", query = "SELECT p FROM Partida p WHERE p.tipoPartida =:tipoPartida"),
+		
+		//EGRESOS
+		@NamedQuery(name = "Egreso.findEgresos", query = "SELECT e FROM Egreso e WHERE e.periodo =:periodo"),
 		// MENU
 		@NamedQuery(name = "Menu.findByRol", query = "SELECT m FROM RolMenu m WHERE m.rol.idRol =:idRol") })
 public class Consultas implements Serializable {

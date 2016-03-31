@@ -2,6 +2,7 @@ package ec.com.uce.jano.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -15,7 +16,7 @@ public class Partida implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_partida")
-	private Long idPartida;
+	private Integer idPartida;
 
 	private String partida;
 
@@ -23,18 +24,17 @@ public class Partida implements Serializable {
 	private String tipoPartida;
 
 	//bi-directional many-to-one association to DetalleEgreso
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_det_egreso")
-	private DetalleEgreso detalleEgreso;
+	@OneToMany(mappedBy="partida")
+	private List<DetalleEgreso> detalleEgresos;
 
 	public Partida() {
 	}
 
-	public Long getIdPartida() {
+	public Integer getIdPartida() {
 		return this.idPartida;
 	}
 
-	public void setIdPartida(Long idPartida) {
+	public void setIdPartida(Integer idPartida) {
 		this.idPartida = idPartida;
 	}
 
@@ -54,12 +54,26 @@ public class Partida implements Serializable {
 		this.tipoPartida = tipoPartida;
 	}
 
-	public DetalleEgreso getDetalleEgreso() {
-		return this.detalleEgreso;
+	public List<DetalleEgreso> getDetalleEgresos() {
+		return this.detalleEgresos;
 	}
 
-	public void setDetalleEgreso(DetalleEgreso detalleEgreso) {
-		this.detalleEgreso = detalleEgreso;
+	public void setDetalleEgresos(List<DetalleEgreso> detalleEgresos) {
+		this.detalleEgresos = detalleEgresos;
+	}
+
+	public DetalleEgreso addDetalleEgreso(DetalleEgreso detalleEgreso) {
+		getDetalleEgresos().add(detalleEgreso);
+		detalleEgreso.setPartida(this);
+
+		return detalleEgreso;
+	}
+
+	public DetalleEgreso removeDetalleEgreso(DetalleEgreso detalleEgreso) {
+		getDetalleEgresos().remove(detalleEgreso);
+		detalleEgreso.setPartida(null);
+
+		return detalleEgreso;
 	}
 
 }

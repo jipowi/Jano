@@ -34,5 +34,6 @@ public interface PartidaDao extends GenericDAO<Partida, Long> {
 	 * @throws HiperionException
 	 */
 	public List<Partida> obtenerPartidasEgreso(String tipoPartida) throws HiperionException;
+	
 
 }

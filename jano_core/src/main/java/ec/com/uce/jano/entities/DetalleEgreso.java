@@ -3,7 +3,6 @@ package ec.com.uce.jano.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
 
 
 /**
@@ -23,13 +22,14 @@ public class DetalleEgreso implements Serializable {
 	private BigDecimal presupuesto;
 
 	//bi-directional many-to-one association to Egreso
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="id_egreso")
 	private Egreso egreso;
 
 	//bi-directional many-to-one association to Partida
-	@OneToMany(mappedBy="detalleEgreso")
-	private List<Partida> partidas;
+	@ManyToOne
+	@JoinColumn(name="id_partida")
+	private Partida partida;
 
 	public DetalleEgreso() {
 	}
@@ -58,26 +58,12 @@ public class DetalleEgreso implements Serializable {
 		this.egreso = egreso;
 	}
 
-	public List<Partida> getPartidas() {
-		return this.partidas;
+	public Partida getPartida() {
+		return this.partida;
 	}
 
-	public void setPartidas(List<Partida> partidas) {
-		this.partidas = partidas;
-	}
-
-	public Partida addPartida(Partida partida) {
-		getPartidas().add(partida);
-		partida.setDetalleEgreso(this);
-
-		return partida;
-	}
-
-	public Partida removePartida(Partida partida) {
-		getPartidas().remove(partida);
-		partida.setDetalleEgreso(null);
-
-		return partida;
+	public void setPartida(Partida partida) {
+		this.partida = partida;
 	}
 
 }

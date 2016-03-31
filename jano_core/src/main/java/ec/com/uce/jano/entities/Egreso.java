@@ -18,17 +18,16 @@ public class Egreso implements Serializable {
 	@Column(name="id_egreso")
 	private Integer idEgreso;
 
-	private String departamento;
-
-	private String dependencia;
-
-	private String facultad;
-
 	private String periodo;
 
 	//bi-directional many-to-one association to DetalleEgreso
 	@OneToMany(mappedBy="egreso")
 	private List<DetalleEgreso> detalleEgresos;
+
+	//bi-directional many-to-one association to Afectacion
+	@ManyToOne
+	@JoinColumn(name="id_afectacion")
+	private Afectacion afectacion;
 
 	public Egreso() {
 	}
@@ -39,30 +38,6 @@ public class Egreso implements Serializable {
 
 	public void setIdEgreso(Integer idEgreso) {
 		this.idEgreso = idEgreso;
-	}
-
-	public String getDepartamento() {
-		return this.departamento;
-	}
-
-	public void setDepartamento(String departamento) {
-		this.departamento = departamento;
-	}
-
-	public String getDependencia() {
-		return this.dependencia;
-	}
-
-	public void setDependencia(String dependencia) {
-		this.dependencia = dependencia;
-	}
-
-	public String getFacultad() {
-		return this.facultad;
-	}
-
-	public void setFacultad(String facultad) {
-		this.facultad = facultad;
 	}
 
 	public String getPeriodo() {
@@ -93,6 +68,14 @@ public class Egreso implements Serializable {
 		detalleEgreso.setEgreso(null);
 
 		return detalleEgreso;
+	}
+
+	public Afectacion getAfectacion() {
+		return this.afectacion;
+	}
+
+	public void setAfectacion(Afectacion afectacion) {
+		this.afectacion = afectacion;
 	}
 
 }
