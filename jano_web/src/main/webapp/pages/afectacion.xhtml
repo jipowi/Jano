@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:composition template="/templates/menuPrincipalTemplate.xhtml">
+	<ui:define name="content">
+		<h:form id="formAfectacion">
+			<p:outputPanel id="idMessagesAfectacion">
+				<p:messages id="messagesAfectacion" showDetail="true" autoUpdate="true" closable="true" />
+			</p:outputPanel>
+			<p:panel>
+				<div align="center">
+					<p:outputLabel value="#{emision['titulo.afectacion']}" styleClass="negrita" />
+					<p:separator id="customSeparator" style="width:auto;height:1px" />
+					<p:spacer height="15px;" />
+				</div>
+
+				<h:panelGrid columns="2">
+					<p:outputLabel value="#{emision['lbl.tipoAfectacion']}:" styleClass="negrita" />
+					<p:selectOneRadio value="#{afectacionBacking.tipoAfectacion}">
+						<f:selectItem itemLabel="Facultad" itemValue="Facultad" />
+						<f:selectItem itemLabel="Dependencia" itemValue="Dependencia" />
+						<f:selectItem itemLabel="Departamento" itemValue="Departamento" />
+						<p:ajax event="change" process="@this" listener="#{afectacionBacking.seleccionarAfectacion}" update="idFacultad,idDependencia,idDepartamento" />
+					</p:selectOneRadio>
+				</h:panelGrid>
+
+				<p:panel id="idFacultad" visible="#{afectacionBacking.activarFacultad}">
+					<f:facet name="header">
+						<h:outputText value="#{emision['titulo.facultad']}" />
+					</f:facet>
+					<h:panelGrid columns="1">
+						<h:panelGrid columns="2">
+							<p:outputLabel value="#{emision['lbl.afectacion']}" styleClass="negrita" />
+							<p:inputText value="#{afectacionBean.afectacion}" />
+						</h:panelGrid>
+					</h:panelGrid>
+				</p:panel>
+				<p:panel id="idDependencia" visible="#{afectacionBacking.activarDependencia}">
+					<f:facet name="header">
+						<h:outputText value="#{emision['titulo.dependencia']}" />
+					</f:facet>
+					<h:panelGrid columns="1">
+						<h:panelGrid columns="2">
+							<p:outputLabel value="#{emision['lbl.afectacion']}" styleClass="negrita" />
+							<p:inputText value="#{afectacionBean.afectacion}" />
+
+							<p:outputLabel value="#{emision['lbl.facultad']}" styleClass="negrita" />
+							<p:inputText value="#{afectacionBean.facultad}" />
+							
+							<p:outputLabel value="#{emision['lbl.dependencia']}" styleClass="negrita" />
+							<p:inputText value="#{afectacionBean.dependencia}" />
+						</h:panelGrid>
+					</h:panelGrid>
+				</p:panel>
+				<p:panel id="idDepartamento" visible="#{afectacionBacking.activarDepartamento}">
+					<f:facet name="header">
+						<h:outputText value="#{emision['titulo.departamento']}" />
+					</f:facet>
+					<h:panelGrid columns="1">
+						<h:panelGrid columns="2">
+							<p:outputLabel value="#{emision['lbl.dependencia']}" styleClass="negrita" />
+							<p:inputText value="#{afectacionBean.dependencia}" />
+						</h:panelGrid>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:spacer height="30px;" />
+
+
+			</p:panel>
+		</h:form>
+	</ui:define>
+	<!-- BOTONES -->
+	<ui:define name="buttons">
+		<h:form>
+			<h:panelGrid columns="1">
+				<h:commandLink action="hiperion.xhtml">
+					<h:graphicImage name="home.png" library="img" />
+				</h:commandLink>
+				<p:commandLink title="Guardar Informacion Afectaciones" process="@this" actionListener="#{partidaBacking.guardarPartida}" update=":formAfectacion">
+					<h:graphicImage name="save.png" library="img" />
+				</p:commandLink>
+				<p:commandLink onclick="help.show()">
+					<h:graphicImage name="helpII.png" library="img" />
+				</p:commandLink>
+			</h:panelGrid>
+			<p:dialog header="Partidas" widgetVar="help" showEffect="explode" hideEffect="bounce" height="100">
+				<h:panelGrid columns="1">
+					<h:outputText value="Informacion Afectaciones" />
+					<h:outputText value="Permite registrar cada uno de las afectaciones que se sucitan en el dia a dia" />
+					<h:outputText value="Ante cualquier inquietud por favor comuniquese con Ruben Yanez, Administradr del Sitema Hiperion" />
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

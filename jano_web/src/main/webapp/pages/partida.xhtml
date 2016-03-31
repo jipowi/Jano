@@ -4,30 +4,147 @@
 <ui:composition template="/templates/menuPrincipalTemplate.xhtml">
 	<ui:define name="content">
 		<h:form id="formPartida">
+			<p:outputPanel id="idMessagesPartida">
+				<p:messages id="messagesPartida" showDetail="true" autoUpdate="true" closable="true" />
+			</p:outputPanel>
 			<p:panel>
 				<div align="center">
 					<p:outputLabel value="#{emision['titulo.partida']}" styleClass="negrita" />
 					<p:separator id="customSeparator" style="width:auto;height:1px" />
 					<p:spacer height="15px;" />
 				</div>
-				<p:messages id="messagesPartida" showDetail="true" autoUpdate="true" closable="true" />
-				<h:panelGrid columns="2">
-					<p:outputLabel value="#{emision['lbl.partida']}:" styleClass="negrita" />
-					<p:inputText value="#{partidaBean.partida}" />
 
-					<p:outputLabel value="#{emision['lbl.tipoPartida']}:" styleClass="negrita" />
-					<p:selectOneMenu value="#{partidaBean.tipoPartida}" effect="drop" required="true">
-						<f:selectItem itemLabel="Seleccione tipo de partida" noSelectionOption="true" />
-						<f:selectItem itemLabel="Ingreso" itemValue="Ingreso" />
-						<f:selectItem itemLabel="Egreso" itemValue="Egreso" />
-					</p:selectOneMenu>
+				<!-- PANEL DE BUSQUEDAA -->
+				<p:panel>
+					<f:facet name="header">
+						<h:outputText value="#{emision['titulo.busq.partida']}" />
+					</f:facet>
+					<h:panelGrid columns="2">
+						<h:panelGrid columns="2">
+							<p:outputLabel value="#{emision['lbl.tipoPartida']}" styleClass="negrita" />
+							<p:selectOneMenu value="#{partidaBacking.tipoPartida}" effect="drop">
+								<f:selectItem itemLabel="Seleccione tipo de partida" noSelectionOption="true" />
+								<f:selectItem itemLabel="Ingreso" itemValue="Ingreso" />
+								<f:selectItem itemLabel="Egreso" itemValue="Egreso" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+						<p:commandLink title="Buscar partidas" action="#{partidaBacking.buscarPartidas}" update="formPartida,tablaPartidasBD">
+							<h:graphicImage name="search.png" library="img/icon" />
+						</p:commandLink>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:spacer height="30px;" />
+
+				<!-- TABLA PARTIDAS EXISTENTES -->
+				<h:panelGrid columns="1" id="tablaPartidasBD" rendered="#{partidaBacking.activarTabla}">
+					<p:dataTable value="#{partidaBacking.partidasDB}" var="partida" widgetVar="50">
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{emision['lbl.partida']}" />
+							</f:facet>
+							<h:outputText value="#{partida.partida}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{emision['lbl.tipoPartida']}" />
+							</f:facet>
+							<h:outputText value="#{partida.tipoPartida}" />
+						</p:column>
+					</p:dataTable>
+				</h:panelGrid>
+
+				<p:spacer height="30px;" />
+				<!-- PARTIDA NUEVA -->
+				<p:panel id="idNewPartida">
+					<f:facet name="header">
+						<h:outputText value="#{emision['titulo.partida.nueva']}" />
+					</f:facet>
+					<h:panelGrid columns="1">
+						<h:panelGrid columns="2">
+							<p:outputLabel value="#{emision['lbl.tipoPartida']}" styleClass="negrita" />
+							<p:selectOneMenu value="#{partidaBean.tipoPartida}" effect="drop">
+								<f:selectItem itemLabel="Seleccione tipo de partida" noSelectionOption="true" />
+								<f:selectItem itemLabel="Ingreso" itemValue="Ingreso" />
+								<f:selectItem itemLabel="Egreso" itemValue="Egreso" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="#{emision['lbl.partida']}:" styleClass="negrita" />
+							<p:inputText value="#{partidaBean.partida}" />
+						</h:panelGrid>
+					</h:panelGrid>
+					<div align="center">
+						<p:commandButton id="agregarPartida" update="formPartida,tablaPartidas" icon="icon-add" value="#{emision['boton.agregar']}"
+							actionListener="#{partidaBacking.addPartida}" title="Agregar partidas" />
+					</div>
+				</p:panel>
+
+				<p:spacer height="30px;" />
+
+				<!-- TABLA PARTIDAS NUEVAS -->
+				<h:panelGrid columns="1" id="tablaPartidas" rendered="#{partidaBacking.activarTabla}">
+					<p:dataTable value="#{partidaBacking.partidas}" var="partida" widgetVar="50" editable="true">
+						<p:ajax event="rowEdit" listener="#{partidaBacking.editarPartida}" />
+						<p:ajax event="rowEditCancel" listener="#{partidaBacking.eliminarPartida}" />
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{emision['lbl.partida']}" />
+							</f:facet>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{partida.partida}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{partida.partida}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{emision['lbl.tipoPartida']}" />
+							</f:facet>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{partida.tipoPartida}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:selectOneMenu value="#{partidaBacking.tipoPartida}" effect="drop" required="true">
+										<f:selectItem itemLabel="Seleccione tipo de partida" noSelectionOption="true" />
+										<f:selectItem itemLabel="Ingreso" itemValue="Ingreso" />
+										<f:selectItem itemLabel="Egreso" itemValue="Egreso" />
+									</p:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Options" style="width:50px">
+							<p:rowEditor />
+						</p:column>
+					</p:dataTable>
 				</h:panelGrid>
 			</p:panel>
-			<p:spacer height="15px;" />
-			<div align="center">
-				<p:commandButton id="guardarBtnId" actionListener="#{partidaBacking.guardarPartida}" icon="icon-save" value="#{emision['boton.guardar']}"
-					title="Guardar" update="formPartida"/>
-			</div>
+		</h:form>
+	</ui:define>
+	<!-- BOTONES -->
+	<ui:define name="buttons">
+		<h:form>
+			<h:panelGrid columns="1">
+				<h:commandLink action="hiperion.xhtml">
+					<h:graphicImage name="home.png" library="img" />
+				</h:commandLink>
+				<p:commandLink title="Guardar Informacion Partidas" process="@this" actionListener="#{partidaBacking.guardarPartida}" update=":formPartida">
+					<h:graphicImage name="save.png" library="img" />
+				</p:commandLink>
+				<p:commandLink onclick="help.show()">
+					<h:graphicImage name="helpII.png" library="img" />
+				</p:commandLink>
+			</h:panelGrid>
+			<p:dialog header="Partidas" widgetVar="help" showEffect="explode" hideEffect="bounce" height="100">
+				<h:panelGrid columns="1">
+					<h:outputText value="Informacion Partidas" />
+					<h:outputText value="Permite registrar cada uno de las partidas ingresadas" />
+					<h:outputText value="Ante cualquier inquietud por favor comuniquese con Ruben Yanez, Administradr del Sitema Hiperion" />
+				</h:panelGrid>
+			</p:dialog>
 		</h:form>
 	</ui:define>
 </ui:composition>
