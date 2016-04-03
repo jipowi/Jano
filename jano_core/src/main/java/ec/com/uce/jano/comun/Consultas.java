@@ -20,12 +20,22 @@ import javax.persistence.NamedQuery;
 		// USUARIO
 		@NamedQuery(name = "Usuario.loginUser", query = "SELECT u FROM Usuario u WHERE u.usuario =:usuario AND u.clave =:clave"),
 		@NamedQuery(name = "Rol.findByUsuario", query = "SELECT r FROM Rol r WHERE r.usuario.idUsuario =:idUsuario"),
-		
-		//PARTIDA
+
+		// PARTIDA
 		@NamedQuery(name = "Partida.findByTipoPartida", query = "SELECT p FROM Partida p WHERE p.tipoPartida =:tipoPartida"),
-		
-		//EGRESOS
+
+		// EGRESOS
 		@NamedQuery(name = "Egreso.findEgresos", query = "SELECT e FROM Egreso e WHERE e.periodo =:periodo"),
+
+		// AFECTACIONES
+		@NamedQuery(name = "Afectacion.findFacultad", query = "SELECT a FROM Afectacion a WHERE a.idFacultad = null AND a.idDependencia = null"),
+		
+		// AFECTACIONES - DEPENDENCIA
+		@NamedQuery(name = "Afectacion.findDependencia", query = "SELECT a FROM Afectacion a WHERE a.idFacultad =:idFacultad AND a.idDependencia = null"),
+
+		// AFECTACIONES - DEPARTAMENTO
+		@NamedQuery(name = "Afectacion.findDepartamento", query = "SELECT a FROM Afectacion a WHERE a.idFacultad =:idFacultad AND a.idDependencia =:idDependencia"),
+		
 		// MENU
 		@NamedQuery(name = "Menu.findByRol", query = "SELECT m FROM RolMenu m WHERE m.rol.idRol =:idRol") })
 public class Consultas implements Serializable {

@@ -47,7 +47,7 @@ public class Afectacion implements Serializable {
 	}
 
 	public void setDescAfectacion(String descAfectacion) {
-		this.descAfectacion = descAfectacion;
+		this.descAfectacion = descAfectacion.toUpperCase();
 	}
 
 	public Integer getIdDependencia() {
