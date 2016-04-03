@@ -22,9 +22,9 @@ public class EgresoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String periodo;
-	private String facultad;
-	private String dependencia;
-	private String departamento;
+	private Integer facultad;
+	private Integer dependencia;
+	private Integer departamento;
 
 	/**
 	 * @return the periodo
@@ -44,7 +44,7 @@ public class EgresoBean implements Serializable {
 	/**
 	 * @return the facultad
 	 */
-	public String getFacultad() {
+	public Integer getFacultad() {
 		return facultad;
 	}
 
@@ -52,14 +52,14 @@ public class EgresoBean implements Serializable {
 	 * @param facultad
 	 *            the facultad to set
 	 */
-	public void setFacultad(String facultad) {
+	public void setFacultad(Integer facultad) {
 		this.facultad = facultad;
 	}
 
 	/**
 	 * @return the dependencia
 	 */
-	public String getDependencia() {
+	public Integer getDependencia() {
 		return dependencia;
 	}
 
@@ -67,14 +67,14 @@ public class EgresoBean implements Serializable {
 	 * @param dependencia
 	 *            the dependencia to set
 	 */
-	public void setDependencia(String dependencia) {
+	public void setDependencia(Integer dependencia) {
 		this.dependencia = dependencia;
 	}
 
 	/**
 	 * @return the departamento
 	 */
-	public String getDepartamento() {
+	public Integer getDepartamento() {
 		return departamento;
 	}
 
@@ -82,7 +82,7 @@ public class EgresoBean implements Serializable {
 	 * @param departamento
 	 *            the departamento to set
 	 */
-	public void setDepartamento(String departamento) {
+	public void setDepartamento(Integer departamento) {
 		this.departamento = departamento;
 	}
 

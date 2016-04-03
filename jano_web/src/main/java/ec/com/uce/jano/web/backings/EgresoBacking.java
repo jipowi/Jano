@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -20,10 +21,12 @@ import org.primefaces.event.RowEditEvent;
 
 import ec.com.uce.jano.comun.HiperionException;
 import ec.com.uce.jano.dto.EgresoDTO;
+import ec.com.uce.jano.entities.Afectacion;
 import ec.com.uce.jano.entities.Catalogo;
 import ec.com.uce.jano.entities.DetalleCatalogo;
 import ec.com.uce.jano.entities.Egreso;
 import ec.com.uce.jano.entities.Partida;
+import ec.com.uce.jano.servicio.AfectacionService;
 import ec.com.uce.jano.servicio.CatalogoService;
 import ec.com.uce.jano.servicio.DetalleCatalogoService;
 import ec.com.uce.jano.servicio.EgresoService;
@@ -53,10 +56,12 @@ public class EgresoBacking implements Serializable {
 	private EgresoService egresoService;
 	@EJB
 	private DetalleCatalogoService detalleCatalogoService;
+	@EJB
+	private AfectacionService afectacionService;
 
 	private List<SelectItem> periodoItems;
 	private List<SelectItem> facultadItems;
-	private List<SelectItem> dependenciatems;
+	private List<SelectItem> dependenciaItems;
 	private List<SelectItem> departamentoItems;
 	private List<SelectItem> partidaItems;
 	private List<EgresoDTO> egresosDTO = new ArrayList<>();
@@ -65,6 +70,17 @@ public class EgresoBacking implements Serializable {
 	private Double presupuesto;
 	private Long idPartida;
 	private boolean activarTabla = false;
+
+	@PostConstruct
+	public void inicializar() throws HiperionException {
+		try {
+
+			obtenerFacultades();
+
+		} catch (HiperionException e) {
+			throw new HiperionException(e);
+		}
+	}
 
 	/**
 	 * @return the periodoItems
@@ -88,10 +104,87 @@ public class EgresoBacking implements Serializable {
 	}
 
 	/**
-	 * @return the periodoItems
+	 * 
+	 * <b> Permite obtener las facultades registradas y transformar a una lista de seleccion. </b>
+	 * <p>
+	 * [Author: Paul Jimenez, Date: 31/03/2016]
+	 * </p>
+	 * 
 	 * @throws HiperionException
 	 */
-	public List<SelectItem> getPeriodoItems() throws HiperionException {
+	public void obtenerFacultades() throws HiperionException {
+
+		try {
+			this.facultadItems = new ArrayList<SelectItem>();
+
+			List<Afectacion> facultades = afectacionService.obtenerFacultades();
+
+			for (Afectacion facultad : facultades) {
+				SelectItem selectItem = new SelectItem(facultad.getIdAfectacion(), facultad.getDescAfectacion());
+				facultadItems.add(selectItem);
+			}
+
+		} catch (HiperionException e) {
+			throw new HiperionException(e);
+		}
+	}
+
+	/**
+	 * 
+	 * <b> Permite obtener las dependencias registradas y transformar a una lista de seleccion. </b>
+	 * <p>
+	 * [Author: Paul Jimenez, Date: 31/03/2016]
+	 * </p>
+	 * 
+	 * @throws HiperionException
+	 */
+	public void obtenerDependencias() throws HiperionException {
+
+		try {
+			this.dependenciaItems = new ArrayList<SelectItem>();
+
+			List<Afectacion> dependencias = afectacionService.obtenerDependencias(egresoBean.getFacultad());
+
+			for (Afectacion dependencia : dependencias) {
+				SelectItem selectItem = new SelectItem(dependencia.getIdAfectacion(), dependencia.getDescAfectacion());
+				dependenciaItems.add(selectItem);
+			}
+
+		} catch (HiperionException e) {
+			throw new HiperionException(e);
+		}
+	}
+
+	/**
+	 * 
+	 * <b> Permite obtener los departamentos registradas y transformar a una lista de seleccion. </b>
+	 * <p>
+	 * [Author: Paul Jimenez, Date: 31/03/2016]
+	 * </p>
+	 * 
+	 * @throws HiperionException
+	 */
+	public void obtenerDepartamentos() throws HiperionException {
+
+		try {
+			this.departamentoItems = new ArrayList<SelectItem>();
+
+			List<Afectacion> departamentos = afectacionService.obtenerDepartamentos(egresoBean.getFacultad(), egresoBean.getDependencia());
+
+			for (Afectacion departamento : departamentos) {
+				SelectItem selectItem = new SelectItem(departamento.getIdAfectacion(), departamento.getDescAfectacion());
+				departamentoItems.add(selectItem);
+			}
+
+		} catch (HiperionException e) {
+			throw new HiperionException(e);
+		}
+	}
+
+	/**
+	 * @return the periodoItems
+	 */
+	public List<SelectItem> getPeriodoItems() {
 		try {
 			this.periodoItems = new ArrayList<SelectItem>();
 			Catalogo catalogo = catalogoService.consultarCatalogoById(HiperionMensajes.getInstancia().getLong("ec.gob.jano.catalogo.periodo"));
@@ -104,7 +197,7 @@ public class EgresoBacking implements Serializable {
 			}
 
 		} catch (HiperionException e) {
-			throw new HiperionException(e);
+			e.printStackTrace();
 		}
 		return periodoItems;
 	}
@@ -118,55 +211,11 @@ public class EgresoBacking implements Serializable {
 	}
 
 	/**
-	 * @return the facultadItems
-	 * @throws HiperionException
-	 */
-	public List<SelectItem> getFacultadItems() throws HiperionException {
-		try {
-			this.facultadItems = new ArrayList<SelectItem>();
-			Catalogo catalogo = catalogoService.consultarCatalogoById(HiperionMensajes.getInstancia().getLong("ec.gob.jano.catalogo.facultad"));
-
-			List<DetalleCatalogo> facultades = catalogo.getDetalleCatalogos();
-
-			for (DetalleCatalogo detalle : facultades) {
-				SelectItem selectItem = new SelectItem(detalle.getCodDetalleCatalogo(), detalle.getDescDetCatalogo());
-				facultadItems.add(selectItem);
-			}
-
-		} catch (HiperionException e) {
-			throw new HiperionException(e);
-		}
-		return facultadItems;
-	}
-
-	/**
 	 * @param facultadItems
 	 *            the facultadItems to set
 	 */
 	public void setFacultadItems(List<SelectItem> facultadItems) {
 		this.facultadItems = facultadItems;
-	}
-
-	/**
-	 * @return the dependenciatems
-	 * @throws HiperionException
-	 */
-	public List<SelectItem> getDependenciatems() throws HiperionException {
-		try {
-			this.dependenciatems = new ArrayList<SelectItem>();
-			Catalogo catalogo = catalogoService.consultarCatalogoById(HiperionMensajes.getInstancia().getLong("ec.gob.jano.catalogo.dependencia"));
-
-			List<DetalleCatalogo> dependencias = catalogo.getDetalleCatalogos();
-
-			for (DetalleCatalogo detalle : dependencias) {
-				SelectItem selectItem = new SelectItem(detalle.getCodDetalleCatalogo(), detalle.getDescDetCatalogo());
-				dependenciatems.add(selectItem);
-			}
-
-		} catch (HiperionException e) {
-			throw new HiperionException(e);
-		}
-		return dependenciatems;
 	}
 
 	/**
@@ -195,32 +244,31 @@ public class EgresoBacking implements Serializable {
 	}
 
 	/**
-	 * @param dependenciatems
-	 *            the dependenciatems to set
+	 * @return the dependenciaItems
 	 */
-	public void setDependenciatems(List<SelectItem> dependenciatems) {
-		this.dependenciatems = dependenciatems;
+	public List<SelectItem> getDependenciaItems() {
+		return dependenciaItems;
+	}
+
+	/**
+	 * @param dependenciaItems
+	 *            the dependenciaItems to set
+	 */
+	public void setDependenciaItems(List<SelectItem> dependenciaItems) {
+		this.dependenciaItems = dependenciaItems;
+	}
+
+	/**
+	 * @return the facultadItems
+	 */
+	public List<SelectItem> getFacultadItems() {
+		return facultadItems;
 	}
 
 	/**
 	 * @return the departamentoItems
-	 * @throws HiperionException
 	 */
-	public List<SelectItem> getDepartamentoItems() throws HiperionException {
-		try {
-			this.departamentoItems = new ArrayList<SelectItem>();
-			Catalogo catalogo = catalogoService.consultarCatalogoById(HiperionMensajes.getInstancia().getLong("ec.gob.jano.catalogo.departamento"));
-
-			List<DetalleCatalogo> departamentos = catalogo.getDetalleCatalogos();
-
-			for (DetalleCatalogo detalle : departamentos) {
-				SelectItem selectItem = new SelectItem(detalle.getCodDetalleCatalogo(), detalle.getDescDetCatalogo());
-				departamentoItems.add(selectItem);
-			}
-
-		} catch (HiperionException e) {
-			throw new HiperionException(e);
-		}
+	public List<SelectItem> getDepartamentoItems() {
 		return departamentoItems;
 	}
 
@@ -247,7 +295,7 @@ public class EgresoBacking implements Serializable {
 		Egreso egreso = new Egreso();
 
 		try {
-			egreso.setPeriodo(egresoBean.getPeriodo());		
+			egreso.setPeriodo(egresoBean.getPeriodo());
 			egresoService.guardarEgreso(egreso);
 			MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
 
