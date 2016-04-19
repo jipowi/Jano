@@ -9,8 +9,10 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import ec.com.uce.jano.comun.HiperionException;
+import ec.com.uce.jano.dao.DetalleEgresoDao;
 import ec.com.uce.jano.dao.EgresoDao;
 import ec.com.uce.jano.dao.PartidaDao;
+import ec.com.uce.jano.entities.DetalleEgreso;
 import ec.com.uce.jano.entities.Egreso;
 import ec.com.uce.jano.entities.Partida;
 import ec.com.uce.jano.servicio.EgresoService;
@@ -28,6 +30,8 @@ public class EgresoServiceImpl implements EgresoService {
 	@EJB
 	private EgresoDao egresoDao;
 	@EJB
+	private DetalleEgresoDao detalleEgresoDao;
+	@EJB
 	private PartidaDao partidaDao;
 
 	/*
@@ -36,8 +40,19 @@ public class EgresoServiceImpl implements EgresoService {
 	 * @see ec.com.avila.hiperion.servicio.EgresoService#guardarEgreso(ec.com.avila.hiperion.emision.entities.Egreso)
 	 */
 	@Override
-	public void guardarEgreso(Egreso egreso) throws HiperionException {
-		egresoDao.persist(egreso);
+	public void guardarEgreso(Egreso egreso, List<DetalleEgreso> detalles, boolean save) throws HiperionException {
+
+		if (save) {
+			egresoDao.persist(egreso);
+		} else {
+			egresoDao.update(egreso);
+		}
+
+		for (DetalleEgreso detalleEgreso : detalles) {
+			detalleEgreso.setEgreso(egreso);
+			detalleEgresoDao.persist(detalleEgreso);
+		}
+
 	}
 
 	/*
@@ -60,7 +75,9 @@ public class EgresoServiceImpl implements EgresoService {
 		return partidaDao.obtenerPartidasEgreso(tipoPartida);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ec.com.uce.jano.servicio.EgresoService#obtenerPartidaById(java.lang.Long)
 	 */
 	@Override
@@ -68,14 +85,24 @@ public class EgresoServiceImpl implements EgresoService {
 		return partidaDao.findById(idPartida);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ec.com.uce.jano.servicio.EgresoService#buscarEgresos(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public List<Egreso> buscarEgresos(String periodo, String facultad, String dependencia, String departamento) throws HiperionException {
-		return egresoDao.buscarEgresos(periodo, facultad, dependencia, departamento);
+	public Egreso buscarEgresos(String periodo, Long idAfectacion) throws HiperionException {
+		return egresoDao.buscarEgresos(periodo, idAfectacion);
 	}
 
-	
-	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ec.com.uce.jano.servicio.EgresoService#buscarEgresos(java.lang.Long)
+	 */
+	@Override
+	public List<DetalleEgreso> buscarEgresos(Long idEgreso) throws HiperionException {
+		return detalleEgresoDao.buscarEgresos(idEgreso);
+	}
+
 }
