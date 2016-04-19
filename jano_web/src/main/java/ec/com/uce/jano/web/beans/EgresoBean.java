@@ -24,7 +24,7 @@ public class EgresoBean implements Serializable {
 	private String periodo;
 	private Integer facultad;
 	private Integer dependencia;
-	private Integer departamento;
+	private Long afectacion;
 
 	/**
 	 * @return the periodo
@@ -72,18 +72,18 @@ public class EgresoBean implements Serializable {
 	}
 
 	/**
-	 * @return the departamento
+	 * @return the afectacion
 	 */
-	public Integer getDepartamento() {
-		return departamento;
+	public Long getAfectacion() {
+		return afectacion;
 	}
 
 	/**
-	 * @param departamento
-	 *            the departamento to set
+	 * @param afectacion
+	 *            the afectacion to set
 	 */
-	public void setDepartamento(Integer departamento) {
-		this.departamento = departamento;
+	public void setAfectacion(Long afectacion) {
+		this.afectacion = afectacion;
 	}
 
 }

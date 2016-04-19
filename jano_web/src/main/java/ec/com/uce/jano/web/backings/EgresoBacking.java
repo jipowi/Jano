@@ -5,6 +5,7 @@
 package ec.com.uce.jano.web.backings;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,7 @@ import ec.com.uce.jano.dto.EgresoDTO;
 import ec.com.uce.jano.entities.Afectacion;
 import ec.com.uce.jano.entities.Catalogo;
 import ec.com.uce.jano.entities.DetalleCatalogo;
+import ec.com.uce.jano.entities.DetalleEgreso;
 import ec.com.uce.jano.entities.Egreso;
 import ec.com.uce.jano.entities.Partida;
 import ec.com.uce.jano.servicio.AfectacionService;
@@ -65,7 +67,8 @@ public class EgresoBacking implements Serializable {
 	private List<SelectItem> departamentoItems;
 	private List<SelectItem> partidaItems;
 	private List<EgresoDTO> egresosDTO = new ArrayList<>();
-	private List<Egreso> egresosDB = new ArrayList<>();
+	private List<DetalleEgreso> detEgresos = new ArrayList<>();
+	private Egreso egresoDB;
 	private Partida partida;
 	private Double presupuesto;
 	private Long idPartida;
@@ -183,8 +186,9 @@ public class EgresoBacking implements Serializable {
 
 	/**
 	 * @return the periodoItems
+	 * @throws HiperionException
 	 */
-	public List<SelectItem> getPeriodoItems() {
+	public List<SelectItem> getPeriodoItems() throws HiperionException {
 		try {
 			this.periodoItems = new ArrayList<SelectItem>();
 			Catalogo catalogo = catalogoService.consultarCatalogoById(HiperionMensajes.getInstancia().getLong("ec.gob.jano.catalogo.periodo"));
@@ -197,7 +201,7 @@ public class EgresoBacking implements Serializable {
 			}
 
 		} catch (HiperionException e) {
-			e.printStackTrace();
+			throw new HiperionException(e);
 		}
 		return periodoItems;
 	}
@@ -230,12 +234,13 @@ public class EgresoBacking implements Serializable {
 	public void buscarEgresos() throws HiperionException {
 		try {
 
-			egresosDB = egresoService.buscarEgresos(egresoBean.getPeriodo(), "", "", "");
-			if (egresosDB.isEmpty()) {
+			egresoDB = egresoService.buscarEgresos(egresoBean.getPeriodo(), egresoBean.getAfectacion());
+			if (egresoDB == null) {
 				MessagesController.addWarn(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.warn.buscar"));
 				activarTabla = false;
 			} else {
 				activarTabla = true;
+				detEgresos = egresoService.buscarEgresos(egresoDB.getIdEgreso());
 			}
 
 		} catch (HiperionException e) {
@@ -292,12 +297,42 @@ public class EgresoBacking implements Serializable {
 	 */
 	public void guardarEgreso() throws HiperionException {
 
+		boolean save = true;
 		Egreso egreso = new Egreso();
-
 		try {
-			egreso.setPeriodo(egresoBean.getPeriodo());
-			egresoService.guardarEgreso(egreso);
-			MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
+
+			egreso = egresoService.buscarEgresos(egresoBean.getPeriodo(), egresoBean.getAfectacion());
+
+			if (egreso == null) {
+
+				egreso.setPeriodo(egresoBean.getPeriodo());
+
+				Afectacion afectacion = new Afectacion();
+				afectacion.setIdFacultad(egresoBean.getFacultad());
+				afectacion.setIdDependencia(egresoBean.getDependencia());
+				afectacion.setIdAfectacion(egresoBean.getAfectacion());
+
+				egreso.setAfectacion(afectacion);
+			} else {
+				save = false;
+			}
+			List<DetalleEgreso> detalles = new ArrayList<>();
+			if (egresosDTO.isEmpty()) {
+				MessagesController.addWarn(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.war.detEgresos"));
+			} else {
+
+				for (EgresoDTO detalleEgreso : egresosDTO) {
+					DetalleEgreso detalle = new DetalleEgreso();
+
+					detalle.setPartida(detalleEgreso.getPartida());
+
+					detalle.setPresupuesto(new BigDecimal(detalleEgreso.getPresupuesto()));
+
+					detalles.add(detalle);
+				}
+				egresoService.guardarEgreso(egreso, detalles, save);
+				MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
+			}
 
 		} catch (HiperionException e) {
 			MessagesController.addError(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.error.save"));
@@ -445,18 +480,18 @@ public class EgresoBacking implements Serializable {
 	}
 
 	/**
-	 * @return the egresosDB
+	 * @return the egresoDB
 	 */
-	public List<Egreso> getEgresosDB() {
-		return egresosDB;
+	public Egreso getEgresoDB() {
+		return egresoDB;
 	}
 
 	/**
-	 * @param egresosDB
-	 *            the egresosDB to set
+	 * @param egresoDB
+	 *            the egresoDB to set
 	 */
-	public void setEgresosDB(List<Egreso> egresosDB) {
-		this.egresosDB = egresosDB;
+	public void setEgresoDB(Egreso egresoDB) {
+		this.egresoDB = egresoDB;
 	}
 
 	/**
@@ -472,6 +507,21 @@ public class EgresoBacking implements Serializable {
 	 */
 	public void setActivarTabla(boolean activarTabla) {
 		this.activarTabla = activarTabla;
+	}
+
+	/**
+	 * @return the detEgresos
+	 */
+	public List<DetalleEgreso> getDetEgresos() {
+		return detEgresos;
+	}
+
+	/**
+	 * @param detEgresos
+	 *            the detEgresos to set
+	 */
+	public void setDetEgresos(List<DetalleEgreso> detEgresos) {
+		this.detEgresos = detEgresos;
 	}
 
 }
