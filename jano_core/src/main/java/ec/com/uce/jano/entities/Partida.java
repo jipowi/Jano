@@ -16,7 +16,7 @@ public class Partida implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_partida")
-	private Integer idPartida;
+	private Long idPartida;
 
 	private String partida;
 
@@ -30,11 +30,11 @@ public class Partida implements Serializable {
 	public Partida() {
 	}
 
-	public Integer getIdPartida() {
+	public Long getIdPartida() {
 		return this.idPartida;
 	}
 
-	public void setIdPartida(Integer idPartida) {
+	public void setIdPartida(Long idPartida) {
 		this.idPartida = idPartida;
 	}
 

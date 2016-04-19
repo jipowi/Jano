@@ -4,8 +4,11 @@
  */
 package ec.com.uce.jano.dao;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
+import ec.com.uce.jano.comun.HiperionException;
 import ec.com.uce.jano.entities.DetalleEgreso;
 
 /**
@@ -18,5 +21,18 @@ import ec.com.uce.jano.entities.DetalleEgreso;
  */
 @Local
 public interface DetalleEgresoDao extends GenericDAO<DetalleEgreso, Long> {
+
+	/**
+	 * 
+	 * <b> Permite buscar los detalles de un egreso. </b>
+	 * <p>
+	 * [Author: Paul Jimenez, Date: 13/04/2016]
+	 * </p>
+	 * 
+	 * @param idEgreso
+	 * @return
+	 * @throws HiperionException
+	 */
+	public List<DetalleEgreso> buscarEgresos(Long idEgreso) throws HiperionException;
 
 }

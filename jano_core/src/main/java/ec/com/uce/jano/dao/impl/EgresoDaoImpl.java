@@ -4,8 +4,6 @@
  */
 package ec.com.uce.jano.dao.impl;
 
-import java.util.List;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,21 +33,22 @@ public class EgresoDaoImpl extends GenericDAOImpl<Egreso, Long> implements Egres
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ec.com.uce.jano.dao.EgresoDao#buscarEgresos(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@SuppressWarnings("unchecked")
+	 * @see ec.com.uce.jano.dao.EgresoDao#buscarEgresos(java.lang.String, java.lang.Integer)
+	 */	
 	@Override
-	public List<Egreso> buscarEgresos(String periodo, String facultad, String dependencia, String departamento) throws HiperionException {
+	public Egreso buscarEgresos(String periodo, Long idAfectacion) throws HiperionException {
 		try {
 			Query query = em.createNamedQuery("Egreso.findEgresos");
 			query.setParameter("periodo", periodo);
-			List<Egreso> egresos = query.getResultList();
+			query.setParameter("idAfectacion", idAfectacion);
+			Egreso egreso = (Egreso) query.getSingleResult();
 
-			return egresos;
+			return egreso;
 
 		} catch (Exception ex) {
 			log.error("Error: No se pudo realizar la Consulta --> Egreso.findEgresos", ex);
 			throw new HiperionException(ex);
+			
 		}
 	}
 

@@ -16,7 +16,7 @@ public class Egreso implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_egreso")
-	private Integer idEgreso;
+	private Long idEgreso;
 
 	private String periodo;
 
@@ -32,11 +32,11 @@ public class Egreso implements Serializable {
 	public Egreso() {
 	}
 
-	public Integer getIdEgreso() {
+	public Long getIdEgreso() {
 		return this.idEgreso;
 	}
 
-	public void setIdEgreso(Integer idEgreso) {
+	public void setIdEgreso(Long idEgreso) {
 		this.idEgreso = idEgreso;
 	}
 

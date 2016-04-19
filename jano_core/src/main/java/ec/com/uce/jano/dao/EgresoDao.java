@@ -4,8 +4,6 @@
  */
 package ec.com.uce.jano.dao;
 
-import java.util.List;
-
 import javax.ejb.Local;
 
 import ec.com.uce.jano.comun.HiperionException;
@@ -30,12 +28,10 @@ public interface EgresoDao extends GenericDAO<Egreso, Long> {
 	 * </p>
 	 * 
 	 * @param periodo
-	 * @param facultad
-	 * @param dependencia
-	 * @param departamento
+	 * @param idAfectacion
 	 * @return
 	 * @throws HiperionException
 	 */
-	public List<Egreso> buscarEgresos(String periodo, String facultad, String dependencia, String departamento) throws HiperionException;
+	public Egreso buscarEgresos(String periodo, Long idAfectacion) throws HiperionException;
 
 }

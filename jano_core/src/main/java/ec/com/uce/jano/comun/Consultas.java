@@ -25,7 +25,10 @@ import javax.persistence.NamedQuery;
 		@NamedQuery(name = "Partida.findByTipoPartida", query = "SELECT p FROM Partida p WHERE p.tipoPartida =:tipoPartida"),
 
 		// EGRESOS
-		@NamedQuery(name = "Egreso.findEgresos", query = "SELECT e FROM Egreso e WHERE e.periodo =:periodo"),
+		@NamedQuery(name = "Egreso.findEgresos", query = "SELECT e FROM Egreso e WHERE e.periodo =:periodo AND e.afectacion.idAfectacion =:idAfectacion"),
+		
+		// DETALLE EGRESOS
+		@NamedQuery(name = "DetalleEgreso.findEgreso", query = "SELECT e FROM DetalleEgreso e WHERE e.egreso.idEgreso =:idEgreso"),
 
 		// AFECTACIONES
 		@NamedQuery(name = "Afectacion.findFacultad", query = "SELECT a FROM Afectacion a WHERE a.idFacultad = null AND a.idDependencia = null"),
