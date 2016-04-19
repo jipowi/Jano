@@ -47,7 +47,7 @@
 						<p:inputText value="#{afectacionBean.afectacion}" style="text-transform:uppercase;" />
 					</h:panelGrid>
 				</p:panel>
-				<p:panel id="idDepartamento" visible="#{afectacionBacking.activarDepartamento}">
+				<p:panel id="idDepartamento" visible="#{afectacionBacking.activarDepartamento}" rendered="#{afectacionBacking.activarDepartamento}">
 					<f:facet name="header">
 						<h:outputText value="#{emision['titulo.departamento']}" />
 					</f:facet>

@@ -3,84 +3,86 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core">
 <ui:composition template="/templates/menuPrincipalTemplate.xhtml">
 	<ui:define name="content">
+
+		<p:outputPanel id="idMessages">
+			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+		</p:outputPanel>
+
+		<div align="center">
+			<p:outputLabel value="#{emision['titulo.egreso']}" styleClass="negrita" />
+			<p:separator id="customSeparator" style="width:auto;height:1px" />
+			<p:spacer height="15px;" />
+		</div>
+
+		<!-- PANEL DE BUSQUEDAA -->
 		<h:form id="formEgreso">
 			<p:panel>
-				<p:outputPanel id="idMessages">
-					<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-				</p:outputPanel>
-
-				<div align="center">
-					<p:outputLabel value="#{emision['titulo.egreso']}" styleClass="negrita" />
-					<p:separator id="customSeparator" style="width:auto;height:1px" />
-					<p:spacer height="15px;" />
-				</div>
-
-				<!-- PANEL DE BUSQUEDAA -->
-
-				<p:panel>
-					<f:facet name="header">
-						<h:outputText value="#{emision['titulo.busq.egreso']}" />
-					</f:facet>
-					<h:panelGrid columns="2">
-						<h:panelGrid columns="1">
-							<h:panelGrid columns="2">
-								<p:outputLabel value="#{emision['lbl.periodo']}:" styleClass="negrita" />
-								<p:selectOneMenu value="#{egresoBean.periodo}" effect="drop">
-									<f:selectItem itemLabel="Seleccione Periodo" noSelectionOption="true" />
-									<f:selectItems value="#{egresoBacking.periodoItems}" itemValue="" />
-								</p:selectOneMenu>
-							</h:panelGrid>
-
-							<h:panelGrid columns="2">
-								<p:outputLabel value="#{emision['lbl.facultad']}:" styleClass="negrita" />
-								<p:selectOneMenu value="#{egresoBean.facultad}" effect="drop">
-									<f:selectItem itemLabel="Seleccione Facultad" noSelectionOption="true" />
-									<f:selectItems value="#{egresoBacking.facultadItems}" itemValue="" />
-									<p:ajax event="change" listener="#{egresoBacking.obtenerDependencias}" update="idDependencia" />
-								</p:selectOneMenu>
-							</h:panelGrid>
-
-							<h:panelGrid columns="2" id="idDependencia">
-								<p:outputLabel value="#{emision['lbl.dependencia']}:" styleClass="negrita" />
-								<p:selectOneMenu value="#{egresoBean.dependencia}" effect="drop">
-									<f:selectItem itemLabel="Seleccione Dependencia" noSelectionOption="true" />
-									<f:selectItems value="#{egresoBacking.dependenciaItems}" itemValue="" />
-									<p:ajax event="change" listener="#{egresoBacking.obtenerDepartamentos}" update="idDepartamento" />
-								</p:selectOneMenu>
-							</h:panelGrid>
-
-							<h:panelGrid columns="2" id="idDepartamento">
-								<p:outputLabel value="#{emision['lbl.departamento']}:" styleClass="negrita" />
-								<p:selectOneMenu value="#{egresoBean.departamento}" effect="drop">
-									<f:selectItem itemLabel="Seleccione Departamento" noSelectionOption="true" />
-									<f:selectItems value="#{egresoBacking.departamentoItems}" itemValue="" />
-								</p:selectOneMenu>
-							</h:panelGrid>
+				<f:facet name="header">
+					<h:outputText value="#{emision['titulo.busq.egreso']}" />
+				</f:facet>
+				<h:panelGrid columns="2">
+					<h:panelGrid columns="1">
+						<h:panelGrid columns="2">
+							<p:outputLabel value="#{emision['lbl.periodo']}:" styleClass="negrita" />
+							<p:selectOneMenu value="#{egresoBean.periodo}" effect="drop">
+								<f:selectItem itemLabel="Seleccione Periodo" noSelectionOption="true" />
+								<f:selectItems value="#{egresoBacking.periodoItems}" itemValue="" />
+							</p:selectOneMenu>
 						</h:panelGrid>
-						<p:commandLink title="Buscar partidas" action="#{egresoBacking.buscarEgresos}" update="tablaEgresosDB">
-							<h:graphicImage name="search.png" library="img/icon" />
-						</p:commandLink>
-					</h:panelGrid>
-				</p:panel>
 
-				<p:spacer height="15px;" />
-				<div align="center">
-					<p:dataTable id="tablaEgresosDB" value="#{egresoBacking.egresosDB}" var="egreso" widgetVar="50" style="width: 40%;">
-						<p:column>
-							<f:facet name="header">
-								<h:outputText value="#{emision['lbl.periodo']}" />
-							</f:facet>
-							<h:outputText value="#{egreso.periodo}" />
-						</p:column>
-						<p:column>
-							<f:facet name="header">
-								<h:outputText value="#{emision['lbl.facultad']}" />
-							</f:facet>
-							<h:outputText value="#{egreso.facultad}" />
-						</p:column>
-					</p:dataTable>
-				</div>
+						<h:panelGrid columns="2">
+							<p:outputLabel value="#{emision['lbl.facultad']}:" styleClass="negrita" />
+							<p:selectOneMenu value="#{egresoBean.facultad}" effect="drop">
+								<f:selectItem itemLabel="Seleccione Facultad" noSelectionOption="true" />
+								<f:selectItems value="#{egresoBacking.facultadItems}" itemValue="" />
+								<p:ajax event="change" listener="#{egresoBacking.obtenerDependencias}" update="idDependencia,idDepartamento" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2" id="idDependencia">
+							<p:outputLabel value="#{emision['lbl.dependencia']}:" styleClass="negrita" />
+							<p:selectOneMenu value="#{egresoBean.dependencia}" effect="drop">
+								<f:selectItem itemLabel="Seleccione Dependencia" noSelectionOption="true" />
+								<f:selectItems value="#{egresoBacking.dependenciaItems}" itemValue="" />
+								<p:ajax event="change" listener="#{egresoBacking.obtenerDepartamentos}" update="idDepartamento" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2" id="idDepartamento">
+							<p:outputLabel value="#{emision['lbl.departamento']}:" styleClass="negrita" />
+							<p:selectOneMenu value="#{egresoBean.afectacion}" effect="drop">
+								<f:selectItem itemLabel="Seleccione Departamento" noSelectionOption="true" />
+								<f:selectItems value="#{egresoBacking.departamentoItems}" itemValue="" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+					</h:panelGrid>
+					<p:commandLink title="Buscar" action="#{egresoBacking.buscarEgresos}" update="tablaEgresosDB">
+						<h:graphicImage name="search.png" library="img/icon" />
+					</p:commandLink>
+				</h:panelGrid>
 			</p:panel>
+			<p:spacer height="15px;" />
+			<p:dataTable id="tablaEgresosDB" value="#{egresoBacking.detEgresos}" var="egreso" widgetVar="50" style="width: 80%;">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.afectacion']}" />
+					</f:facet>
+					<h:outputText value="#{egreso.egreso.afectacion.descAfectacion}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.partida']}" />
+					</f:facet>
+					<h:outputText value="#{egreso.partida.partida}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.presupuesto']}" />
+					</f:facet>
+					<h:outputText value="#{egreso.presupuesto}" />
+				</p:column>
+				
+			</p:dataTable>
 		</h:form>
 
 		<h:panelGrid columns="2">
@@ -98,31 +100,42 @@
 					<f:facet name="header">
 						<h:outputText value="#{emision['titulo.busq.egreso']}" />
 					</f:facet>
-					<h:panelGrid columns="2">
-						<p:outputLabel value="#{emision['lbl.periodo']}:" styleClass="negrita" />
-						<p:selectOneMenu id="idPeriodo" value="#{egresoBean.periodo}" effect="drop">
-							<f:selectItem itemLabel="Seleccione Periodo" noSelectionOption="true" />
-							<f:selectItems value="#{egresoBacking.periodoItems}" itemValue="" />
-						</p:selectOneMenu>
+					<h:panelGrid columns="1">
+						<h:panelGrid columns="2">
+							<p:outputLabel value="#{emision['lbl.periodo']}:" styleClass="negrita" />
+							<p:selectOneMenu value="#{egresoBean.periodo}" effect="drop">
+								<f:selectItem itemLabel="Seleccione Periodo" noSelectionOption="true" />
+								<f:selectItems value="#{egresoBacking.periodoItems}" itemValue="" />
+							</p:selectOneMenu>
+						</h:panelGrid>
 
-						<p:outputLabel value="#{emision['lbl.facultad']}:" styleClass="negrita" />
-						<p:selectOneMenu id="idFacultad" value="#{egresoBean.facultad}" effect="drop">
-							<f:selectItem itemLabel="Seleccione Facultad" noSelectionOption="true" />
-							<f:selectItems value="#{egresoBacking.facultadItems}" itemValue="" />
-						</p:selectOneMenu>
+						<h:panelGrid columns="2">
+							<p:outputLabel value="#{emision['lbl.facultad']}:" styleClass="negrita" />
+							<p:selectOneMenu value="#{egresoBean.facultad}" effect="drop">
+								<f:selectItem itemLabel="Seleccione Facultad" noSelectionOption="true" />
+								<f:selectItems value="#{egresoBacking.facultadItems}" itemValue="" />
+								<p:ajax event="change" listener="#{egresoBacking.obtenerDependencias}" update="idDependencia,idDepartamento" />
+							</p:selectOneMenu>
+						</h:panelGrid>
 
-						<p:outputLabel value="#{emision['lbl.dependencia']}:" styleClass="negrita" />
-						<p:selectOneMenu id="idDependencia" value="#{egresoBean.dependencia}" effect="drop">
-							<f:selectItem itemLabel="Seleccione Dependencia" noSelectionOption="true" />
-							<f:selectItems value="#{egresoBacking.dependenciaItems}" itemValue="" />
-						</p:selectOneMenu>
+						<h:panelGrid columns="2" id="idDependencia">
+							<p:outputLabel value="#{emision['lbl.dependencia']}:" styleClass="negrita" />
+							<p:selectOneMenu value="#{egresoBean.dependencia}" effect="drop">
+								<f:selectItem itemLabel="Seleccione Dependencia" noSelectionOption="true" />
+								<f:selectItems value="#{egresoBacking.dependenciaItems}" itemValue="" />
+								<p:ajax event="change" listener="#{egresoBacking.obtenerDepartamentos}" update="idDepartamento" />
+							</p:selectOneMenu>
+						</h:panelGrid>
 
-						<p:outputLabel value="#{emision['lbl.departamento']}:" styleClass="negrita" />
-						<p:selectOneMenu id="idDepartamento" value="#{egresoBean.departamento}" effect="drop">
-							<f:selectItem itemLabel="Seleccione Departamento" noSelectionOption="true" />
-							<f:selectItems value="#{egresoBacking.departamentoItems}" itemValue="" />
-						</p:selectOneMenu>
+						<h:panelGrid columns="2" id="idDepartamento">
+							<p:outputLabel value="#{emision['lbl.departamento']}:" styleClass="negrita" />
+							<p:selectOneMenu value="#{egresoBean.afectacion}" effect="drop">
+								<f:selectItem itemLabel="Seleccione Departamento" noSelectionOption="true" />
+								<f:selectItems value="#{egresoBacking.departamentoItems}" itemValue="" />
+							</p:selectOneMenu>
+						</h:panelGrid>
 					</h:panelGrid>
+
 					<!-- DETALLE EGRESOS -->
 					<div align="center">
 						<h:panelGrid columns="1">
@@ -191,7 +204,7 @@
 				<h:commandLink action="hiperion.xhtml">
 					<h:graphicImage name="home.png" library="img" />
 				</h:commandLink>
-				<p:commandLink title="Guardar Informacion Egreso" process="@this" actionListener="#{egresoBacking.guardarEgreso}">
+				<p:commandLink title="Guardar Informacion Egreso" process="@this" actionListener="#{egresoBacking.guardarEgreso()}">
 					<h:graphicImage name="save.png" library="img" />
 				</p:commandLink>
 				<p:commandLink onclick="help.show()">
