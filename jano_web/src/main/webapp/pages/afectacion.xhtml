@@ -27,7 +27,7 @@
 						<h:outputText value="#{emision['titulo.facultad']}" />
 					</f:facet>
 					<h:panelGrid columns="2">
-						<p:outputLabel value="#{emision['lbl.afectacion']}" styleClass="negrita" />
+						<p:outputLabel value="#{emision['lbl.afectacion']}: " styleClass="negrita" />
 						<p:inputText value="#{afectacionBean.afectacion}" style="text-transform:uppercase;" />
 					</h:panelGrid>
 				</p:panel>
@@ -43,7 +43,7 @@
 							<f:selectItems value="#{afectacionBacking.facultadItems}" itemValue="" />
 						</p:selectOneMenu>
 
-						<p:outputLabel value="#{emision['lbl.afectacion']}" styleClass="negrita" />
+						<p:outputLabel value="#{emision['lbl.afectacion']}: " styleClass="negrita" />
 						<p:inputText value="#{afectacionBean.afectacion}" style="text-transform:uppercase;" />
 					</h:panelGrid>
 				</p:panel>
@@ -69,7 +69,7 @@
 					</h:panelGrid>
 
 					<h:panelGrid columns="2">
-						<p:outputLabel value="#{emision['lbl.dependencia']}: " styleClass="negrita" />
+						<p:outputLabel value="#{emision['lbl.afectacion']}: " styleClass="negrita" />
 						<p:inputText value="#{afectacionBean.afectacion}" style="text-transform:uppercase;" />
 					</h:panelGrid>
 				</p:panel>
