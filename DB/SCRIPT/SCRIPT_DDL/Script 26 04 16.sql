@@ -1,8 +1,26 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     27/02/2016 10:36:08 a.m.                     */
+/* Created on:     26/04/2016 13:54:25                          */
 /*==============================================================*/
 
+
+/*==============================================================*/
+/* Table: AFECTACION                                            */
+/*==============================================================*/
+create table AFECTACION (
+   ID_AFECTACION        SERIAL               not null,
+   DESC_AFECTACION      TEXT                 null,
+   ID_FACULTAD          INT4                 null,
+   ID_DEPENDENCIA       INT4                 null,
+   constraint PK_AFECTACION primary key (ID_AFECTACION)
+);
+
+/*==============================================================*/
+/* Index: AFECTACION_PK                                         */
+/*==============================================================*/
+create unique index AFECTACION_PK on AFECTACION (
+ID_AFECTACION
+);
 
 /*==============================================================*/
 /* Table: CATALOGO                                              */
@@ -41,9 +59,9 @@ ID_DETALLE_CATALOGO
 );
 
 /*==============================================================*/
-/* Index: DETALLE_CATALOGO_FK                                   */
+/* Index: CATALOGO_DETALLECATALOGO_FK                           */
 /*==============================================================*/
-create  index DETALLE_CATALOGO_FK on DETALLE_CATALOGO (
+create  index CATALOGO_DETALLECATALOGO_FK on DETALLE_CATALOGO (
 ID_CATALOGO
 );
 
@@ -52,8 +70,8 @@ ID_CATALOGO
 /*==============================================================*/
 create table DETALLE_EGRESO (
    ID_DET_EGRESO        SERIAL               not null,
-   ID_PARTIDA           INT4                 null,
    ID_EGRESO            INT4                 null,
+   ID_PARTIDA           INT4                 null,
    PRESUPUESTO          DECIMAL              null,
    constraint PK_DETALLE_EGRESO primary key (ID_DET_EGRESO)
 );
@@ -66,17 +84,49 @@ ID_DET_EGRESO
 );
 
 /*==============================================================*/
-/* Index: DETALLE_EGRESO_FK                                     */
+/* Index: EGRESO_DETALLE_FK                                     */
 /*==============================================================*/
-create  index DETALLE_EGRESO_FK on DETALLE_EGRESO (
+create  index EGRESO_DETALLE_FK on DETALLE_EGRESO (
 ID_EGRESO
 );
 
 /*==============================================================*/
-/* Index: DETALLE_EGRESO_FK2                                    */
+/* Index: PARTIDA_EGRESO_FK                                     */
 /*==============================================================*/
-create  index DETALLE_EGRESO_FK2 on DETALLE_EGRESO (
+create  index PARTIDA_EGRESO_FK on DETALLE_EGRESO (
 ID_PARTIDA
+);
+
+/*==============================================================*/
+/* Table: DETALLE_INGRESO                                       */
+/*==============================================================*/
+create table DETALLE_INGRESO (
+   ID_DET_INGRESO       SERIAL               not null,
+   ID_INGRESO           INT4                 null,
+   ID_PARTIDA           INT4                 null,
+   PRESUPUESTO_INGRESO  DECIMAL              null,
+   constraint PK_DETALLE_INGRESO primary key (ID_DET_INGRESO)
+);
+
+/*==============================================================*/
+/* Index: DETALLE_INGRESO_PK                                    */
+/*==============================================================*/
+create unique index DETALLE_INGRESO_PK on DETALLE_INGRESO (
+ID_DET_INGRESO
+);
+
+/*==============================================================*/
+/* Index: PARTIDA_INGRESO_FK                                    */
+/*==============================================================*/
+create  index PARTIDA_INGRESO_FK on DETALLE_INGRESO (
+ID_PARTIDA
+);
+
+/*==============================================================*/
+/* Index: INGRESO_DETALLE_FK                                    */
+/*==============================================================*/
+create  index INGRESO_DETALLE_FK on DETALLE_INGRESO (
+ID_INGRESO
 );
 
 /*==============================================================*/
@@ -84,10 +134,8 @@ ID_PARTIDA
 /*==============================================================*/
 create table EGRESO (
    ID_EGRESO            SERIAL               not null,
+   ID_AFECTACION        INT4                 null,
    PERIODO              TEXT                 null,
-   FACULTAD             TEXT                 null,
-   DEPENDENCIA          TEXT                 null,
-   DEPARTAMENTO         TEXT                 null,
    constraint PK_EGRESO primary key (ID_EGRESO)
 );
 
@@ -96,6 +144,37 @@ create table EGRESO (
 /*==============================================================*/
 create unique index EGRESO_PK on EGRESO (
 ID_EGRESO
+);
+
+/*==============================================================*/
+/* Index: AFECTACION_EGRESO_FK                                  */
+/*==============================================================*/
+create  index AFECTACION_EGRESO_FK on EGRESO (
+ID_AFECTACION
+);
+
+/*==============================================================*/
+/* Table: INGRESO                                               */
+/*==============================================================*/
+create table INGRESO (
+   ID_INGRESO           SERIAL               not null,
+   ID_AFECTACION        INT4                 null,
+   PERIODO_INGRESO      TEXT                 null,
+   constraint PK_INGRESO primary key (ID_INGRESO)
+);
+
+/*==============================================================*/
+/* Index: INGRESO_PK                                            */
+/*==============================================================*/
+create unique index INGRESO_PK on INGRESO (
+ID_INGRESO
+);
+
+/*==============================================================*/
+/* Index: AFECTACION_INGRESO_FK                                 */
+/*==============================================================*/
+create  index AFECTACION_INGRESO_FK on INGRESO (
+ID_AFECTACION
 );
 
 /*==============================================================*/
@@ -154,9 +233,9 @@ ID_ROL
 );
 
 /*==============================================================*/
-/* Index: ROL_FK                                                */
+/* Index: USUARIO_ROL_FK                                        */
 /*==============================================================*/
-create  index ROL_FK on ROL (
+create  index USUARIO_ROL_FK on ROL (
 ID_USUARIO
 );
 
@@ -178,16 +257,16 @@ ID_MENU_ROL
 );
 
 /*==============================================================*/
-/* Index: ROL_MENU_FK                                           */
+/* Index: ROL_MENUS_FK                                          */
 /*==============================================================*/
-create  index ROL_MENU_FK on ROL_MENU (
+create  index ROL_MENUS_FK on ROL_MENU (
 ID_ROL
 );
 
 /*==============================================================*/
-/* Index: ROL_MENU_FK2                                          */
+/* Index: MENU_ROLES_FK                                         */
 /*==============================================================*/
-create  index ROL_MENU_FK2 on ROL_MENU (
+create  index MENU_ROLES_FK on ROL_MENU (
 ID_MENU
 );
 
@@ -229,6 +308,26 @@ alter table DETALLE_EGRESO
 alter table DETALLE_EGRESO
    add constraint FK_DETALLE__PARTIDA_E_PARTIDA foreign key (ID_PARTIDA)
       references PARTIDA (ID_PARTIDA)
+      on delete restrict on update restrict;
+
+alter table DETALLE_INGRESO
+   add constraint FK_DETALLE__INGRESO_D_INGRESO foreign key (ID_INGRESO)
+      references INGRESO (ID_INGRESO)
+      on delete restrict on update restrict;
+
+alter table DETALLE_INGRESO
+   add constraint FK_DETALLE__PARTIDA_I_PARTIDA foreign key (ID_PARTIDA)
+      references PARTIDA (ID_PARTIDA)
+      on delete restrict on update restrict;
+
+alter table EGRESO
+   add constraint FK_EGRESO_AFECTACIO_AFECTACI foreign key (ID_AFECTACION)
+      references AFECTACION (ID_AFECTACION)
+      on delete restrict on update restrict;
+
+alter table INGRESO
+   add constraint FK_INGRESO_AFECTACIO_AFECTACI foreign key (ID_AFECTACION)
+      references AFECTACION (ID_AFECTACION)
       on delete restrict on update restrict;
 
 alter table ROL
