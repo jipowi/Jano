@@ -31,6 +31,10 @@ public class Afectacion implements Serializable {
 	@OneToMany(mappedBy="afectacion")
 	private List<Egreso> egresos;
 
+	//bi-directional many-to-one association to Ingreso
+	@OneToMany(mappedBy="afectacion")
+	private List<Ingreso> ingresos;
+
 	public Afectacion() {
 	}
 
@@ -47,7 +51,7 @@ public class Afectacion implements Serializable {
 	}
 
 	public void setDescAfectacion(String descAfectacion) {
-		this.descAfectacion = descAfectacion.toUpperCase();
+		this.descAfectacion = descAfectacion;
 	}
 
 	public Integer getIdDependencia() {
@@ -86,6 +90,28 @@ public class Afectacion implements Serializable {
 		egreso.setAfectacion(null);
 
 		return egreso;
+	}
+
+	public List<Ingreso> getIngresos() {
+		return this.ingresos;
+	}
+
+	public void setIngresos(List<Ingreso> ingresos) {
+		this.ingresos = ingresos;
+	}
+
+	public Ingreso addIngreso(Ingreso ingreso) {
+		getIngresos().add(ingreso);
+		ingreso.setAfectacion(this);
+
+		return ingreso;
+	}
+
+	public Ingreso removeIngreso(Ingreso ingreso) {
+		getIngresos().remove(ingreso);
+		ingreso.setAfectacion(null);
+
+		return ingreso;
 	}
 
 }

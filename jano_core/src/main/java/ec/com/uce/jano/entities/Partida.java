@@ -27,6 +27,10 @@ public class Partida implements Serializable {
 	@OneToMany(mappedBy="partida")
 	private List<DetalleEgreso> detalleEgresos;
 
+	//bi-directional many-to-one association to DetalleIngreso
+	@OneToMany(mappedBy="partida")
+	private List<DetalleIngreso> detalleIngresos;
+
 	public Partida() {
 	}
 
@@ -74,6 +78,28 @@ public class Partida implements Serializable {
 		detalleEgreso.setPartida(null);
 
 		return detalleEgreso;
+	}
+
+	public List<DetalleIngreso> getDetalleIngresos() {
+		return this.detalleIngresos;
+	}
+
+	public void setDetalleIngresos(List<DetalleIngreso> detalleIngresos) {
+		this.detalleIngresos = detalleIngresos;
+	}
+
+	public DetalleIngreso addDetalleIngreso(DetalleIngreso detalleIngreso) {
+		getDetalleIngresos().add(detalleIngreso);
+		detalleIngreso.setPartida(this);
+
+		return detalleIngreso;
+	}
+
+	public DetalleIngreso removeDetalleIngreso(DetalleIngreso detalleIngreso) {
+		getDetalleIngresos().remove(detalleIngreso);
+		detalleIngreso.setPartida(null);
+
+		return detalleIngreso;
 	}
 
 }

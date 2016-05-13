@@ -15,8 +15,8 @@ import javax.persistence.Query;
 import org.apache.log4j.Logger;
 
 import ec.com.uce.jano.comun.HiperionException;
-import ec.com.uce.jano.dao.EgresoDao;
-import ec.com.uce.jano.entities.Egreso;
+import ec.com.uce.jano.dao.IngresoDao;
+import ec.com.uce.jano.entities.Ingreso;
 
 /**
  * <b>Permite implementar las operaciones de la interfaz local</b>
@@ -26,9 +26,9 @@ import ec.com.uce.jano.entities.Egreso;
  * @since JDK1.6
  */
 @Stateless
-public class EgresoDaoImpl extends GenericDAOImpl<Egreso, Long> implements EgresoDao {
+public class IngresoDaoImpl extends GenericDAOImpl<Ingreso, Long> implements IngresoDao {
 
-	Logger log = Logger.getLogger(EgresoDaoImpl.class);
+	Logger log = Logger.getLogger(IngresoDaoImpl.class);
 
 	@PersistenceContext(unitName = "sgs_pu")
 	protected EntityManager em;
@@ -36,29 +36,30 @@ public class EgresoDaoImpl extends GenericDAOImpl<Egreso, Long> implements Egres
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ec.com.uce.jano.dao.EgresoDao#buscarEgresos(java.lang.String, java.lang.Integer)
+	 * @see ec.com.uce.jano.dao.IngresoDao#buscarIngresos(java.lang.String, java.lang.Long)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public Egreso buscarEgresos(String periodo, Long idAfectacion) throws HiperionException {
+	public Ingreso buscarIngresos(String periodo, Long idAfectacion) throws HiperionException {
 		try {
-			List<Egreso> egresos = new ArrayList<>();
-			Query query = em.createNamedQuery("Egreso.findEgresos");
+
+			List<Ingreso> ingresos = new ArrayList<>();
+			Query query = em.createNamedQuery("Ingreso.findIngresos");
 			query.setParameter("periodo", periodo);
 			query.setParameter("idAfectacion", idAfectacion);
-			
-			egresos = query.getResultList();
-			
-			if (egresos.isEmpty()) {
+
+			ingresos = query.getResultList();
+
+			if (ingresos.isEmpty()) {
 				return null;
 			} else {
-				Egreso egreso = (Egreso) query.getResultList().get(0);
+				Ingreso ingreso = (Ingreso) query.getResultList().get(0);
 
-				return egreso;
+				return ingreso;
 			}
-			
+
 		} catch (Exception ex) {
-			log.error("Error: No se pudo realizar la Consulta --> Egreso.findEgresos", ex);
+			log.error("Error: No se pudo realizar la Consulta --> Ingreso.findIngresos", ex);
 			throw new HiperionException(ex);
 
 		}
