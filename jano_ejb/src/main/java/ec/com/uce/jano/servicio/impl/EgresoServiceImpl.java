@@ -10,10 +10,14 @@ import javax.ejb.Stateless;
 
 import ec.com.uce.jano.comun.HiperionException;
 import ec.com.uce.jano.dao.DetalleEgresoDao;
+import ec.com.uce.jano.dao.DetalleIngresoDao;
 import ec.com.uce.jano.dao.EgresoDao;
+import ec.com.uce.jano.dao.IngresoDao;
 import ec.com.uce.jano.dao.PartidaDao;
 import ec.com.uce.jano.entities.DetalleEgreso;
+import ec.com.uce.jano.entities.DetalleIngreso;
 import ec.com.uce.jano.entities.Egreso;
+import ec.com.uce.jano.entities.Ingreso;
 import ec.com.uce.jano.entities.Partida;
 import ec.com.uce.jano.servicio.EgresoService;
 
@@ -30,7 +34,11 @@ public class EgresoServiceImpl implements EgresoService {
 	@EJB
 	private EgresoDao egresoDao;
 	@EJB
+	private IngresoDao ingresoDao;
+	@EJB
 	private DetalleEgresoDao detalleEgresoDao;
+	@EJB
+	private DetalleIngresoDao detalleIngresoDao;
 	@EJB
 	private PartidaDao partidaDao;
 
@@ -51,6 +59,26 @@ public class EgresoServiceImpl implements EgresoService {
 		for (DetalleEgreso detalleEgreso : detalles) {
 			detalleEgreso.setEgreso(egreso);
 			detalleEgresoDao.persist(detalleEgreso);
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ec.com.uce.jano.servicio.EgresoService#guardarIngreso(ec.com.uce.jano.entities.Ingreso, java.util.List, boolean)
+	 */
+	@Override
+	public void guardarIngreso(Ingreso ingreso, List<DetalleIngreso> detalles, boolean save) throws HiperionException {
+		if (save) {
+			ingresoDao.persist(ingreso);
+		} else {
+			ingresoDao.update(ingreso);
+		}
+
+		for (DetalleIngreso detalle : detalles) {
+			detalle.setIngreso(ingreso);
+			detalleIngresoDao.persist(detalle);
 		}
 
 	}
@@ -103,6 +131,27 @@ public class EgresoServiceImpl implements EgresoService {
 	@Override
 	public List<DetalleEgreso> buscarEgresos(Long idEgreso) throws HiperionException {
 		return detalleEgresoDao.buscarEgresos(idEgreso);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ec.com.uce.jano.servicio.EgresoService#buscarIngresos(java.lang.String, java.lang.Long)
+	 */
+	@Override
+	public Ingreso buscarIngresos(String periodo, Long idAfectacion) throws HiperionException {
+
+		return ingresoDao.buscarIngresos(periodo, idAfectacion);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ec.com.uce.jano.servicio.EgresoService#buscarIngresos(java.lang.Long)
+	 */
+	@Override
+	public List<DetalleIngreso> buscarIngresos(Long idIngreso) throws HiperionException {
+		return detalleIngresoDao.buscarIngreso(idIngreso);
 	}
 
 }

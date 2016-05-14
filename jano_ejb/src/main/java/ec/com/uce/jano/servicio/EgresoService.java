@@ -9,7 +9,9 @@ import javax.ejb.Local;
 
 import ec.com.uce.jano.comun.HiperionException;
 import ec.com.uce.jano.entities.DetalleEgreso;
+import ec.com.uce.jano.entities.DetalleIngreso;
 import ec.com.uce.jano.entities.Egreso;
+import ec.com.uce.jano.entities.Ingreso;
 import ec.com.uce.jano.entities.Partida;
 
 /**
@@ -34,6 +36,20 @@ public interface EgresoService {
 	 * @throws HiperionException
 	 */
 	public void guardarEgreso(Egreso egreso, List<DetalleEgreso> detalles, boolean save) throws HiperionException;
+
+	/**
+	 * 
+	 * <b> Permite guardar un registro de ingreso en la base de datos. </b>
+	 * <p>
+	 * [Author: Paul Jimenez, Date: 26/04/2016]
+	 * </p>
+	 * 
+	 * @param ingreso
+	 * @param detalles
+	 * @param save
+	 * @throws HiperionException
+	 */
+	public void guardarIngreso(Ingreso ingreso, List<DetalleIngreso> detalles, boolean save) throws HiperionException;
 
 	/**
 	 * 
@@ -88,6 +104,20 @@ public interface EgresoService {
 
 	/**
 	 * 
+	 * <b> Permite listar los ingresos que se encuentran en la base bajo los siguientes filtros. </b>
+	 * <p>
+	 * [Author: Paul Jimenez, Date: 26/04/2016]
+	 * </p>
+	 * 
+	 * @param periodo
+	 * @param idAfectacion
+	 * @return
+	 * @throws HiperionException
+	 */
+	public Ingreso buscarIngresos(String periodo, Long idAfectacion) throws HiperionException;
+
+	/**
+	 * 
 	 * <b> Permite buscar los detalles de un egreso. </b>
 	 * <p>
 	 * [Author: Paul Jimenez, Date: 13/04/2016]
@@ -98,5 +128,18 @@ public interface EgresoService {
 	 * @throws HiperionException
 	 */
 	public List<DetalleEgreso> buscarEgresos(Long idEgreso) throws HiperionException;
+
+	/**
+	 * 
+	 * <b> Permite buscar los detalles de un ingreso. </b>
+	 * <p>
+	 * [Author: Paul Jimenez, Date: 26/04/2016]
+	 * </p>
+	 * 
+	 * @param idIngreso
+	 * @return
+	 * @throws HiperionException
+	 */
+	public List<DetalleIngreso> buscarIngresos(Long idIngreso) throws HiperionException;
 
 }

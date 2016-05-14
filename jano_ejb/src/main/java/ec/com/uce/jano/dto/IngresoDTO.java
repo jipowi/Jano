@@ -8,13 +8,13 @@ import java.io.Serializable;
 import ec.com.uce.jano.entities.Partida;
 
 /**
- * <b> Permite almacenar la informacion de un egreso y el detalle. </b>
+ * <b> Permite almacenar la informacion de un ingreso y el detalle. </b>
  * 
  * @author HIPERION
  * @version 1.0,24/02/2016
  * @since JDK1.6
  */
-public class EgresoDTO implements Serializable {
+public class IngresoDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -25,7 +25,7 @@ public class EgresoDTO implements Serializable {
 	 * @param partida
 	 * @param presupuesto
 	 */
-	public EgresoDTO(Partida partida, Double presupuesto) {
+	public IngresoDTO(Partida partida, Double presupuesto) {
 		super();
 		this.partida = partida;
 		this.presupuesto = presupuesto;
