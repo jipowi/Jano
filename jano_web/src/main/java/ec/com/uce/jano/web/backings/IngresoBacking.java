@@ -21,21 +21,20 @@ import javax.faces.model.SelectItem;
 import org.primefaces.event.RowEditEvent;
 
 import ec.com.uce.jano.comun.HiperionException;
-import ec.com.uce.jano.dto.EgresoDTO;
+import ec.com.uce.jano.dto.IngresoDTO;
 import ec.com.uce.jano.entities.Afectacion;
 import ec.com.uce.jano.entities.Catalogo;
 import ec.com.uce.jano.entities.DetalleCatalogo;
-import ec.com.uce.jano.entities.DetalleEgreso;
-import ec.com.uce.jano.entities.Egreso;
+import ec.com.uce.jano.entities.DetalleIngreso;
+import ec.com.uce.jano.entities.Ingreso;
 import ec.com.uce.jano.entities.Partida;
 import ec.com.uce.jano.servicio.AfectacionService;
 import ec.com.uce.jano.servicio.CatalogoService;
 import ec.com.uce.jano.servicio.DetalleCatalogoService;
 import ec.com.uce.jano.servicio.EgresoService;
-import ec.com.uce.jano.web.beans.EgresoBean;
+import ec.com.uce.jano.web.beans.IngresoBean;
 import ec.com.uce.jano.web.util.HiperionMensajes;
 import ec.com.uce.jano.web.util.MessagesController;
-
 /**
  * <b> Incluir aqui la descripcion de la clase. </b>
  * 
@@ -45,12 +44,12 @@ import ec.com.uce.jano.web.util.MessagesController;
  */
 @ManagedBean
 @ViewScoped
-public class EgresoBacking implements Serializable {
+public class IngresoBacking implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@ManagedProperty(value = "#{egresoBean}")
-	private EgresoBean egresoBean;
+	@ManagedProperty(value = "#{ingresoBean}")
+	private IngresoBean ingresoBean;
 
 	@EJB
 	private CatalogoService catalogoService;
@@ -66,9 +65,9 @@ public class EgresoBacking implements Serializable {
 	private List<SelectItem> dependenciaItems;
 	private List<SelectItem> departamentoItems;
 	private List<SelectItem> partidaItems;
-	private List<EgresoDTO> egresosDTO = new ArrayList<>();
-	private List<DetalleEgreso> detEgresos = new ArrayList<>();
-	private Egreso egresoDB;
+	private List<IngresoDTO> ingresosDTO = new ArrayList<>();
+	private List<DetalleIngreso> detIngresos = new ArrayList<>();
+	private Ingreso ingresoDB;
 	private Partida partida;
 	private Double presupuesto;
 	private Long idPartida;
@@ -93,7 +92,7 @@ public class EgresoBacking implements Serializable {
 		try {
 			this.partidaItems = new ArrayList<SelectItem>();
 
-			List<Partida> partidas = egresoService.obtenerPartidas("Egreso");
+			List<Partida> partidas = egresoService.obtenerPartidas("Ingreso");
 
 			for (Partida partida : partidas) {
 				SelectItem selectItem = new SelectItem(partida.getIdPartida(), partida.getPartida());
@@ -146,7 +145,7 @@ public class EgresoBacking implements Serializable {
 		try {
 			this.dependenciaItems = new ArrayList<SelectItem>();
 
-			List<Afectacion> dependencias = afectacionService.obtenerDependencias(egresoBean.getFacultad());
+			List<Afectacion> dependencias = afectacionService.obtenerDependencias(ingresoBean.getFacultad());
 
 			for (Afectacion dependencia : dependencias) {
 				SelectItem selectItem = new SelectItem(dependencia.getIdAfectacion(), dependencia.getDescAfectacion());
@@ -172,7 +171,7 @@ public class EgresoBacking implements Serializable {
 		try {
 			this.departamentoItems = new ArrayList<SelectItem>();
 
-			List<Afectacion> departamentos = afectacionService.obtenerDepartamentos(egresoBean.getFacultad(), egresoBean.getDependencia());
+			List<Afectacion> departamentos = afectacionService.obtenerDepartamentos(ingresoBean.getFacultad(), ingresoBean.getDependencia());
 
 			for (Afectacion departamento : departamentos) {
 				SelectItem selectItem = new SelectItem(departamento.getIdAfectacion(), departamento.getDescAfectacion());
@@ -224,23 +223,23 @@ public class EgresoBacking implements Serializable {
 
 	/**
 	 * 
-	 * <b> Permite listar los egresos registrados en la base de datos. </b>
+	 * <b> Permite listar los ingresos registrados en la base de datos. </b>
 	 * <p>
 	 * [Author: Paul Jimenez, Date: 29/03/2016]
 	 * </p>
 	 * 
 	 * @throws HiperionException
 	 */
-	public void buscarEgresos() throws HiperionException {
+	public void buscarIngresos() throws HiperionException {
 		try {
 
-			egresoDB = egresoService.buscarEgresos(egresoBean.getPeriodo(), egresoBean.getAfectacion());
-			if (egresoDB == null) {
+			ingresoDB = egresoService.buscarIngresos(ingresoBean.getPeriodo(), ingresoBean.getAfectacion());
+			if (ingresoDB == null) {
 				MessagesController.addWarn(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.warn.buscar"));
 				activarTabla = false;
 			} else {
 				activarTabla = true;
-				detEgresos = egresoService.buscarEgresos(egresoDB.getIdEgreso());
+				detIngresos = egresoService.buscarIngresos(ingresoDB.getIdIngreso());
 			}
 
 		} catch (HiperionException e) {
@@ -287,7 +286,7 @@ public class EgresoBacking implements Serializable {
 
 	/**
 	 * 
-	 * <b> Permite registrar un egreso. </b>
+	 * <b> Permite registrar un ingreso. </b>
 	 * <p>
 	 * [Author: HIPERION, Date: 23/02/2016]
 	 * </p>
@@ -295,43 +294,43 @@ public class EgresoBacking implements Serializable {
 	 * @throws HiperionException
 	 * 
 	 */
-	public void guardarEgreso() throws HiperionException {
+	public void guardarIngreso() throws HiperionException {
 
 		boolean save = true;
-		Egreso egreso = new Egreso();
+		Ingreso ingreso = new Ingreso();
 		try {
 
-			egreso = egresoService.buscarEgresos(egresoBean.getPeriodo(), egresoBean.getAfectacion());
+			ingreso = egresoService.buscarIngresos(ingresoBean.getPeriodo(), ingresoBean.getAfectacion());
 
-			if (egreso == null) {
+			if (ingreso == null) {
 
-				egreso = new Egreso();
-				egreso.setPeriodo(egresoBean.getPeriodo());
+				ingreso = new Ingreso();
+				ingreso.setPeriodoIngreso(ingresoBean.getPeriodo());
 
 				Afectacion afectacion = new Afectacion();
-				afectacion.setIdFacultad(egresoBean.getFacultad());
-				afectacion.setIdDependencia(egresoBean.getDependencia());
-				afectacion.setIdAfectacion(egresoBean.getAfectacion());
+				afectacion.setIdFacultad(ingresoBean.getFacultad());
+				afectacion.setIdDependencia(ingresoBean.getDependencia());
+				afectacion.setIdAfectacion(ingresoBean.getAfectacion());
 
-				egreso.setAfectacion(afectacion);
+				ingreso.setAfectacion(afectacion);
 			} else {
 				save = false;
 			}
-			List<DetalleEgreso> detalles = new ArrayList<>();
-			if (egresosDTO.isEmpty()) {
-				MessagesController.addWarn(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.war.detEgresos"));
+			List<DetalleIngreso> detalles = new ArrayList<>();
+			if (ingresosDTO.isEmpty()) {
+				MessagesController.addWarn(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.war.detIngreso"));
 			} else {
 
-				for (EgresoDTO detalleEgreso : egresosDTO) {
-					DetalleEgreso detalle = new DetalleEgreso();
+				for (IngresoDTO detalleIngreso : ingresosDTO) {
+					DetalleIngreso detalle = new DetalleIngreso();
 
-					detalle.setPartida(detalleEgreso.getPartida());
+					detalle.setPartida(detalleIngreso.getPartida());
 
-					detalle.setPresupuesto(new BigDecimal(detalleEgreso.getPresupuesto()));
+					detalle.setPresupuestoIngreso(new BigDecimal(detalleIngreso.getPresupuesto()));
 
 					detalles.add(detalle);
 				}
-				egresoService.guardarEgreso(egreso, detalles, save);
+				egresoService.guardarIngreso(ingreso, detalles, save);
 				MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
 			}
 
@@ -342,18 +341,18 @@ public class EgresoBacking implements Serializable {
 	}
 
 	/**
-	 * @return the egresoBean
+	 * @return the ingresoBean
 	 */
-	public EgresoBean getEgresoBean() {
-		return egresoBean;
+	public IngresoBean getIngresoBean() {
+		return ingresoBean;
 	}
 
 	/**
-	 * @param egresoBean
-	 *            the egresoBean to set
+	 * @param ingresoBean
+	 *            the ingresoBean to set
 	 */
-	public void setEgresoBean(EgresoBean egresoBean) {
-		this.egresoBean = egresoBean;
+	public void setIngresoBean(IngresoBean ingresoBean) {
+		this.ingresoBean = ingresoBean;
 	}
 
 	/**
@@ -366,13 +365,13 @@ public class EgresoBacking implements Serializable {
 	 * @return
 	 * @throws HiperionException
 	 */
-	public void addEgreso() throws HiperionException {
+	public void addIngreso() throws HiperionException {
 
 		try {
 			this.partida = egresoService.obtenerPartidaById(idPartida);
 
-			EgresoDTO egreso = new EgresoDTO(this.partida, this.presupuesto);
-			egresosDTO.add(egreso);
+			IngresoDTO ingreso = new IngresoDTO(this.partida, this.presupuesto);
+			ingresosDTO.add(ingreso);
 
 			partida = new Partida();
 			presupuesto = 0.0;
@@ -393,7 +392,7 @@ public class EgresoBacking implements Serializable {
 	 * @param event
 	 */
 	public void onEdit(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Item Edited", ((EgresoDTO) event.getObject()).getPartida().toString());
+		FacesMessage msg = new FacesMessage("Item Edited", ((IngresoDTO) event.getObject()).getPartida().toString());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
@@ -409,22 +408,22 @@ public class EgresoBacking implements Serializable {
 	public void onCancel(RowEditEvent event) {
 		FacesMessage msg = new FacesMessage("Item Cancelled");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-		egresosDTO.remove((EgresoDTO) event.getObject());
+		ingresosDTO.remove((IngresoDTO) event.getObject());
 	}
 
 	/**
-	 * @return the egresosDTO
+	 * @return the ingresosDTO
 	 */
-	public List<EgresoDTO> getEgresosDTO() {
-		return egresosDTO;
+	public List<IngresoDTO> getIngresosDTO() {
+		return ingresosDTO;
 	}
 
 	/**
-	 * @param egresosDTO
-	 *            the egresosDTO to set
+	 * @param ingresosDTO
+	 *            the ingresosDTO to set
 	 */
-	public void setEgresosDTO(List<EgresoDTO> egresosDTO) {
-		this.egresosDTO = egresosDTO;
+	public void setIngresosDTO(List<IngresoDTO> ingresosDTO) {
+		this.ingresosDTO = ingresosDTO;
 	}
 
 	/**
@@ -481,21 +480,6 @@ public class EgresoBacking implements Serializable {
 	}
 
 	/**
-	 * @return the egresoDB
-	 */
-	public Egreso getEgresoDB() {
-		return egresoDB;
-	}
-
-	/**
-	 * @param egresoDB
-	 *            the egresoDB to set
-	 */
-	public void setEgresoDB(Egreso egresoDB) {
-		this.egresoDB = egresoDB;
-	}
-
-	/**
 	 * @return the activarTabla
 	 */
 	public boolean isActivarTabla() {
@@ -511,18 +495,33 @@ public class EgresoBacking implements Serializable {
 	}
 
 	/**
-	 * @return the detEgresos
+	 * @return the detIngresos
 	 */
-	public List<DetalleEgreso> getDetEgresos() {
-		return detEgresos;
+	public List<DetalleIngreso> getDetIngresos() {
+		return detIngresos;
 	}
 
 	/**
-	 * @param detEgresos
-	 *            the detEgresos to set
+	 * @param detIngresos
+	 *            the detIngresos to set
 	 */
-	public void setDetEgresos(List<DetalleEgreso> detEgresos) {
-		this.detEgresos = detEgresos;
+	public void setDetIngresos(List<DetalleIngreso> detIngresos) {
+		this.detIngresos = detIngresos;
+	}
+
+	/**
+	 * @return the ingresoDB
+	 */
+	public Ingreso getIngresoDB() {
+		return ingresoDB;
+	}
+
+	/**
+	 * @param ingresoDB
+	 *            the ingresoDB to set
+	 */
+	public void setIngresoDB(Ingreso ingresoDB) {
+		this.ingresoDB = ingresoDB;
 	}
 
 }

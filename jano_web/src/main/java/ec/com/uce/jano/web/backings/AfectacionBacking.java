@@ -196,6 +196,7 @@ public class AfectacionBacking implements Serializable {
 
 					afectacionService.guardarAfectacion(afectacion);
 					MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
+					afectacionBean.setAfectacion("");
 				}
 
 			} else if (tipoAfectacion.equals("Dependencia")) {
@@ -207,6 +208,7 @@ public class AfectacionBacking implements Serializable {
 
 				afectacionService.guardarAfectacion(afectacion);
 				MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
+				afectacionBean.setAfectacion("");
 
 			} else if (tipoAfectacion.equals("Departamento")) {
 
@@ -218,6 +220,7 @@ public class AfectacionBacking implements Serializable {
 
 				afectacionService.guardarAfectacion(afectacion);
 				MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
+				afectacionBean.setAfectacion("");
 			}
 		} catch (HiperionException e) {
 
