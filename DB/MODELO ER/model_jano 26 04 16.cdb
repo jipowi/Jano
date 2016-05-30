@@ -2508,9 +2508,9 @@ EntityComment 0 Arial,8,N</a:FontList>
 <a:Code>DESC_AFECTACION</a:Code>
 <a:CreationDate>1459286596</a:CreationDate>
 <a:Creator>U</a:Creator>
-<a:ModificationDate>1459286596</a:ModificationDate>
+<a:ModificationDate>1461699269</a:ModificationDate>
 <a:Modifier>U</a:Modifier>
-<a:DataType>I</a:DataType>
+<a:DataType>TXT</a:DataType>
 </o:DataItem>
 <o:DataItem Id="o129">
 <a:ObjectID>DFF0D6C8-DC53-4229-947B-D1FC9BD3948D</a:ObjectID>
