@@ -35,6 +35,7 @@ import ec.com.uce.jano.servicio.EgresoService;
 import ec.com.uce.jano.web.beans.IngresoBean;
 import ec.com.uce.jano.web.util.HiperionMensajes;
 import ec.com.uce.jano.web.util.MessagesController;
+
 /**
  * <b> Incluir aqui la descripcion de la clase. </b>
  * 
@@ -72,6 +73,7 @@ public class IngresoBacking implements Serializable {
 	private Double presupuesto;
 	private Long idPartida;
 	private boolean activarTabla = false;
+	private BigDecimal totalPresupuesto;
 
 	@PostConstruct
 	public void inicializar() throws HiperionException {
@@ -231,8 +233,10 @@ public class IngresoBacking implements Serializable {
 	 * @throws HiperionException
 	 */
 	public void buscarIngresos() throws HiperionException {
-		try {
 
+		totalPresupuesto = new BigDecimal(0.0);
+
+		try {
 			ingresoDB = egresoService.buscarIngresos(ingresoBean.getPeriodo(), ingresoBean.getAfectacion());
 			if (ingresoDB == null) {
 				MessagesController.addWarn(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.warn.buscar"));
@@ -240,6 +244,10 @@ public class IngresoBacking implements Serializable {
 			} else {
 				activarTabla = true;
 				detIngresos = egresoService.buscarIngresos(ingresoDB.getIdIngreso());
+
+				for (DetalleIngreso ingreso : detIngresos) {
+					totalPresupuesto = totalPresupuesto.add(ingreso.getPresupuestoIngreso());
+				}
 			}
 
 		} catch (HiperionException e) {
@@ -522,6 +530,20 @@ public class IngresoBacking implements Serializable {
 	 */
 	public void setIngresoDB(Ingreso ingresoDB) {
 		this.ingresoDB = ingresoDB;
+	}
+
+	/**
+	 * @return the totalPresupuesto
+	 */
+	public BigDecimal getTotalPresupuesto() {
+		return totalPresupuesto;
+	}
+
+	/**
+	 * @param totalPresupuesto the totalPresupuesto to set
+	 */
+	public void setTotalPresupuesto(BigDecimal totalPresupuesto) {
+		this.totalPresupuesto = totalPresupuesto;
 	}
 
 }

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:composition template="/templates/menuPrincipalTemplate.xhtml">
+	<ui:define name="content">
+
+		<p:outputPanel id="idMessages">
+			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+		</p:outputPanel>
+
+		<div align="center">
+			<p:outputLabel value="#{emision['titulo.recaudacion']}" styleClass="negrita" />
+			<p:separator id="customSeparator" style="width:auto;height:1px" />
+			<p:spacer height="15px;" />
+		</div>
+		<h:form id="formRecaudacion">
+			<p:panel>
+				<h:panelGrid columns="2">
+					<p:outputLabel value="#{emision['lbl.comprobante']}: " styleClass="negrita" />
+					<p:inputText value="#{recaudacionrecaudacionIngresoBean.comprobante}" />
+
+					<p:outputLabel value="#{emision['lbl.fecha']}: " styleClass="negrita" />
+					<p:calendar id="fechaNacimientoId" alue="#{recaudacionrecaudacionIngresoBean.fecha}" locale="de" navigator="true" pattern="MM/dd/yyyy" mask="true" />
+
+					<p:outputLabel value="#{emision['lbl.periodo']}: " styleClass="negrita" />
+					<p:selectOneMenu value="#{recaudacionrecaudacionIngresoBean.periodo}" effect="drop">
+						<f:selectItem itemLabel="Seleccione Periodo" noSelectionOption="true" />
+						<f:selectItems value="#{recaudacionIngresoBacking.periodoItems}" itemValue="" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="#{emision['lbl.beneficiario']}: " styleClass="negrita" />
+					<p:inputText value="#{recaudacionrecaudacionIngresoBean.beneficiario}" />
+
+					<p:outputLabel value="#{emision['lbl.observacion']}: " styleClass="negrita" />
+					<p:inputText value="#{recaudacionrecaudacionIngresoBean.observacion}" />
+
+					<p:outputLabel value="#{emision['lbl.valor']}: " styleClass="negrita" />
+					<p:inputText value="#{recaudacionrecaudacionIngresoBean.valor}" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
+					<p:outputLabel value="#{emision['lbl.facultad']}: " styleClass="negrita" />
+					<p:selectOneMenu value="#{recaudacionIngresoBean.facultad}" effect="drop">
+						<f:selectItem itemLabel="Seleccione Facultad" noSelectionOption="true" />
+						<f:selectItems value="#{recaudacionIngresoBacking.facultadItems}" itemValue="" />
+						<p:ajax event="change" listener="#{recaudacionIngresoBacking.obtenerDependencias}" update="idDependencia,idDepartamento" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+
+				<h:panelGrid columns="2" id="idDependencia">
+					<p:outputLabel value="#{emision['lbl.dependencia']}: " styleClass="negrita" />
+					<p:selectOneMenu value="#{recaudacionIngresoBean.dependencia}" effect="drop">
+						<f:selectItem itemLabel="Seleccione Dependencia" noSelectionOption="true" />
+						<f:selectItems value="#{recaudacionIngresoBacking.dependenciaItems}" itemValue="" />
+						<p:ajax event="change" listener="#{recaudacionIngresoBacking.obtenerDepartamentos}" update="idDepartamento" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+
+				<h:panelGrid columns="2" id="idDepartamento">
+					<p:outputLabel value="#{emision['lbl.departamento']}: " styleClass="negrita" />
+					<p:selectOneMenu value="#{recaudacionIngresoBean.afectacion}" effect="drop">
+						<f:selectItem itemLabel="Seleccione Departamento" noSelectionOption="true" />
+						<f:selectItems value="#{recaudacionIngresoBacking.departamentoItems}" itemValue="" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+
+			</p:panel>
+		</h:form>
+
+	</ui:define>
+	<!-- BOTONES -->
+	<ui:define name="buttons">
+		<h:form>
+			<h:panelGrid columns="1">
+				<h:commandLink action="hiperion.xhtml">
+					<h:graphicImage name="home.png" library="img" />
+				</h:commandLink>
+				<p:commandLink title="Guardar Informacion Recaudaciones" process="@this" actionListener="#{recaudacionIngresoBacking.guardarRecaudacion()}">
+					<h:graphicImage name="save.png" library="img" />
+				</p:commandLink>
+				<p:commandLink onclick="help.show()">
+					<h:graphicImage name="helpII.png" library="img" />
+				</p:commandLink>
+			</h:panelGrid>
+			<p:dialog header="Egreso" widgetVar="help" showEffect="explode" hideEffect="bounce" height="100">
+				<h:panelGrid columns="1">
+					<h:outputText value="Informacion Ingreso" />
+					<h:outputText value="Permite registra cada uno de los ingresos efectuados en el periodo correspondiente" />
+					<h:outputText value="Ante cualquier inquietud por favor comuniquese con Ruben Yanez, Administradr del Sitema Hiperion" />
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

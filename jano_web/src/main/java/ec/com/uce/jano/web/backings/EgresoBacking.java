@@ -73,6 +73,7 @@ public class EgresoBacking implements Serializable {
 	private Double presupuesto;
 	private Long idPartida;
 	private boolean activarTabla = false;
+	private BigDecimal totalPresupuesto;
 
 	@PostConstruct
 	public void inicializar() throws HiperionException {
@@ -232,6 +233,9 @@ public class EgresoBacking implements Serializable {
 	 * @throws HiperionException
 	 */
 	public void buscarEgresos() throws HiperionException {
+		
+		totalPresupuesto = new BigDecimal(0.0);
+		
 		try {
 
 			egresoDB = egresoService.buscarEgresos(egresoBean.getPeriodo(), egresoBean.getAfectacion());
@@ -241,6 +245,10 @@ public class EgresoBacking implements Serializable {
 			} else {
 				activarTabla = true;
 				detEgresos = egresoService.buscarEgresos(egresoDB.getIdEgreso());
+
+				for (DetalleEgreso egreso : detEgresos) {
+					totalPresupuesto = totalPresupuesto.add(egreso.getPresupuesto());
+				}
 			}
 
 		} catch (HiperionException e) {
@@ -523,6 +531,21 @@ public class EgresoBacking implements Serializable {
 	 */
 	public void setDetEgresos(List<DetalleEgreso> detEgresos) {
 		this.detEgresos = detEgresos;
+	}
+
+	/**
+	 * @return the totalPresupuesto
+	 */
+	public BigDecimal getTotalPresupuesto() {
+		return totalPresupuesto;
+	}
+
+	/**
+	 * @param totalPresupuesto
+	 *            the totalPresupuesto to set
+	 */
+	public void setTotalPresupuesto(BigDecimal totalPresupuesto) {
+		this.totalPresupuesto = totalPresupuesto;
 	}
 
 }
