@@ -19,10 +19,13 @@ import ec.com.uce.jano.comun.HiperionException;
 import ec.com.uce.jano.entities.Afectacion;
 import ec.com.uce.jano.entities.Catalogo;
 import ec.com.uce.jano.entities.DetalleCatalogo;
+import ec.com.uce.jano.entities.Partida;
 import ec.com.uce.jano.entities.Recaudacion;
 import ec.com.uce.jano.servicio.AfectacionService;
 import ec.com.uce.jano.servicio.CatalogoService;
 import ec.com.uce.jano.servicio.DetalleCatalogoService;
+import ec.com.uce.jano.servicio.EgresoService;
+import ec.com.uce.jano.servicio.RecaudacionService;
 import ec.com.uce.jano.web.beans.RecaudacionIngresoBean;
 import ec.com.uce.jano.web.util.HiperionMensajes;
 import ec.com.uce.jano.web.util.MessagesController;
@@ -52,10 +55,19 @@ public class RecaudacionIngresoBacking implements Serializable {
 	@EJB
 	private AfectacionService afectacionService;
 
+	@EJB
+	private RecaudacionService recaudacionService;
+
+	@EJB
+	private EgresoService egresoService;
+
 	private List<SelectItem> periodoItems;
 	private List<SelectItem> facultadItems;
 	private List<SelectItem> dependenciaItems;
 	private List<SelectItem> departamentoItems;
+	private List<SelectItem> partidasItems;
+
+	private Long idPartida;
 
 	@PostConstruct
 	public void inicializar() throws HiperionException {
@@ -203,6 +215,8 @@ public class RecaudacionIngresoBacking implements Serializable {
 		afectacion.setIdAfectacion(recaudacionIngresoBean.getAfectacion());
 
 		recaudacion.setAfectacion(afectacion);
+
+		recaudacionService.guardarRecaudacion(recaudacion);
 		MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
 
 	}
@@ -265,6 +279,54 @@ public class RecaudacionIngresoBacking implements Serializable {
 	 */
 	public void setRecaudacionIngresoBean(RecaudacionIngresoBean recaudacionIngresoBean) {
 		this.recaudacionIngresoBean = recaudacionIngresoBean;
+	}
+
+	/**
+	 * @return the partidasItems
+	 * @throws HiperionException
+	 */
+	public List<SelectItem> getPartidasItems() throws HiperionException {
+
+		try {
+
+			this.partidasItems = new ArrayList<SelectItem>();
+
+			List<Partida> partidas;
+
+			partidas = egresoService.obtenerPartidas("Ingreso");
+
+			for (Partida partida : partidas) {
+				SelectItem selectItem = new SelectItem(partida.getIdPartida(), partida.getPartida());
+				partidasItems.add(selectItem);
+			}
+		} catch (HiperionException e) {
+			throw new HiperionException(e);
+		}
+		return partidasItems;
+
+	}
+
+	/**
+	 * @param partidasItems
+	 *            the partidasItems to set
+	 */
+	public void setPartidasItems(List<SelectItem> partidasItems) {
+		this.partidasItems = partidasItems;
+	}
+
+	/**
+	 * @return the idPartida
+	 */
+	public Long getIdPartida() {
+		return idPartida;
+	}
+
+	/**
+	 * @param idPartida
+	 *            the idPartida to set
+	 */
+	public void setIdPartida(Long idPartida) {
+		this.idPartida = idPartida;
 	}
 
 }

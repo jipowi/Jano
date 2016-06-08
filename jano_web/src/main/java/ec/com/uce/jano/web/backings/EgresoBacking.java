@@ -5,7 +5,6 @@
 package ec.com.uce.jano.web.backings;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +72,7 @@ public class EgresoBacking implements Serializable {
 	private Double presupuesto;
 	private Long idPartida;
 	private boolean activarTabla = false;
-	private BigDecimal totalPresupuesto;
+	private double totalPresupuesto;
 
 	@PostConstruct
 	public void inicializar() throws HiperionException {
@@ -233,9 +232,9 @@ public class EgresoBacking implements Serializable {
 	 * @throws HiperionException
 	 */
 	public void buscarEgresos() throws HiperionException {
-		
-		totalPresupuesto = new BigDecimal(0.0);
-		
+
+		totalPresupuesto = 0.0;
+
 		try {
 
 			egresoDB = egresoService.buscarEgresos(egresoBean.getPeriodo(), egresoBean.getAfectacion());
@@ -247,14 +246,17 @@ public class EgresoBacking implements Serializable {
 				detEgresos = egresoService.buscarEgresos(egresoDB.getIdEgreso());
 
 				for (DetalleEgreso egreso : detEgresos) {
-					totalPresupuesto = totalPresupuesto.add(egreso.getPresupuesto());
+					totalPresupuesto += egreso.getPresupuesto();
 				}
+				
 			}
 
 		} catch (HiperionException e) {
 			throw new HiperionException(e);
 		}
 	}
+
+
 
 	/**
 	 * @return the dependenciaItems
@@ -335,7 +337,7 @@ public class EgresoBacking implements Serializable {
 
 					detalle.setPartida(detalleEgreso.getPartida());
 
-					detalle.setPresupuesto(new BigDecimal(detalleEgreso.getPresupuesto()));
+					detalle.setPresupuesto(detalleEgreso.getPresupuesto());
 
 					detalles.add(detalle);
 				}
@@ -379,7 +381,9 @@ public class EgresoBacking implements Serializable {
 		try {
 			this.partida = egresoService.obtenerPartidaById(idPartida);
 
-			EgresoDTO egreso = new EgresoDTO(this.partida, this.presupuesto);
+			double presupuesto = this.presupuesto.doubleValue();
+
+			EgresoDTO egreso = new EgresoDTO(this.partida, presupuesto);
 			egresosDTO.add(egreso);
 
 			partida = new Partida();
@@ -536,7 +540,7 @@ public class EgresoBacking implements Serializable {
 	/**
 	 * @return the totalPresupuesto
 	 */
-	public BigDecimal getTotalPresupuesto() {
+	public double getTotalPresupuesto() {
 		return totalPresupuesto;
 	}
 
@@ -544,7 +548,7 @@ public class EgresoBacking implements Serializable {
 	 * @param totalPresupuesto
 	 *            the totalPresupuesto to set
 	 */
-	public void setTotalPresupuesto(BigDecimal totalPresupuesto) {
+	public void setTotalPresupuesto(double totalPresupuesto) {
 		this.totalPresupuesto = totalPresupuesto;
 	}
 

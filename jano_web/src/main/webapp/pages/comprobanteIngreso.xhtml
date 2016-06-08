@@ -16,29 +16,6 @@
 		<h:form id="formRecaudacion">
 			<p:panel>
 				<h:panelGrid columns="2">
-					<p:outputLabel value="#{emision['lbl.comprobante']}: " styleClass="negrita" />
-					<p:inputText value="#{recaudacionrecaudacionIngresoBean.comprobante}" />
-
-					<p:outputLabel value="#{emision['lbl.fecha']}: " styleClass="negrita" />
-					<p:calendar id="fechaNacimientoId" alue="#{recaudacionrecaudacionIngresoBean.fecha}" locale="de" navigator="true" pattern="MM/dd/yyyy" mask="true" />
-
-					<p:outputLabel value="#{emision['lbl.periodo']}: " styleClass="negrita" />
-					<p:selectOneMenu value="#{recaudacionrecaudacionIngresoBean.periodo}" effect="drop">
-						<f:selectItem itemLabel="Seleccione Periodo" noSelectionOption="true" />
-						<f:selectItems value="#{recaudacionIngresoBacking.periodoItems}" itemValue="" />
-					</p:selectOneMenu>
-
-					<p:outputLabel value="#{emision['lbl.beneficiario']}: " styleClass="negrita" />
-					<p:inputText value="#{recaudacionrecaudacionIngresoBean.beneficiario}" />
-
-					<p:outputLabel value="#{emision['lbl.observacion']}: " styleClass="negrita" />
-					<p:inputText value="#{recaudacionrecaudacionIngresoBean.observacion}" />
-
-					<p:outputLabel value="#{emision['lbl.valor']}: " styleClass="negrita" />
-					<p:inputText value="#{recaudacionrecaudacionIngresoBean.valor}" />
-				</h:panelGrid>
-
-				<h:panelGrid columns="2">
 					<p:outputLabel value="#{emision['lbl.facultad']}: " styleClass="negrita" />
 					<p:selectOneMenu value="#{recaudacionIngresoBean.facultad}" effect="drop">
 						<f:selectItem itemLabel="Seleccione Facultad" noSelectionOption="true" />
@@ -63,10 +40,38 @@
 						<f:selectItems value="#{recaudacionIngresoBacking.departamentoItems}" itemValue="" />
 					</p:selectOneMenu>
 				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					<p:outputLabel value="#{emision['lbl.partida']}" styleClass="negrita" />
+					<p:selectOneMenu id="idPartida" value="#{recaudacionIngresoBacking.idPartida}" effect="drop" required="true">
+						<f:selectItem itemLabel="Seleccione Partida" noSelectionOption="true" />
+						<f:selectItems value="#{recaudacionIngresoBacking.partidasItems}" itemValue="" />
+					</p:selectOneMenu>
 
+					<p:outputLabel value="#{emision['lbl.comprobante']}: " styleClass="negrita" />
+					<p:inputText value="#{recaudacionrecaudacionIngresoBean.comprobante}" />
+
+					<p:outputLabel value="#{emision['lbl.fecha']}: " styleClass="negrita" />
+					<p:calendar id="fechaNacimientoId" alue="#{recaudacionrecaudacionIngresoBean.fecha}" locale="de" navigator="true" pattern="MM/dd/yyyy"
+						mask="true" />
+
+					<p:outputLabel value="#{emision['lbl.periodo']}: " styleClass="negrita" />
+					<p:selectOneMenu value="#{recaudacionrecaudacionIngresoBean.periodo}" effect="drop">
+						<f:selectItem itemLabel="Seleccione Periodo" noSelectionOption="true" />
+						<f:selectItems value="#{recaudacionIngresoBacking.periodoItems}" itemValue="" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="#{emision['lbl.beneficiario']}: " styleClass="negrita" />
+					<p:inputText value="#{recaudacionrecaudacionIngresoBean.beneficiario}" />
+
+					<p:outputLabel value="#{emision['lbl.observacion']}: " styleClass="negrita" />
+					<p:inputText value="#{recaudacionrecaudacionIngresoBean.observacion}" />
+
+					<p:outputLabel value="#{emision['lbl.valor']}: " styleClass="negrita" />
+					<p:inputText value="#{recaudacionrecaudacionIngresoBean.valor}" />
+				</h:panelGrid>
 			</p:panel>
 		</h:form>
-
 	</ui:define>
 	<!-- BOTONES -->
 	<ui:define name="buttons">

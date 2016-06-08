@@ -18,7 +18,7 @@
 						<f:selectItem itemLabel="Facultad" itemValue="Facultad" />
 						<f:selectItem itemLabel="Dependencia" itemValue="Dependencia" />
 						<f:selectItem itemLabel="Departamento" itemValue="Departamento" />
-						<p:ajax event="change" listener="#{afectacionBacking.seleccionarAfectacion}" update="formAfectacion" />
+						<p:ajax event="change" listener="#{afectacionBacking.seleccionarAfectacion}" update="formAfectacion, idDepartamento" />
 					</p:selectOneRadio>
 				</h:panelGrid>
 

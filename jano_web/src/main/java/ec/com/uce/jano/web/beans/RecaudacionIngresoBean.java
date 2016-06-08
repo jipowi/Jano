@@ -5,7 +5,6 @@
 package ec.com.uce.jano.web.beans;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.faces.bean.ManagedBean;
@@ -28,7 +27,7 @@ public class RecaudacionIngresoBean implements Serializable {
 	private String periodo;
 	private String observacion;
 	private String beneficiario;
-	private BigDecimal valor;
+	private double valor;
 	private Integer facultad;
 	private Integer dependencia;
 	private Long afectacion;
@@ -111,7 +110,7 @@ public class RecaudacionIngresoBean implements Serializable {
 	/**
 	 * @return the valor
 	 */
-	public BigDecimal getValor() {
+	public double getValor() {
 		return valor;
 	}
 
@@ -119,7 +118,7 @@ public class RecaudacionIngresoBean implements Serializable {
 	 * @param valor
 	 *            the valor to set
 	 */
-	public void setValor(BigDecimal valor) {
+	public void setValor(double valor) {
 		this.valor = valor;
 	}
 

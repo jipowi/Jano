@@ -5,7 +5,6 @@
 package ec.com.uce.jano.web.backings;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +72,7 @@ public class IngresoBacking implements Serializable {
 	private Double presupuesto;
 	private Long idPartida;
 	private boolean activarTabla = false;
-	private BigDecimal totalPresupuesto;
+	private double totalPresupuesto;
 
 	@PostConstruct
 	public void inicializar() throws HiperionException {
@@ -234,7 +233,7 @@ public class IngresoBacking implements Serializable {
 	 */
 	public void buscarIngresos() throws HiperionException {
 
-		totalPresupuesto = new BigDecimal(0.0);
+		totalPresupuesto = 0.0;
 
 		try {
 			ingresoDB = egresoService.buscarIngresos(ingresoBean.getPeriodo(), ingresoBean.getAfectacion());
@@ -246,7 +245,7 @@ public class IngresoBacking implements Serializable {
 				detIngresos = egresoService.buscarIngresos(ingresoDB.getIdIngreso());
 
 				for (DetalleIngreso ingreso : detIngresos) {
-					totalPresupuesto = totalPresupuesto.add(ingreso.getPresupuestoIngreso());
+					totalPresupuesto += ingreso.getPresupuestoIngreso();
 				}
 			}
 
@@ -334,7 +333,7 @@ public class IngresoBacking implements Serializable {
 
 					detalle.setPartida(detalleIngreso.getPartida());
 
-					detalle.setPresupuestoIngreso(new BigDecimal(detalleIngreso.getPresupuesto()));
+					detalle.setPresupuestoIngreso(detalleIngreso.getPresupuesto());
 
 					detalles.add(detalle);
 				}
@@ -535,15 +534,17 @@ public class IngresoBacking implements Serializable {
 	/**
 	 * @return the totalPresupuesto
 	 */
-	public BigDecimal getTotalPresupuesto() {
+	public double getTotalPresupuesto() {
 		return totalPresupuesto;
 	}
 
 	/**
 	 * @param totalPresupuesto the totalPresupuesto to set
 	 */
-	public void setTotalPresupuesto(BigDecimal totalPresupuesto) {
+	public void setTotalPresupuesto(double totalPresupuesto) {
 		this.totalPresupuesto = totalPresupuesto;
 	}
+
+	
 
 }
