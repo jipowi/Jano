@@ -19,7 +19,7 @@ public class DetalleEgreso implements Serializable {
 	@Column(name="id_det_egreso")
 	private Integer idDetEgreso;
 
-	private BigDecimal presupuesto;
+	private double presupuesto;
 
 	//bi-directional many-to-one association to Egreso
 	@ManyToOne
@@ -42,11 +42,11 @@ public class DetalleEgreso implements Serializable {
 		this.idDetEgreso = idDetEgreso;
 	}
 
-	public BigDecimal getPresupuesto() {
+	public double getPresupuesto() {
 		return this.presupuesto;
 	}
 
-	public void setPresupuesto(BigDecimal presupuesto) {
+	public void setPresupuesto(double presupuesto) {
 		this.presupuesto = presupuesto;
 	}
 

@@ -1,8 +1,15 @@
 package ec.com.uce.jano.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.math.BigDecimal;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 
 /**
@@ -20,7 +27,7 @@ public class DetalleIngreso implements Serializable {
 	private Long idDetIngreso;
 
 	@Column(name="presupuesto_ingreso")
-	private BigDecimal presupuestoIngreso;
+	private double presupuestoIngreso;
 
 	//bi-directional many-to-one association to Ingreso
 	@ManyToOne
@@ -43,11 +50,11 @@ public class DetalleIngreso implements Serializable {
 		this.idDetIngreso = idDetIngreso;
 	}
 
-	public BigDecimal getPresupuestoIngreso() {
+	public double getPresupuestoIngreso() {
 		return this.presupuestoIngreso;
 	}
 
-	public void setPresupuestoIngreso(BigDecimal presupuestoIngreso) {
+	public void setPresupuestoIngreso(double presupuestoIngreso) {
 		this.presupuestoIngreso = presupuestoIngreso;
 	}
 
