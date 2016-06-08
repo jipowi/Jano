@@ -30,7 +30,7 @@ public class RecaudacionIngresoBean implements Serializable {
 	private double valor;
 	private Integer facultad;
 	private Integer dependencia;
-	private Long afectacion;
+	private Long idAfectacion;
 
 	/**
 	 * @return the periodo
@@ -153,18 +153,19 @@ public class RecaudacionIngresoBean implements Serializable {
 	}
 
 	/**
-	 * @return the afectacion
+	 * @return the idAfectacion
 	 */
-	public Long getAfectacion() {
-		return afectacion;
+	public Long getIdAfectacion() {
+		return idAfectacion;
 	}
 
 	/**
-	 * @param afectacion
-	 *            the afectacion to set
+	 * @param idAfectacion the idAfectacion to set
 	 */
-	public void setAfectacion(Long afectacion) {
-		this.afectacion = afectacion;
+	public void setIdAfectacion(Long idAfectacion) {
+		this.idAfectacion = idAfectacion;
 	}
+
+	
 
 }

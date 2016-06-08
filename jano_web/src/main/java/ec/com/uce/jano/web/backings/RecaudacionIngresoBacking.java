@@ -212,7 +212,7 @@ public class RecaudacionIngresoBacking implements Serializable {
 		Afectacion afectacion = new Afectacion();
 		afectacion.setIdFacultad(recaudacionIngresoBean.getFacultad());
 		afectacion.setIdDependencia(recaudacionIngresoBean.getDependencia());
-		afectacion.setIdAfectacion(recaudacionIngresoBean.getAfectacion());
+		afectacion.setIdAfectacion(recaudacionIngresoBean.getIdAfectacion());
 
 		recaudacion.setAfectacion(afectacion);
 
