@@ -73,7 +73,7 @@
 
 						<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
 							<p:outputLabel value="#{emision['lbl.beneficiario']}: " styleClass="negrita" />
-							<p:inputText value="#{recaudacionIngresoBean.beneficiario}" />
+							<p:inputText value="#{recaudacionIngresoBean.beneficiario}" style="text-transform:uppercase;"/>
 						</h:panelGrid>
 
 						<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
@@ -85,7 +85,7 @@
 					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
 						<p:outputLabel value="#{emision['lbl.observacion']}: " styleClass="negrita" />
 						<p:inputTextarea value="#{recaudacionIngresoBean.observacion}" rows="5" cols="30" counter="display" maxlength="200"
-							counterTemplate="{0} characters remaining." autoResize="false" />
+							counterTemplate="{0} characters remaining." autoResize="false" style="text-transform:uppercase;"/>
 						<h:outputText id="display" />
 					</h:panelGrid>
 				</h:panelGrid>
