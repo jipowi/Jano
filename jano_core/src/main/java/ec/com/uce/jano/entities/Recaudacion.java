@@ -69,7 +69,7 @@ public class Recaudacion implements Serializable {
 	}
 
 	public void setBeneficiario(String beneficiario) {
-		this.beneficiario = beneficiario;
+		this.beneficiario = beneficiario.toLowerCase();
 	}
 
 	public String getComprobante() {
@@ -93,7 +93,7 @@ public class Recaudacion implements Serializable {
 	}
 
 	public void setObservacion(String observacion) {
-		this.observacion = observacion;
+		this.observacion = observacion.toLowerCase();
 	}
 
 	public String getPeridoRecaudacion() {
