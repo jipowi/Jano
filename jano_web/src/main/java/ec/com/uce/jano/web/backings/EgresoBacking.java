@@ -248,7 +248,6 @@ public class EgresoBacking implements Serializable {
 				for (DetalleEgreso egreso : detEgresos) {
 					totalPresupuesto += egreso.getPresupuesto();
 				}
-				
 			}
 
 		} catch (HiperionException e) {
