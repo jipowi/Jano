@@ -46,13 +46,21 @@
 				</h:panelGrid>
 			</p:panel>
 			<p:spacer height="30px;" />
-			<p:commandLink title="Generar Reporte" action="#{reporteRecaudacionBacking.generarReporte}" update="tablaReporte">
-				<h:graphicImage name="generate_report.png" library="img" />
-			</p:commandLink>
+			<div align="center">
+				<p:commandLink title="Generar Reporte" action="#{reporteRecaudacionBacking.generarReporte}" update="tablaReporte">
+					<h:graphicImage name="generate_report.png" library="img" />
+				</p:commandLink>
+			</div>
 
 			<!-- TABLA RESULTADOS -->
 			<div align="center">
 				<p:dataTable id="tablaReporte" value="#{reporteRecaudacionBacking.recaudacionDTOs}" var="recaudacion" widgetVar="50">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.partida']}" />
+						</f:facet>
+						<h:outputText value="#{recaudacion.partida.partida}" />
+					</p:column>
 					<p:column>
 						<f:facet name="header">
 							<h:outputText value="#{emision['lbl.beneficiario']}" />
@@ -63,13 +71,13 @@
 						<f:facet name="header">
 							<h:outputText value="#{emision['lbl.comprobante']}" />
 						</f:facet>
-					<h:outputText value="#{recaudacion.comprobante}" />
+						<h:outputText value="#{recaudacion.comprobante}" />
 					</p:column>
 					<p:column>
 						<f:facet name="header">
 							<h:outputText value="#{emision['lbl.fecha']}" />
 						</f:facet>
-					<h:outputText value="#{recaudacion.fechaRecaudacion}" />
+						<h:outputText value="#{recaudacion.fechaRecaudacion}" />
 					</p:column>
 					<p:column>
 						<f:facet name="header">
@@ -79,6 +87,8 @@
 					</p:column>
 				</p:dataTable>
 			</div>
+			<p:spacer height="30px;" />
+			<p:chart type="bar" model="#{reporteRecaudacionBacking.barModel}" style="height:300px" />
 		</h:form>
 	</ui:define>
 

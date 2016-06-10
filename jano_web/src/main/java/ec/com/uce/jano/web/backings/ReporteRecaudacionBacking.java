@@ -15,6 +15,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 
+import org.primefaces.model.chart.ChartSeries;
+
 import ec.com.uce.jano.comun.HiperionException;
 import ec.com.uce.jano.dto.recaudacionDTO;
 import ec.com.uce.jano.entities.Afectacion;
@@ -29,6 +31,9 @@ import ec.com.uce.jano.servicio.EgresoService;
 import ec.com.uce.jano.servicio.RecaudacionService;
 import ec.com.uce.jano.web.beans.ReporteRecaudacionBean;
 import ec.com.uce.jano.web.util.HiperionMensajes;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.BarChartModel;
 
 /**
  * <b> Incluir aqui la descripcion de la clase. </b>
@@ -69,12 +74,14 @@ public class ReporteRecaudacionBacking implements Serializable {
 
 	private Long idPartida;
 	private List<recaudacionDTO> recaudacionDTOs = new ArrayList<>();
+	private BarChartModel barModel;
 
 	@PostConstruct
 	public void inicializar() throws HiperionException {
 		try {
 
 			obtenerFacultades();
+			createBarModels();
 
 		} catch (HiperionException e) {
 			throw new HiperionException(e);
@@ -208,13 +215,77 @@ public class ReporteRecaudacionBacking implements Serializable {
 				recaudacionDTO.setValorRecaudacion(recaudacion.getValorRecaudacion());
 				recaudacionDTO.setFechaRecaudacion(recaudacion.getFechaRecaudacion());
 
+				Partida partida = egresoService.obtenerPartidaById(recaudacion.getPartida().getIdPartida());
+				recaudacionDTO.setPartida(partida);
+
 				recaudacionDTOs.add(recaudacionDTO);
 			}
+		
 
 		} catch (HiperionException e) {
 			throw new HiperionException(e);
 		}
 
+	}
+
+	private BarChartModel initBarModel() {
+		BarChartModel model = new BarChartModel();
+
+		ChartSeries boys = new ChartSeries();
+		boys.setLabel("Boys");
+		boys.set("2004", 120);
+		boys.set("2005", 100);
+		boys.set("2006", 44);
+		boys.set("2007", 150);
+		boys.set("2008", 25);
+
+		ChartSeries girls = new ChartSeries();
+		girls.setLabel("Girls");
+		girls.set("2004", 52);
+		girls.set("2005", 60);
+		girls.set("2006", 110);
+		girls.set("2007", 135);
+		girls.set("2008", 120);
+
+		model.addSeries(boys);
+		model.addSeries(girls);
+
+		return model;
+	}
+
+	/**
+	 * 
+	 * <b> Permite crear los datos para dibujar las barras. </b>
+	 * <p>
+	 * [Author: kruger, Date: 10/06/2016]
+	 * </p>
+	 * 
+	 */
+	private void createBarModels() {
+		createBarModel();
+	}
+
+	/**
+	 * 
+	 * <b> Permite parametrizar el grafico. </b>
+	 * <p>
+	 * [Author: kruger, Date: 10/06/2016]
+	 * </p>
+	 * 
+	 */
+	private void createBarModel() {
+		barModel = initBarModel();
+
+		barModel.setTitle("Bar Chart");
+		barModel.setLegendPosition("ne");
+
+		Axis xAxis = barModel.getAxis(AxisType.X);
+		xAxis.setLabel("Gender");
+
+		Axis yAxis = barModel.getAxis(AxisType.Y);
+		yAxis.setLabel("Births");
+		yAxis.setMin(0);
+		yAxis.setMax(200);
 	}
 
 	/**
@@ -346,6 +417,21 @@ public class ReporteRecaudacionBacking implements Serializable {
 	 */
 	public void setRecaudacionDTOs(List<recaudacionDTO> recaudacionDTOs) {
 		this.recaudacionDTOs = recaudacionDTOs;
+	}
+
+	/**
+	 * @return the barModel
+	 */
+	public BarChartModel getBarModel() {
+		return barModel;
+	}
+
+	/**
+	 * @param barModel
+	 *            the barModel to set
+	 */
+	public void setBarModel(BarChartModel barModel) {
+		this.barModel = barModel;
 	}
 
 }
