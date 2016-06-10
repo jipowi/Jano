@@ -69,7 +69,7 @@ public class Recaudacion implements Serializable {
 	}
 
 	public void setBeneficiario(String beneficiario) {
-		this.beneficiario = beneficiario.toLowerCase();
+		this.beneficiario = beneficiario.toUpperCase();
 	}
 
 	public String getComprobante() {

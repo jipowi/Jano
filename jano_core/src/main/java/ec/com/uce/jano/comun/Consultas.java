@@ -45,6 +45,9 @@ import javax.persistence.NamedQuery;
 		// AFECTACIONES - DEPARTAMENTO
 		@NamedQuery(name = "Afectacion.findDepartamento", query = "SELECT a FROM Afectacion a WHERE a.idFacultad =:idFacultad AND a.idDependencia =:idDependencia"),
 
+		// RECAUDACIONES
+		@NamedQuery(name = "Recaudacion.reporte", query = "SELECT r FROM Recaudacion r WHERE r.afectacion.idAfectacion =:afectacion"),
+
 		// MENU
 		@NamedQuery(name = "Menu.findByRol", query = "SELECT m FROM RolMenu m WHERE m.rol.idRol =:idRol") })
 public class Consultas implements Serializable {
