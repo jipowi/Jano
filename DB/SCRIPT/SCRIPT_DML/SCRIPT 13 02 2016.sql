@@ -54,6 +54,8 @@ INSERT INTO MENU VALUES (5, 1, 'Ingresar Partidas', '/pages/partida.jsf','A');
 INSERT INTO MENU VALUES (6, 1, 'Ingresar Afectaciones', '/pages/afectacion.jsf','A');
 INSERT INTO MENU VALUES (7, 3, 'Registar Ingresos', '/pages/ingreso.jsf','A');
 INSERT INTO MENU VALUES (8, 3, 'Recaudaciones', '/pages/comprobanteIngreso.jsf','A');
+INSERT INTO MENU VALUES (9, NULL, 'Reportes', NULL,'A');
+INSERT INTO MENU VALUES (10, 9, 'Reporte Recaudaciones', '/pages/reporteRecaudaciones.jsf','A');
 
 INSERT INTO ROL_MENU VALUES (1,1,1);
 INSERT INTO ROL_MENU VALUES (2,1,2);
@@ -63,3 +65,5 @@ INSERT INTO ROL_MENU VALUES (5,1,5);
 INSERT INTO ROL_MENU VALUES (6,1,6);
 INSERT INTO ROL_MENU VALUES (7,1,7);
 INSERT INTO ROL_MENU VALUES (8,1,8);
+INSERT INTO ROL_MENU VALUES (9,1,9);
+INSERT INTO ROL_MENU VALUES (10,1,10);
