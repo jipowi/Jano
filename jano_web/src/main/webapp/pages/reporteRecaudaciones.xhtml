@@ -53,39 +53,39 @@
 			</div>
 
 			<!-- TABLA RESULTADOS -->
-			<div align="center">
-				<p:dataTable id="tablaReporte" value="#{reporteRecaudacionBacking.recaudacionDTOs}" var="recaudacion" widgetVar="50">
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="#{emision['lbl.partida']}" />
-						</f:facet>
-						<h:outputText value="#{recaudacion.partida.partida}" />
-					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="#{emision['lbl.beneficiario']}" />
-						</f:facet>
-						<h:outputText value="#{recaudacion.beneficiario}" />
-					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="#{emision['lbl.comprobante']}" />
-						</f:facet>
-						<h:outputText value="#{recaudacion.comprobante}" />
-					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="#{emision['lbl.fecha']}" />
-						</f:facet>
-						<h:outputText value="#{recaudacion.fechaRecaudacion}" />
-					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="#{emision['lbl.valor']}" />
-						</f:facet>
-						<h:outputText value="#{recaudacion.valorRecaudacion} USD" />
-					</p:column>
-				</p:dataTable>
+			<div align="center" style="width: 80%;">
+			<p:dataTable id="tablaReporte" value="#{reporteRecaudacionBacking.recaudacionDTOs}" var="recaudacion" widgetVar="50">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.partida']}" />
+					</f:facet>
+					<h:outputText value="#{recaudacion.partida.partida}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.beneficiario']}" />
+					</f:facet>
+					<h:outputText value="#{recaudacion.beneficiario}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.comprobante']}" />
+					</f:facet>
+					<h:outputText value="#{recaudacion.comprobante}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.fecha']}" />
+					</f:facet>
+					<h:outputText value="#{recaudacion.fechaRecaudacion}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.valor']}" />
+					</f:facet>
+					<h:outputText value="#{recaudacion.valorRecaudacion} USD" />
+				</p:column>
+			</p:dataTable>
 			</div>
 			<p:spacer height="30px;" />
 			<p:chart type="bar" model="#{reporteRecaudacionBacking.barModel}" style="height:300px" />
