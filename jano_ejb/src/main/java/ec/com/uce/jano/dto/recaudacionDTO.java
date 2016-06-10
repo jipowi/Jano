@@ -6,6 +6,7 @@ package ec.com.uce.jano.dto;
 import java.util.Date;
 
 import ec.com.uce.jano.entities.Afectacion;
+import ec.com.uce.jano.entities.Partida;
 
 /**
  * <b> DTO para almacenar la informacion de cada una de las recaudaciones obtenidas de la BD. </b>
@@ -22,6 +23,7 @@ public class recaudacionDTO {
 	private String observacion;
 	private double valorRecaudacion;
 	private Afectacion afectacion;
+	private Partida partida;
 
 	/**
 	 * @return the beneficiario
@@ -111,6 +113,21 @@ public class recaudacionDTO {
 	 */
 	public void setAfectacion(Afectacion afectacion) {
 		this.afectacion = afectacion;
+	}
+
+	/**
+	 * @return the partida
+	 */
+	public Partida getPartida() {
+		return partida;
+	}
+
+	/**
+	 * @param partida
+	 *            the partida to set
+	 */
+	public void setPartida(Partida partida) {
+		this.partida = partida;
 	}
 
 }
