@@ -43,14 +43,6 @@
 							<f:selectItems value="#{reporteRecaudacionBacking.departamentoItems}" itemValue="" />
 						</p:selectOneMenu>
 					</h:panelGrid>
-
-					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
-						<p:outputLabel value="#{emision['lbl.periodo']}: " styleClass="negrita" />
-						<p:selectOneMenu value="#{reporteRecaudacionBean.periodo}" effect="drop">
-							<f:selectItem itemLabel="Seleccione Periodo" noSelectionOption="true" />
-							<f:selectItems value="#{reporteRecaudacionBacking.periodoItems}" itemValue="" />
-						</p:selectOneMenu>
-					</h:panelGrid>
 				</h:panelGrid>
 			</p:panel>
 			<p:spacer height="30px;" />
@@ -58,28 +50,35 @@
 				<h:graphicImage name="generate_report.png" library="img" />
 			</p:commandLink>
 
-			<!-- TABLA INGRESOS -->
-			<p:dataTable id="tablaReporte" value="#{ingresoBacking.detIngresos}" var="ingreso" widgetVar="50" style="width: 80%;">
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="#{emision['lbl.afectacion']}" />
-					</f:facet>
-					<h:outputText value="#{ingreso.ingreso.afectacion.descAfectacion}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="#{emision['lbl.partida']}" />
-					</f:facet>
-					<h:outputText value="#{ingreso.partida.partida}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="#{emision['lbl.presupuesto']}" />
-					</f:facet>
-					<h:outputText value="#{ingreso.presupuestoIngreso}" />
-				</p:column>
-			</p:dataTable>
-
+			<!-- TABLA RESULTADOS -->
+			<div align="center">
+				<p:dataTable id="tablaReporte" value="#{reporteRecaudacionBacking.recaudacionDTOs}" var="recaudacion" widgetVar="50">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.beneficiario']}" />
+						</f:facet>
+						<h:outputText value="#{recaudacion.beneficiario}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.comprobante']}" />
+						</f:facet>
+					<h:outputText value="#{recaudacion.comprobante}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.fecha']}" />
+						</f:facet>
+					<h:outputText value="#{recaudacion.fechaRecaudacion}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.valor']}" />
+						</f:facet>
+						<h:outputText value="#{recaudacion.valorRecaudacion} USD" />
+					</p:column>
+				</p:dataTable>
+			</div>
 		</h:form>
 	</ui:define>
 

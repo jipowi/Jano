@@ -215,16 +215,24 @@ public class RecaudacionIngresoBacking implements Serializable {
 		afectacion.setIdAfectacion(recaudacionIngresoBean.getIdAfectacion());
 
 		recaudacion.setAfectacion(afectacion);
-		
+
 		Partida partida = new Partida();
 		partida.setIdPartida(this.idPartida);
-		
+
 		recaudacion.setPartida(partida);
-		
-		
 
 		recaudacionService.guardarRecaudacion(recaudacion);
 		MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
+
+		recaudacionIngresoBean.setFacultad(null);
+		recaudacionIngresoBean.setDependencia(null);
+		recaudacionIngresoBean.setIdAfectacion(null);
+		recaudacionIngresoBean.setPeriodo(null);
+		recaudacionIngresoBean.setBeneficiario(null);
+		recaudacionIngresoBean.setFecha(null);
+		recaudacionIngresoBean.setComprobante(null);
+		recaudacionIngresoBean.setValor(0);
+		recaudacionIngresoBean.setObservacion(null);
 
 	}
 

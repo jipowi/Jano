@@ -16,10 +16,12 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 
 import ec.com.uce.jano.comun.HiperionException;
+import ec.com.uce.jano.dto.recaudacionDTO;
 import ec.com.uce.jano.entities.Afectacion;
 import ec.com.uce.jano.entities.Catalogo;
 import ec.com.uce.jano.entities.DetalleCatalogo;
 import ec.com.uce.jano.entities.Partida;
+import ec.com.uce.jano.entities.Recaudacion;
 import ec.com.uce.jano.servicio.AfectacionService;
 import ec.com.uce.jano.servicio.CatalogoService;
 import ec.com.uce.jano.servicio.DetalleCatalogoService;
@@ -66,6 +68,7 @@ public class ReporteRecaudacionBacking implements Serializable {
 	private List<SelectItem> partidasItems;
 
 	private Long idPartida;
+	private List<recaudacionDTO> recaudacionDTOs = new ArrayList<>();
 
 	@PostConstruct
 	public void inicializar() throws HiperionException {
@@ -186,8 +189,31 @@ public class ReporteRecaudacionBacking implements Serializable {
 	 * [Author: kruger, Date: 09/06/2016]
 	 * </p>
 	 * 
+	 * @throws HiperionException
+	 * 
 	 */
-	public void generarReporte() {
+	public void generarReporte() throws HiperionException {
+
+		try {
+
+			Long idAfectacion = reporteRecaudacionBean.getIdAfectacion();
+
+			List<Recaudacion> recaudaciones = recaudacionService.obtenerRecaudaciones(idAfectacion);
+
+			for (Recaudacion recaudacion : recaudaciones) {
+				recaudacionDTO recaudacionDTO = new recaudacionDTO();
+
+				recaudacionDTO.setBeneficiario(recaudacion.getBeneficiario());
+				recaudacionDTO.setComprobante(recaudacion.getComprobante());
+				recaudacionDTO.setValorRecaudacion(recaudacion.getValorRecaudacion());
+				recaudacionDTO.setFechaRecaudacion(recaudacion.getFechaRecaudacion());
+
+				recaudacionDTOs.add(recaudacionDTO);
+			}
+
+		} catch (HiperionException e) {
+			throw new HiperionException(e);
+		}
 
 	}
 
@@ -305,6 +331,21 @@ public class ReporteRecaudacionBacking implements Serializable {
 	 */
 	public void setIdPartida(Long idPartida) {
 		this.idPartida = idPartida;
+	}
+
+	/**
+	 * @return the recaudacionDTOs
+	 */
+	public List<recaudacionDTO> getRecaudacionDTOs() {
+		return recaudacionDTOs;
+	}
+
+	/**
+	 * @param recaudacionDTOs
+	 *            the recaudacionDTOs to set
+	 */
+	public void setRecaudacionDTOs(List<recaudacionDTO> recaudacionDTOs) {
+		this.recaudacionDTOs = recaudacionDTOs;
 	}
 
 }
