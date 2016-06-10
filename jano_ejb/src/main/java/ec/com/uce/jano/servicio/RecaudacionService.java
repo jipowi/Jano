@@ -3,7 +3,11 @@
  */
 package ec.com.uce.jano.servicio;
 
+import java.util.List;
+
 import javax.ejb.Local;
+
+
 
 import ec.com.uce.jano.comun.HiperionException;
 import ec.com.uce.jano.entities.Recaudacion;
@@ -29,4 +33,17 @@ public interface RecaudacionService {
 	 * @throws HiperionException
 	 */
 	public void guardarRecaudacion(Recaudacion recaudacion) throws HiperionException;
+	
+	/**
+	 * 
+	 * <b>
+	 * Incluir aqui­ la descripcion del metodo.
+	 * </b>
+	 * <p>[Author: kruger, Date: 10/06/2016]</p>
+	 *
+	 * @param idAfectacion
+	 * @return
+	 * @throws HiperionException
+	 */
+	public List<Recaudacion> obtenerRecaudaciones(Long idAfectacion)throws HiperionException;
 }

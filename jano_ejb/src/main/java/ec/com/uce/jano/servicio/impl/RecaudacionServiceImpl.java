@@ -3,6 +3,8 @@
  */
 package ec.com.uce.jano.servicio.impl;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -32,6 +34,14 @@ public class RecaudacionServiceImpl implements RecaudacionService {
 	@Override
 	public void guardarRecaudacion(Recaudacion recaudacion) throws HiperionException {
 		recaudacionDao.persist(recaudacion);
+	}
+
+	/* (non-Javadoc)
+	 * @see ec.com.uce.jano.servicio.RecaudacionService#obtenerRecaudaciones(java.lang.Long)
+	 */
+	@Override
+	public List<Recaudacion> obtenerRecaudaciones(Long idAfectacion) throws HiperionException {
+		return recaudacionDao.obtenerRecaudaciones(idAfectacion);
 	}
 
 }
