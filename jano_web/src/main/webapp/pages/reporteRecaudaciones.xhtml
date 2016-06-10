@@ -20,44 +20,46 @@
 				<h:panelGrid columns="1" cellpadding="2" cellspacing="2">
 					<h:panelGrid columns="2">
 						<p:outputLabel value="#{emision['lbl.facultad']}: " styleClass="negrita" />
-						<p:selectOneMenu value="#{ReporteRecaudacionBean.facultad}" effect="drop">
+						<p:selectOneMenu value="#{reporteRecaudacionBean.facultad}" effect="drop">
 							<f:selectItem itemLabel="Seleccione Facultad" noSelectionOption="true" />
-							<f:selectItems value="#{recaudacionIngresoBacking.facultadItems}" itemValue="" />
-							<p:ajax event="change" listener="#{recaudacionIngresoBacking.obtenerDependencias}" update="formRecaudacion,idDependencia, idDepartamento" />
+							<f:selectItems value="#{reporteRecaudacionBacking.facultadItems}" itemValue="" />
+							<p:ajax event="change" listener="#{reporteRecaudacionBacking.obtenerDependencias}" update="formRecaudacion,idDependencia, idDepartamento" />
 						</p:selectOneMenu>
 					</h:panelGrid>
 
 					<h:panelGrid columns="2" id="idDependencia">
 						<p:outputLabel value="#{emision['lbl.dependencia']}: " styleClass="negrita" />
-						<p:selectOneMenu value="#{ReporteRecaudacionBean.dependencia}" effect="drop">
+						<p:selectOneMenu value="#{reporteRecaudacionBean.dependencia}" effect="drop">
 							<f:selectItem itemLabel="Seleccione Dependencia" noSelectionOption="true" />
-							<f:selectItems value="#{recaudacionIngresoBacking.dependenciaItems}" itemValue="" />
-							<p:ajax event="change" listener="#{recaudacionIngresoBacking.obtenerDepartamentos}" update="idDepartamento" />
+							<f:selectItems value="#{reporteRecaudacionBacking.dependenciaItems}" itemValue="" />
+							<p:ajax event="change" listener="#{reporteRecaudacionBacking.obtenerDepartamentos}" update="idDepartamento" />
 						</p:selectOneMenu>
 					</h:panelGrid>
 
 					<h:panelGrid columns="2" id="idDepartamento">
 						<p:outputLabel value="#{emision['lbl.departamento']}: " styleClass="negrita" />
-						<p:selectOneMenu value="#{ReporteRecaudacionBean.idAfectacion}" effect="drop">
+						<p:selectOneMenu value="#{reporteRecaudacionBean.idAfectacion}" effect="drop">
 							<f:selectItem itemLabel="Seleccione Departamento" noSelectionOption="true" />
-							<f:selectItems value="#{recaudacionIngresoBacking.departamentoItems}" itemValue="" />
+							<f:selectItems value="#{reporteRecaudacionBacking.departamentoItems}" itemValue="" />
 						</p:selectOneMenu>
 					</h:panelGrid>
 
 					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
 						<p:outputLabel value="#{emision['lbl.periodo']}: " styleClass="negrita" />
-						<p:selectOneMenu value="#{ReporteRecaudacionBean.periodo}" effect="drop">
+						<p:selectOneMenu value="#{reporteRecaudacionBean.periodo}" effect="drop">
 							<f:selectItem itemLabel="Seleccione Periodo" noSelectionOption="true" />
-							<f:selectItems value="#{recaudacionIngresoBacking.periodoItems}" itemValue="" />
+							<f:selectItems value="#{reporteRecaudacionBacking.periodoItems}" itemValue="" />
 						</p:selectOneMenu>
 					</h:panelGrid>
 				</h:panelGrid>
 			</p:panel>
 			<p:spacer height="30px;" />
-			
+			<p:commandLink title="Generar Reporte" action="#{reporteRecaudacionBacking.generarReporte}" update="tablaReporte">
+				<h:graphicImage name="generate_report.png" library="img" />
+			</p:commandLink>
 
 			<!-- TABLA INGRESOS -->
-			<p:dataTable id="tablaIngresosDB" value="#{ingresoBacking.detIngresos}" var="ingreso" widgetVar="50" style="width: 80%;">
+			<p:dataTable id="tablaReporte" value="#{ingresoBacking.detIngresos}" var="ingreso" widgetVar="50" style="width: 80%;">
 				<p:column>
 					<f:facet name="header">
 						<h:outputText value="#{emision['lbl.afectacion']}" />
