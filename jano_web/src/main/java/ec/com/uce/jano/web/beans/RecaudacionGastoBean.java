@@ -19,7 +19,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class RecaudacionIngresoBean implements Serializable {
+public class RecaudacionGastoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String comprobante;

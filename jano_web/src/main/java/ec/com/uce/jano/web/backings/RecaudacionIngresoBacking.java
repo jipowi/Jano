@@ -28,12 +28,13 @@ import ec.com.uce.jano.servicio.EgresoService;
 import ec.com.uce.jano.servicio.RecaudacionService;
 import ec.com.uce.jano.web.beans.RecaudacionIngresoBean;
 import ec.com.uce.jano.web.util.HiperionMensajes;
+import ec.com.uce.jano.web.util.JanoUtil;
 import ec.com.uce.jano.web.util.MessagesController;
 
 /**
  * <b> Incluir aqui la descripcion de la clase. </b>
  * 
- * @author HIPERION
+ * @author Paul Jimenez
  * @version 1.0,23/02/2016
  * @since JDK1.6
  */
@@ -202,7 +203,13 @@ public class RecaudacionIngresoBacking implements Serializable {
 	public void guardarRecaudacion() throws HiperionException {
 
 		Recaudacion recaudacion = new Recaudacion();
+		Long idAfectacion = recaudacionIngresoBean.getIdAfectacion();
 
+		List<Recaudacion> recaudaciones = recaudacionService.obtenerRecaudaciones(idAfectacion);
+		JanoUtil.getInstancia();
+		String codigo = JanoUtil.obtenerCodigoSecuencial(recaudaciones.size() + 1);
+
+		recaudacion.setCodigoIngreso(codigo);
 		recaudacion.setComprobante(recaudacionIngresoBean.getComprobante());
 		recaudacion.setFechaRecaudacion(recaudacionIngresoBean.getFecha());
 		recaudacion.setBeneficiario(recaudacionIngresoBean.getBeneficiario());
@@ -212,7 +219,7 @@ public class RecaudacionIngresoBacking implements Serializable {
 		Afectacion afectacion = new Afectacion();
 		afectacion.setIdFacultad(recaudacionIngresoBean.getFacultad());
 		afectacion.setIdDependencia(recaudacionIngresoBean.getDependencia());
-		afectacion.setIdAfectacion(recaudacionIngresoBean.getIdAfectacion());
+		afectacion.setIdAfectacion(idAfectacion);
 
 		recaudacion.setAfectacion(afectacion);
 

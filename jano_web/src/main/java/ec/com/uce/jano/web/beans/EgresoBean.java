@@ -12,7 +12,7 @@ import javax.faces.bean.ViewScoped;
 /**
  * <b> Incluir aqui la descripcion de la clase. </b>
  * 
- * @author HIPERION
+ * @author Paul Jimenez
  * @version 1.0,23/02/2016
  * @since JDK1.6
  */
