@@ -35,6 +35,10 @@ public class Partida implements Serializable {
 	@OneToMany(mappedBy="partida")
 	private List<Recaudacion> recaudacions;
 
+	//bi-directional many-to-one association to Gasto
+	@OneToMany(mappedBy="partida")
+	private List<Gasto> gastos;
+
 	public Partida() {
 	}
 
@@ -126,6 +130,28 @@ public class Partida implements Serializable {
 		recaudacion.setPartida(null);
 
 		return recaudacion;
+	}
+
+	public List<Gasto> getGastos() {
+		return this.gastos;
+	}
+
+	public void setGastos(List<Gasto> gastos) {
+		this.gastos = gastos;
+	}
+
+	public Gasto addGasto(Gasto gasto) {
+		getGastos().add(gasto);
+		gasto.setPartida(this);
+
+		return gasto;
+	}
+
+	public Gasto removeGasto(Gasto gasto) {
+		getGastos().remove(gasto);
+		gasto.setPartida(null);
+
+		return gasto;
 	}
 
 }

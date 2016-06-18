@@ -13,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 /**
  * The persistent class for the recaudacion database table.
  * 
@@ -23,8 +22,8 @@ public class Recaudacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_recaudacion")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_recaudacion")
 	private Integer idRecaudacion;
 
 	private String beneficiario;
@@ -32,25 +31,28 @@ public class Recaudacion implements Serializable {
 	private String comprobante;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="fecha_recaudacion")
+	@Column(name = "fecha_recaudacion")
 	private Date fechaRecaudacion;
 
 	private String observacion;
 
-	@Column(name="perido_recaudacion")
+	@Column(name = "perido_recaudacion")
 	private String peridoRecaudacion;
 
-	@Column(name="valor_recaudacion")
+	@Column(name = "valor_recaudacion")
 	private double valorRecaudacion;
 
-	//bi-directional many-to-one association to Afectacion
+	// bi-directional many-to-one association to Afectacion
 	@ManyToOne
-	@JoinColumn(name="id_afectacion")
+	@JoinColumn(name = "id_afectacion")
 	private Afectacion afectacion;
 
-	//bi-directional many-to-one association to Partida
+	@Column(name = "codigo_ingreso")
+	private String codigoIngreso;
+
+	// bi-directional many-to-one association to Partida
 	@ManyToOne
-	@JoinColumn(name="id_partida")
+	@JoinColumn(name = "id_partida")
 	private Partida partida;
 
 	public Recaudacion() {
@@ -126,6 +128,21 @@ public class Recaudacion implements Serializable {
 
 	public void setPartida(Partida partida) {
 		this.partida = partida;
+	}
+
+	/**
+	 * @return the codigoIngreso
+	 */
+	public String getCodigoIngreso() {
+		return codigoIngreso;
+	}
+
+	/**
+	 * @param codigoIngreso
+	 *            the codigoIngreso to set
+	 */
+	public void setCodigoIngreso(String codigoIngreso) {
+		this.codigoIngreso = codigoIngreso;
 	}
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 JIPOVI Solutions - ECUADOR 
+ * Copyright 2016 JIPOVI Solutions - ECUADOR 
  * Todos los derechos reservados
  */
 package ec.com.uce.jano.dao.impl;
@@ -14,8 +14,8 @@ import javax.persistence.Query;
 import org.apache.log4j.Logger;
 
 import ec.com.uce.jano.comun.HiperionException;
-import ec.com.uce.jano.dao.PartidaDao;
-import ec.com.uce.jano.entities.Partida;
+import ec.com.uce.jano.dao.GastoDao;
+import ec.com.uce.jano.entities.Gasto;
 
 /**
  * 
@@ -26,9 +26,9 @@ import ec.com.uce.jano.entities.Partida;
  * @since JDK1.6
  */
 @Stateless
-public class PartidaDaoImpl extends GenericDAOImpl<Partida, Long> implements PartidaDao {
+public class GastoDaoImpl extends GenericDAOImpl<Gasto, Long> implements GastoDao {
 
-	Logger log = Logger.getLogger(PartidaDaoImpl.class);
+	Logger log = Logger.getLogger(GastoDaoImpl.class);
 
 	@PersistenceContext(unitName = "sgs_pu")
 	protected EntityManager em;
@@ -36,21 +36,21 @@ public class PartidaDaoImpl extends GenericDAOImpl<Partida, Long> implements Par
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ec.com.uce.jano.dao.PartidaDao#obtenerPartidasEgreso()
+	 * @see ec.com.uce.jano.dao.GastoDao#obtenerGastos(java.lang.Long)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Partida> obtenerPartidasEgreso(String tipoPartida) throws HiperionException {
-
+	public List<Gasto> obtenerGastos(Long idAfectacion) throws HiperionException {
 		try {
-			Query query = em.createNamedQuery("Partida.findByTipoPartida");
-			query.setParameter("tipoPartida", tipoPartida);
-			List<Partida> partidas = query.getResultList();
+			Query query = em.createNamedQuery("Gastos.reporte");
+			query.setParameter("afectacion", idAfectacion);
 
-			return partidas;
+			List<Gasto> gastos = query.getResultList();
+
+			return gastos;
 
 		} catch (Exception ex) {
-			log.error("Error: No se pudo realizar la Consulta --> findByTipoPartida", ex);
+			log.error("Error: No se pudo realizar la Consulta --> Gastos.reporte", ex);
 			throw new HiperionException(ex);
 		}
 	}

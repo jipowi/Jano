@@ -21,7 +21,7 @@ import ec.com.uce.jano.entities.Afectacion;
  * 
  * <b> Permite implementar las operaciones de la interfaz local. </b>
  * 
- * @author HIPERION
+ * @author Paul Jimenez
  * @version 1.0,24/02/2016
  * @since JDK1.6
  */

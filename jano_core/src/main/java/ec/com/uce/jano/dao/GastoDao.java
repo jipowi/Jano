@@ -9,7 +9,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import ec.com.uce.jano.comun.HiperionException;
-import ec.com.uce.jano.entities.Recaudacion;
+import ec.com.uce.jano.entities.Gasto;
 
 /**
  * 
@@ -20,18 +20,20 @@ import ec.com.uce.jano.entities.Recaudacion;
  * @since JDK1.6
  */
 @Local
-public interface RecaudacionDao extends GenericDAO<Recaudacion, Long> {
+public interface GastoDao extends GenericDAO<Gasto, Long> {
 
 	/**
 	 * 
-	 * <b>
-	 * Incluir aqui­ la descripcion del metodo.
-	 * </b>
-	 * <p>[Author: kruger, Date: 10/06/2016]</p>
-	 *
+	 * <b> Permite obtener los gatos regitradas en la tabla. </b>
+	 * <p>
+	 * [Author: kruger, Date: 10/06/2016]
+	 * </p>
+	 * 
 	 * @param idAfectacion
 	 * @return
 	 * @throws HiperionException
 	 */
-	public List<Recaudacion> obtenerRecaudaciones(Long idAfectacion) throws HiperionException;
+	public List<Gasto> obtenerGastos(Long idAfectacion) throws HiperionException;
+	
+	
 }

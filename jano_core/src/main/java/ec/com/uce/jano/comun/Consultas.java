@@ -48,6 +48,9 @@ import javax.persistence.NamedQuery;
 		// RECAUDACIONES
 		@NamedQuery(name = "Recaudacion.reporte", query = "SELECT r FROM Recaudacion r WHERE r.afectacion.idAfectacion =:afectacion"),
 
+		// RECAUDACIONES
+		@NamedQuery(name = "Gastos.reporte", query = "SELECT g FROM Gasto g WHERE g.afectacion.idAfectacion =:afectacion"),
+
 		// MENU
 		@NamedQuery(name = "Menu.findByRol", query = "SELECT m FROM RolMenu m WHERE m.rol.idRol =:idRol") })
 public class Consultas implements Serializable {

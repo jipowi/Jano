@@ -39,6 +39,10 @@ public class Afectacion implements Serializable {
 	@OneToMany(mappedBy="afectacion")
 	private List<Recaudacion> recaudacions;
 
+	//bi-directional many-to-one association to Gasto
+	@OneToMany(mappedBy="afectacion")
+	private List<Gasto> gastos;
+
 	public Afectacion() {
 	}
 
@@ -138,6 +142,28 @@ public class Afectacion implements Serializable {
 		recaudacion.setAfectacion(null);
 
 		return recaudacion;
+	}
+
+	public List<Gasto> getGastos() {
+		return this.gastos;
+	}
+
+	public void setGastos(List<Gasto> gastos) {
+		this.gastos = gastos;
+	}
+
+	public Gasto addGasto(Gasto gasto) {
+		getGastos().add(gasto);
+		gasto.setAfectacion(this);
+
+		return gasto;
+	}
+
+	public Gasto removeGasto(Gasto gasto) {
+		getGastos().remove(gasto);
+		gasto.setAfectacion(null);
+
+		return gasto;
 	}
 
 }
