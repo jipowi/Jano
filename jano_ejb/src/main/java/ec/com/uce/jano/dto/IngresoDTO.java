@@ -10,7 +10,7 @@ import ec.com.uce.jano.entities.Partida;
 /**
  * <b> Permite almacenar la informacion de un ingreso y el detalle. </b>
  * 
- * @author HIPERION
+ * @author Paul Jimenez
  * @version 1.0,24/02/2016
  * @since JDK1.6
  */

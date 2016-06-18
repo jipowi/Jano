@@ -17,7 +17,7 @@ import ec.com.uce.jano.entities.Partida;
 /**
  * <b> Interface local para realizar las operaciones necesarias de egresos. </b>
  * 
- * @author HIPERION
+ * @author Paul Jimenez
  * @version 1.0,23/02/2016
  * @since JDK1.6
  */

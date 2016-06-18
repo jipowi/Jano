@@ -16,7 +16,7 @@ import ec.com.uce.jano.servicio.AfectacionService;
 /**
  * <b> Implementacion de la interface local de afectaciones. </b>
  * 
- * @author HIPERION
+ * @author Paul Jimenez
  * @version 1.0,23/02/2016
  * @since JDK1.6
  */
