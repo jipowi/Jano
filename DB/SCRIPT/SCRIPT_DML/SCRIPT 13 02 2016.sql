@@ -56,6 +56,10 @@ INSERT INTO MENU VALUES (7, 3, 'Registar Ingresos', '/pages/ingreso.jsf','A');
 INSERT INTO MENU VALUES (8, 3, 'Recaudaciones', '/pages/comprobanteIngreso.jsf','A');
 INSERT INTO MENU VALUES (9, NULL, 'Reportes', NULL,'A');
 INSERT INTO MENU VALUES (10, 9, 'Reporte Recaudaciones', '/pages/reporteRecaudaciones.jsf','A');
+INSERT INTO MENU VALUES (11, 9, 'Reporte Gastos', '/pages/reporteGastos.jsf','A');
+INSERT INTO MENU VALUES (12, 3, 'Gastos', '/pages/comprobanteGastos.jsf','A');
+
+
 
 INSERT INTO ROL_MENU VALUES (1,1,1);
 INSERT INTO ROL_MENU VALUES (2,1,2);
@@ -67,3 +71,5 @@ INSERT INTO ROL_MENU VALUES (7,1,7);
 INSERT INTO ROL_MENU VALUES (8,1,8);
 INSERT INTO ROL_MENU VALUES (9,1,9);
 INSERT INTO ROL_MENU VALUES (10,1,10);
+INSERT INTO ROL_MENU VALUES (11,1,11);
+INSERT INTO ROL_MENU VALUES (12,1,12);
