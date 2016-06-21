@@ -65,7 +65,7 @@
 			<p:spacer height="15px;" />
 
 			<!-- TABLA INGRESOS -->
-			<p:dataTable id="tablaIngresosDB" value="#{ingresoBacking.detIngresos}" var="ingreso" widgetVar="50" style="width: 80%;">
+			<p:dataTable id="tablaIngresosDB" value="#{ingresoBacking.detIngresos}" var="ingreso" widgetVar="50" style="width: 70%;">
 				<p:column>
 					<f:facet name="header">
 						<h:outputText value="#{emision['lbl.afectacion']}" />
@@ -88,23 +88,25 @@
 
 			<!-- TOTAL PRESUPUESTO -->
 			<p:spacer height="15px;" />
-			<h:panelGrid id="idTotalPresupuesto" columns="2">
-				<p:outputLabel value="#{emision['lbl.totalPresupuesto']}:" styleClass="negrita" />
-				<p:outputLabel value="#{ingresoBacking.totalPresupuesto}" styleClass="negrita" style="font-size: medium;" />
-			</h:panelGrid>
+			<div>
+				<h:panelGrid id="idTotalPresupuesto" columns="2">
+					<p:outputLabel value="#{emision['lbl.totalPresupuesto']}:" styleClass="negrita" />
+					<p:outputLabel value="#{ingresoBacking.totalPresupuesto}" styleClass="negrita" style="font-size: medium;" />
+				</h:panelGrid>
+			</div>
 		</h:form>
 		<!-- DETALLE INGRESO -->
 		<p:spacer height="15px;" />
 		<h:panelGrid columns="2">
 			<p:outputLabel value="#{emision['lbl.addEgreso']}" styleClass="negrita" />
-			<p:commandLink title="#{emision['lbl.addEgreso']}" oncomplete="newIngreso.show();" update="idAddIngreso">
+			<p:commandLink title="#{emision['lbl.addEgreso']}" onclick="PF('newIngreso').show();">
 				<h:graphicImage name="addEgreso.png" library="img" />
 			</p:commandLink>
 		</h:panelGrid>
 
 		<!-- REGISTRO INGRESO -->
-		<p:dialog id="idAddIngreso" header="#{emision['titulo.ingreso']}" widgetVar="newIngreso" modal="true" position="center" showEffect="fade"
-			hideEffect="explode" resizable="false" closable="true" width="600" height="450">
+		<p:dialog header="#{emision['titulo.ingreso']}" widgetVar="newIngreso" modal="true" position="center" showEffect="explode" hideEffect="bounce"
+			resizable="false" closable="true" width="600" height="450">
 			<h:form id="formIngresos">
 				<p:panel>
 					<p:messages id="messagesIngreso" showDetail="true" autoUpdate="true" closable="true" />
