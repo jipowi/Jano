@@ -70,4 +70,20 @@ public class RecaudacionServiceImpl implements RecaudacionService {
 		return gastoDao.obtenerGastos(idAfectacion);
 	}
 
+	/* (non-Javadoc)
+	 * @see ec.com.uce.jano.servicio.RecaudacionService#obtenerRecaudaciones()
+	 */
+	@Override
+	public List<Recaudacion> obtenerRecaudaciones() throws HiperionException {
+		return recaudacionDao.findAll();
+	}
+
+	/* (non-Javadoc)
+	 * @see ec.com.uce.jano.servicio.RecaudacionService#obtenerGastos()
+	 */
+	@Override
+	public List<Gasto> obtenerGastos() throws HiperionException {
+		return gastoDao.findAll();
+	}
+
 }

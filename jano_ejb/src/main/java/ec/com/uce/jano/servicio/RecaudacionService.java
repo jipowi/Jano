@@ -60,6 +60,18 @@ public interface RecaudacionService {
 
 	/**
 	 * 
+	 * <b> Permite obtener todas las recaudaciones ingresadas. </b>
+	 * <p>
+	 * [Author: kruger, Date: 22/06/2016]
+	 * </p>
+	 * 
+	 * @return
+	 * @throws HiperionException
+	 */
+	public List<Recaudacion> obtenerRecaudaciones() throws HiperionException;
+
+	/**
+	 * 
 	 * <b> Permite obtener las gastos registrados. </b>
 	 * <p>
 	 * [Author: kruger, Date: 18/06/2016]
@@ -70,4 +82,16 @@ public interface RecaudacionService {
 	 * @throws HiperionException
 	 */
 	public List<Gasto> obtenerGastos(Long idAfectacion) throws HiperionException;
+
+	/**
+	 * 
+	 * <b> Permite obtener todos los registros de gastos. </b>
+	 * <p>
+	 * [Author: kruger, Date: 22/06/2016]
+	 * </p>
+	 * 
+	 * @return
+	 * @throws HiperionException
+	 */
+	public List<Gasto> obtenerGastos() throws HiperionException;
 }
