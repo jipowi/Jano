@@ -75,6 +75,7 @@ public class RecaudacionGastoBacking implements Serializable {
 		try {
 
 			obtenerFacultades();
+			obtenerCodigoComprobante();
 
 		} catch (HiperionException e) {
 			throw new HiperionException(e);
@@ -204,13 +205,7 @@ public class RecaudacionGastoBacking implements Serializable {
 
 		Gasto gasto = new Gasto();
 
-		Long idAfectacion = recaudacionGastoBean.getIdAfectacion();
-
-		List<Gasto> gastos = recaudacionService.obtenerGastos(idAfectacion);
-		JanoUtil.getInstancia();
-		String codigo = JanoUtil.obtenerCodigoSecuencial(gastos.size() + 1);
-
-		gasto.setCodigoGasto(codigo);
+		gasto.setCodigoGasto(recaudacionGastoBean.getComprobante());
 
 		gasto.setComprobanteGasto(recaudacionGastoBean.getComprobante());
 		gasto.setFechaGasto(recaudacionGastoBean.getFecha());
@@ -245,6 +240,33 @@ public class RecaudacionGastoBacking implements Serializable {
 
 	}
 
+	/**
+	 * 
+	 * <b> Permite obtener un codigo secuencial para el comprobante. </b>
+	 * <p>
+	 * [Author: kruger, Date: 21/06/2016]
+	 * </p>
+	 * 
+	 */
+	public void obtenerCodigoComprobante() {
+
+		List<Gasto> gastos;
+		String codigo = null;
+		
+		try {
+			gastos = recaudacionService.obtenerGastos();
+
+			JanoUtil.getInstancia();
+
+			codigo = JanoUtil.obtenerCodigoSecuencial(gastos.size() + 1);
+
+		} catch (HiperionException e) {
+
+			e.printStackTrace();
+		}
+		recaudacionGastoBean.setComprobante(codigo);
+	}
+	
 	/**
 	 * @return the dependenciaItems
 	 */

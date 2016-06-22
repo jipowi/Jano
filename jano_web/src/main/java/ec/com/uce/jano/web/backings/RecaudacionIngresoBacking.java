@@ -75,6 +75,7 @@ public class RecaudacionIngresoBacking implements Serializable {
 		try {
 
 			obtenerFacultades();
+			obtenerCodigoComprobante();
 
 		} catch (HiperionException e) {
 			throw new HiperionException(e);
@@ -205,11 +206,7 @@ public class RecaudacionIngresoBacking implements Serializable {
 		Recaudacion recaudacion = new Recaudacion();
 		Long idAfectacion = recaudacionIngresoBean.getIdAfectacion();
 
-		List<Recaudacion> recaudaciones = recaudacionService.obtenerRecaudaciones(idAfectacion);
-		JanoUtil.getInstancia();
-		String codigo = JanoUtil.obtenerCodigoSecuencial(recaudaciones.size() + 1);
-
-		recaudacion.setCodigoIngreso(codigo);
+		recaudacion.setCodigoIngreso(recaudacionIngresoBean.getComprobante());
 		recaudacion.setComprobante(recaudacionIngresoBean.getComprobante());
 		recaudacion.setFechaRecaudacion(recaudacionIngresoBean.getFecha());
 		recaudacion.setBeneficiario(recaudacionIngresoBean.getBeneficiario());
@@ -241,6 +238,32 @@ public class RecaudacionIngresoBacking implements Serializable {
 		recaudacionIngresoBean.setValor(0);
 		recaudacionIngresoBean.setObservacion(null);
 
+	}
+
+	/**
+	 * 
+	 * <b> Permite obtener un codigo secuencial para el comprobante. </b>
+	 * <p>
+	 * [Author: kruger, Date: 21/06/2016]
+	 * </p>
+	 * 
+	 */
+	public void obtenerCodigoComprobante() {
+
+		List<Recaudacion> recaudaciones;
+		String codigo = null;
+		try {
+			recaudaciones = recaudacionService.obtenerRecaudaciones();
+
+			JanoUtil.getInstancia();
+
+			codigo = JanoUtil.obtenerCodigoSecuencial(recaudaciones.size() + 1);
+
+		} catch (HiperionException e) {
+
+			e.printStackTrace();
+		}
+		recaudacionIngresoBean.setComprobante(codigo);
 	}
 
 	/**

@@ -50,7 +50,7 @@ public class JanoUtil {
 		int codigoLength = String.valueOf(codigo).length();
 		int cantCeros = longitudClientes - codigoLength;
 		StringBuffer sb = new StringBuffer(cantCeros + 1);
-		sb.append("UCE");
+		sb.append("UCE - ");
 		for (int i = 0; i <= cantCeros; i++) {
 			sb.append("0");
 		}

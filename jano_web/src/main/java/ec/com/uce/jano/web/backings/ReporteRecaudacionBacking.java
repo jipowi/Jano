@@ -15,13 +15,18 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 
 import ec.com.uce.jano.comun.HiperionException;
-import ec.com.uce.jano.dto.recaudacionDTO;
+import ec.com.uce.jano.dto.RecaudacionDTO;
 import ec.com.uce.jano.entities.Afectacion;
 import ec.com.uce.jano.entities.Catalogo;
 import ec.com.uce.jano.entities.DetalleCatalogo;
+import ec.com.uce.jano.entities.DetalleIngreso;
+import ec.com.uce.jano.entities.Ingreso;
 import ec.com.uce.jano.entities.Partida;
 import ec.com.uce.jano.entities.Recaudacion;
 import ec.com.uce.jano.servicio.AfectacionService;
@@ -31,9 +36,7 @@ import ec.com.uce.jano.servicio.EgresoService;
 import ec.com.uce.jano.servicio.RecaudacionService;
 import ec.com.uce.jano.web.beans.ReporteRecaudacionBean;
 import ec.com.uce.jano.web.util.HiperionMensajes;
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.BarChartModel;
+import ec.com.uce.jano.web.util.MessagesController;
 
 /**
  * <b> Incluir aqui la descripcion de la clase. </b>
@@ -73,8 +76,10 @@ public class ReporteRecaudacionBacking implements Serializable {
 	private List<SelectItem> partidasItems;
 
 	private Long idPartida;
-	private List<recaudacionDTO> recaudacionDTOs = new ArrayList<>();
-	private BarChartModel barModel;
+	private List<RecaudacionDTO> recaudacionDTOs = new ArrayList<>();
+	private BarChartModel barModel = new BarChartModel();
+	private double totalPresupuesto;
+	private double totalRecaudaciones;
 
 	@PostConstruct
 	public void inicializar() throws HiperionException {
@@ -193,13 +198,17 @@ public class ReporteRecaudacionBacking implements Serializable {
 	 * 
 	 * <b> permite buscar las recaudaciones que fueron ingresadas. </b>
 	 * <p>
-	 * [Author: kruger, Date: 09/06/2016]
+	 * [Author: Paul Jimenez, Date: 09/06/2016]
 	 * </p>
 	 * 
 	 * @throws HiperionException
 	 * 
 	 */
 	public void generarReporte() throws HiperionException {
+
+		totalRecaudaciones = 0.0;
+
+		recaudacionDTOs.clear();
 
 		try {
 
@@ -208,7 +217,7 @@ public class ReporteRecaudacionBacking implements Serializable {
 			List<Recaudacion> recaudaciones = recaudacionService.obtenerRecaudaciones(idAfectacion);
 
 			for (Recaudacion recaudacion : recaudaciones) {
-				recaudacionDTO recaudacionDTO = new recaudacionDTO();
+				RecaudacionDTO recaudacionDTO = new RecaudacionDTO();
 
 				recaudacionDTO.setBeneficiario(recaudacion.getBeneficiario());
 				recaudacionDTO.setComprobante(recaudacion.getComprobante());
@@ -218,9 +227,12 @@ public class ReporteRecaudacionBacking implements Serializable {
 				Partida partida = egresoService.obtenerPartidaById(recaudacion.getPartida().getIdPartida());
 				recaudacionDTO.setPartida(partida);
 
+				totalRecaudaciones += recaudacion.getValorRecaudacion();
 				recaudacionDTOs.add(recaudacionDTO);
 			}
-		
+
+			obtenerTotalIngresos();
+			createBarModels();
 
 		} catch (HiperionException e) {
 			throw new HiperionException(e);
@@ -228,27 +240,90 @@ public class ReporteRecaudacionBacking implements Serializable {
 
 	}
 
-	private BarChartModel initBarModel() {
+	/**
+	 * 
+	 * <b> Permite obetener el total de ingresos presupuestado. </b>
+	 * <p>
+	 * [Author: Paul Jimenez, Date: 21/06/2016]
+	 * </p>
+	 * 
+	 * @throws HiperionException
+	 */
+	public void obtenerTotalIngresos() throws HiperionException {
+
+		totalPresupuesto = 0.0;
+		try {
+
+			Ingreso ingresoDB = egresoService.buscarIngresos(reporteRecaudacionBean.getPeriodo(), reporteRecaudacionBean.getIdAfectacion());
+
+			if (ingresoDB != null) {
+				List<DetalleIngreso> detIngresos = egresoService.buscarIngresos(ingresoDB.getIdIngreso());
+
+				for (DetalleIngreso ingreso : detIngresos) {
+					totalPresupuesto += ingreso.getPresupuestoIngreso();
+				}
+
+			} else {
+				MessagesController.addWarn(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.warn.buscar"));
+			}
+
+		} catch (HiperionException e) {
+			throw new HiperionException(e);
+		}
+
+	}
+
+	/**
+	 * 
+	 * <b> Permite llenar el grafico con los valores obtenidos. </b>
+	 * <p>
+	 * [Author: Paul Jimenez, Date: 22/06/2016]
+	 * </p>
+	 * 
+	 * @return
+	 * @throws HiperionException
+	 */
+	private BarChartModel initBarModel() throws HiperionException {
 		BarChartModel model = new BarChartModel();
 
-		ChartSeries boys = new ChartSeries();
-		boys.setLabel("Boys");
-		boys.set("2004", 120);
-		boys.set("2005", 100);
-		boys.set("2006", 44);
-		boys.set("2007", 150);
-		boys.set("2008", 25);
+		ChartSeries recaudaciones = new ChartSeries();
+		recaudaciones.setLabel("Recaudaciones");
 
-		ChartSeries girls = new ChartSeries();
-		girls.setLabel("Girls");
-		girls.set("2004", 52);
-		girls.set("2005", 60);
-		girls.set("2006", 110);
-		girls.set("2007", 135);
-		girls.set("2008", 120);
+		ChartSeries recaudacionesPres = new ChartSeries();
+		recaudacionesPres.setLabel("Presupuestadas");
+		try {
 
-		model.addSeries(boys);
-		model.addSeries(girls);
+			if (!recaudacionDTOs.isEmpty()) {
+
+				for (RecaudacionDTO recaudacionDTO : recaudacionDTOs) {
+					recaudaciones.set(recaudacionDTO.getPartida().getPartida(), recaudacionDTO.getValorRecaudacion());
+				}
+
+			} else {
+				recaudaciones.set("A", 0);
+				recaudaciones.set("B", 1);
+			}
+
+			Ingreso ingresoDB = egresoService.buscarIngresos(reporteRecaudacionBean.getPeriodo(), reporteRecaudacionBean.getIdAfectacion());
+
+			if (ingresoDB != null) {
+				List<DetalleIngreso> detIngresos = egresoService.buscarIngresos(ingresoDB.getIdIngreso());
+
+				for (DetalleIngreso ingreso : detIngresos) {
+					recaudacionesPres.set(ingreso.getPartida().getPartida(), ingreso.getPresupuestoIngreso());
+				}
+
+			} else {
+				recaudacionesPres.set("A", 0);
+				recaudacionesPres.set("B", 1);
+			}
+
+			model.addSeries(recaudaciones);
+			model.addSeries(recaudacionesPres);
+
+		} catch (HiperionException e) {
+			throw new HiperionException(e);
+		}
 
 		return model;
 	}
@@ -257,11 +332,13 @@ public class ReporteRecaudacionBacking implements Serializable {
 	 * 
 	 * <b> Permite crear los datos para dibujar las barras. </b>
 	 * <p>
-	 * [Author: kruger, Date: 10/06/2016]
+	 * [Author: Paul Jimenez, Date: 10/06/2016]
 	 * </p>
 	 * 
+	 * @throws HiperionException
+	 * 
 	 */
-	private void createBarModels() {
+	private void createBarModels() throws HiperionException {
 		createBarModel();
 	}
 
@@ -269,23 +346,25 @@ public class ReporteRecaudacionBacking implements Serializable {
 	 * 
 	 * <b> Permite parametrizar el grafico. </b>
 	 * <p>
-	 * [Author: kruger, Date: 10/06/2016]
+	 * [Author: Paul Jimenez, Date: 10/06/2016]
 	 * </p>
 	 * 
+	 * @throws HiperionException
+	 * 
 	 */
-	private void createBarModel() {
+	private void createBarModel() throws HiperionException {
 		barModel = initBarModel();
 
 		barModel.setTitle("Bar Chart");
 		barModel.setLegendPosition("ne");
 
 		Axis xAxis = barModel.getAxis(AxisType.X);
-		xAxis.setLabel("Gender");
+		xAxis.setLabel("Partidas");
 
 		Axis yAxis = barModel.getAxis(AxisType.Y);
-		yAxis.setLabel("Births");
+		yAxis.setLabel("Valor");
 		yAxis.setMin(0);
-		yAxis.setMax(200);
+		yAxis.setMax(2000);
 	}
 
 	/**
@@ -407,7 +486,7 @@ public class ReporteRecaudacionBacking implements Serializable {
 	/**
 	 * @return the recaudacionDTOs
 	 */
-	public List<recaudacionDTO> getRecaudacionDTOs() {
+	public List<RecaudacionDTO> getRecaudacionDTOs() {
 		return recaudacionDTOs;
 	}
 
@@ -415,7 +494,7 @@ public class ReporteRecaudacionBacking implements Serializable {
 	 * @param recaudacionDTOs
 	 *            the recaudacionDTOs to set
 	 */
-	public void setRecaudacionDTOs(List<recaudacionDTO> recaudacionDTOs) {
+	public void setRecaudacionDTOs(List<RecaudacionDTO> recaudacionDTOs) {
 		this.recaudacionDTOs = recaudacionDTOs;
 	}
 
@@ -432,6 +511,36 @@ public class ReporteRecaudacionBacking implements Serializable {
 	 */
 	public void setBarModel(BarChartModel barModel) {
 		this.barModel = barModel;
+	}
+
+	/**
+	 * @return the totalPresupuesto
+	 */
+	public double getTotalPresupuesto() {
+		return totalPresupuesto;
+	}
+
+	/**
+	 * @param totalPresupuesto
+	 *            the totalPresupuesto to set
+	 */
+	public void setTotalPresupuesto(double totalPresupuesto) {
+		this.totalPresupuesto = totalPresupuesto;
+	}
+
+	/**
+	 * @return the totalRecaudaciones
+	 */
+	public double getTotalRecaudaciones() {
+		return totalRecaudaciones;
+	}
+
+	/**
+	 * @param totalRecaudaciones
+	 *            the totalRecaudaciones to set
+	 */
+	public void setTotalRecaudaciones(double totalRecaudaciones) {
+		this.totalRecaudaciones = totalRecaudaciones;
 	}
 
 }

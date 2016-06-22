@@ -73,6 +73,7 @@ public class IngresoBacking implements Serializable {
 	private Long idPartida;
 	private boolean activarTabla = false;
 	private double totalPresupuesto;
+	
 
 	@PostConstruct
 	public void inicializar() throws HiperionException {
