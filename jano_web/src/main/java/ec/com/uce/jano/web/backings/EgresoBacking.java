@@ -383,7 +383,13 @@ public class EgresoBacking implements Serializable {
 			double presupuesto = this.presupuesto.doubleValue();
 
 			EgresoDTO egreso = new EgresoDTO(this.partida, presupuesto);
-			egresosDTO.add(egreso);
+			Egreso egresoDB = egresoService.buscarEgresos(egresoBean.getPeriodo(), egresoBean.getAfectacion());
+
+			if (egresoDB != null) {
+				MessagesController.addWarn(null, "Ya existe ingresada una partida similar ");
+			} else {
+				egresosDTO.add(egreso);
+			}
 
 			partida = new Partida();
 			presupuesto = 0.0;

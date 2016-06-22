@@ -73,7 +73,6 @@ public class IngresoBacking implements Serializable {
 	private Long idPartida;
 	private boolean activarTabla = false;
 	private double totalPresupuesto;
-	
 
 	@PostConstruct
 	public void inicializar() throws HiperionException {
@@ -338,6 +337,7 @@ public class IngresoBacking implements Serializable {
 
 					detalles.add(detalle);
 				}
+
 				egresoService.guardarIngreso(ingreso, detalles, save);
 				MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
 			}
@@ -379,7 +379,14 @@ public class IngresoBacking implements Serializable {
 			this.partida = egresoService.obtenerPartidaById(idPartida);
 
 			IngresoDTO ingreso = new IngresoDTO(this.partida, this.presupuesto);
-			ingresosDTO.add(ingreso);
+
+			Ingreso ingresoDB = egresoService.buscarIngresos(ingresoBean.getPeriodo(), ingresoBean.getAfectacion());
+
+			if (ingresoDB != null) {
+				MessagesController.addWarn(null, "Ya existe ingresada una partida similar ");
+			} else {
+				ingresosDTO.add(ingreso);
+			}
 
 			partida = new Partida();
 			presupuesto = 0.0;
@@ -540,12 +547,11 @@ public class IngresoBacking implements Serializable {
 	}
 
 	/**
-	 * @param totalPresupuesto the totalPresupuesto to set
+	 * @param totalPresupuesto
+	 *            the totalPresupuesto to set
 	 */
 	public void setTotalPresupuesto(double totalPresupuesto) {
 		this.totalPresupuesto = totalPresupuesto;
 	}
-
-	
 
 }
