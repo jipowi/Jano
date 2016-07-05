@@ -22,8 +22,8 @@
 						<p:outputLabel value="#{emision['lbl.facultad']}: " styleClass="negrita" />
 						<p:selectOneMenu value="#{reporteRecaudacionBean.facultad}" effect="drop">
 							<f:selectItem itemLabel="Seleccione Facultad" noSelectionOption="true" />
-							<f:selectItems value="#{reporteRecaudacionBacking.facultadItems}" itemValue="" />
-							<p:ajax event="change" listener="#{reporteRecaudacionBacking.obtenerDependencias}" update="formRecaudacion,idDependencia, idDepartamento" />
+							<f:selectItems value="#{reporteGastosBacking.facultadItems}" itemValue="" />
+							<p:ajax event="change" listener="#{reporteGastosBacking.obtenerDependencias}" update="formRecaudacion,idDependencia, idDepartamento" />
 						</p:selectOneMenu>
 					</h:panelGrid>
 
@@ -31,8 +31,8 @@
 						<p:outputLabel value="#{emision['lbl.dependencia']}: " styleClass="negrita" />
 						<p:selectOneMenu value="#{reporteRecaudacionBean.dependencia}" effect="drop">
 							<f:selectItem itemLabel="Seleccione Dependencia" noSelectionOption="true" />
-							<f:selectItems value="#{reporteRecaudacionBacking.dependenciaItems}" itemValue="" />
-							<p:ajax event="change" listener="#{reporteRecaudacionBacking.obtenerDepartamentos}" update="idDepartamento" />
+							<f:selectItems value="#{reporteGastosBacking.dependenciaItems}" itemValue="" />
+							<p:ajax event="change" listener="#{reporteGastosBacking.obtenerDepartamentos}" update="idDepartamento" />
 						</p:selectOneMenu>
 					</h:panelGrid>
 
@@ -40,21 +40,21 @@
 						<p:outputLabel value="#{emision['lbl.departamento']}: " styleClass="negrita" />
 						<p:selectOneMenu value="#{reporteRecaudacionBean.idAfectacion}" effect="drop">
 							<f:selectItem itemLabel="Seleccione Departamento" noSelectionOption="true" />
-							<f:selectItems value="#{reporteRecaudacionBacking.departamentoItems}" itemValue="" />
+							<f:selectItems value="#{reporteGastosBacking.departamentoItems}" itemValue="" />
 						</p:selectOneMenu>
 					</h:panelGrid>
 				</h:panelGrid>
 			</p:panel>
 			<p:spacer height="30px;" />
 			<div align="center">
-				<p:commandLink title="Generar Reporte" action="#{reporteRecaudacionBacking.generarReporte}" update="tablaReporte">
+				<p:commandLink title="Generar Reporte" action="#{reporteGastosBacking.generarReporte}" update="tablaReporte">
 					<h:graphicImage name="generate_report.png" library="img" />
 				</p:commandLink>
 			</div>
 
 			<!-- TABLA RESULTADOS -->
 			<div align="center" style="width: 80%;">
-			<p:dataTable id="tablaReporte" value="#{reporteRecaudacionBacking.recaudacionDTOs}" var="recaudacion" widgetVar="50">
+			<p:dataTable id="tablaReporte" value="#{reporteGastosBacking.recaudacionDTOs}" var="recaudacion" widgetVar="50">
 				<p:column>
 					<f:facet name="header">
 						<h:outputText value="#{emision['lbl.partida']}" />
@@ -88,7 +88,7 @@
 			</p:dataTable>
 			</div>
 			<p:spacer height="30px;" />
-			<p:chart type="bar" model="#{reporteRecaudacionBacking.barModel}" style="height:300px" />
+			<p:chart type="bar" model="#{reporteGastosBacking.barModel}" style="height:300px" />
 		</h:form>
 	</ui:define>
 
