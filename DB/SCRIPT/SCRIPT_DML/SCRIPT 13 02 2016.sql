@@ -57,7 +57,7 @@ INSERT INTO MENU VALUES (8, 3, 'Recaudaciones', '/pages/comprobanteIngreso.jsf',
 INSERT INTO MENU VALUES (9, NULL, 'Reportes', NULL,'A');
 INSERT INTO MENU VALUES (10, 9, 'Reporte Recaudaciones', '/pages/reporteRecaudaciones.jsf','A');
 INSERT INTO MENU VALUES (11, 9, 'Reporte Gastos', '/pages/reporteGastos.jsf','A');
-INSERT INTO MENU VALUES (12, 3, 'Gastos', '/pages/comprobanteGastos.jsf','A');
+INSERT INTO MENU VALUES (12, 3, 'Certificaciones', '/pages/comprobanteGastos.jsf','A');
 
 
 
