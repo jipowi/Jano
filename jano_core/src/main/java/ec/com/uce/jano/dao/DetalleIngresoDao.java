@@ -13,10 +13,8 @@ import ec.com.uce.jano.entities.DetalleIngreso;
 
 /**
  * 
- * <b>
- * Interfaz local de la tabla DetalleIngreso para realizar las operaciones necesarias.
- * </b>
- *  
+ * <b> Interfaz local de la tabla DetalleIngreso para realizar las operaciones necesarias. </b>
+ * 
  * @author U
  * @version 1.0,26/04/2016
  * @since JDK1.6
