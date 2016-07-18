@@ -382,14 +382,24 @@ public class IngresoBacking implements Serializable {
 
 			Ingreso ingresoDB = egresoService.buscarIngresos(ingresoBean.getPeriodo(), ingresoBean.getAfectacion());
 
+			int cont = 0;
 			if (ingresoDB != null) {
+
+				List<DetalleIngreso> detIngresos = egresoService.buscarIngresos(ingresoDB.getIdIngreso());
+
+				for (DetalleIngreso detIngreso : detIngresos) {
+					if (detIngreso.getPartida().getPartida().equals(this.partida.getPartida())) {
+						cont++;
+					}
+				}
+
+			}
+
+			if (cont > 0) {
 				MessagesController.addWarn(null, "Ya existe ingresada una partida similar ");
 			} else {
 				ingresosDTO.add(ingreso);
 			}
-
-			partida = new Partida();
-			presupuesto = 0.0;
 
 		} catch (HiperionException e) {
 			MessagesController.addError(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.error.save"));

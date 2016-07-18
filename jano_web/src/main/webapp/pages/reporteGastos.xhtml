@@ -8,7 +8,7 @@
 		</p:outputPanel>
 
 		<div align="center">
-			<p:outputLabel value="#{emision['titulo.reporte.recaudacion']}" styleClass="negrita" />
+			<p:outputLabel value="#{emision['titulo.reporte.gastos']}" styleClass="negrita" />
 			<p:separator id="customSeparator" style="width:auto;height:1px" />
 			<p:spacer height="15px;" />
 		</div>
@@ -43,52 +43,76 @@
 							<f:selectItems value="#{reporteGastosBacking.departamentoItems}" itemValue="" />
 						</p:selectOneMenu>
 					</h:panelGrid>
+
+					<h:panelGrid columns="2">
+						<p:outputLabel value="#{emision['lbl.periodo']}: " styleClass="negrita" />
+						<p:selectOneMenu value="#{reporteRecaudacionBean.periodo}" effect="drop">
+							<f:selectItem itemLabel="Seleccione Periodo" noSelectionOption="true" />
+							<f:selectItems value="#{reporteGastosBacking.periodoItems}" itemValue="" />
+						</p:selectOneMenu>
+					</h:panelGrid>
 				</h:panelGrid>
 			</p:panel>
 			<p:spacer height="30px;" />
 			<div align="center">
-				<p:commandLink title="Generar Reporte" action="#{reporteGastosBacking.generarReporte}" update="tablaReporte">
+				<p:commandLink title="Generar Reporte" action="#{reporteGastosBacking.generarReporte}" update="tablaReporte, idTotales, idGrafico">
 					<h:graphicImage name="generate_report.png" library="img" />
 				</p:commandLink>
 			</div>
 
+			<p:spacer height="20px;" />
 			<!-- TABLA RESULTADOS -->
+			<h:panelGrid id="idTotales" columns="2" cellpadding="10" cellspacing="20">
+				<h:panelGrid columns="2" cellpadding="3" cellspacing="3">
+					<p:outputLabel value="#{emision['lbl.totalRecaudaciones']}: " styleClass="negrita" />
+					<p:outputLabel value="#{reporteGastosBacking.totalGastos}" styleClass="negrita" style="font-size: medium;" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="2" cellpadding="3" cellspacing="3">
+					<p:outputLabel value="#{emision['lbl.totalPresupuesto']}: " styleClass="negrita" />
+					<p:outputLabel value="#{reporteGastosBacking.totalPresupuesto}" styleClass="negrita" style="font-size: medium;" />
+				</h:panelGrid>
+			</h:panelGrid>
 			<div align="center" style="width: 80%;">
-			<p:dataTable id="tablaReporte" value="#{reporteGastosBacking.recaudacionDTOs}" var="recaudacion" widgetVar="50">
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="#{emision['lbl.partida']}" />
-					</f:facet>
-					<h:outputText value="#{recaudacion.partida.partida}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="#{emision['lbl.beneficiario']}" />
-					</f:facet>
-					<h:outputText value="#{recaudacion.beneficiario}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="#{emision['lbl.comprobante']}" />
-					</f:facet>
-					<h:outputText value="#{recaudacion.comprobante}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="#{emision['lbl.fecha']}" />
-					</f:facet>
-					<h:outputText value="#{recaudacion.fechaRecaudacion}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="#{emision['lbl.valor']}" />
-					</f:facet>
-					<h:outputText value="#{recaudacion.valorRecaudacion} USD" />
-				</p:column>
-			</p:dataTable>
+				<p:dataTable id="tablaReporte" value="#{reporteGastosBacking.recaudacionDTOs}" var="recaudacion" widgetVar="50">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.partida']}" />
+						</f:facet>
+						<h:outputText value="#{recaudacion.partida.partida}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.beneficiario']}" />
+						</f:facet>
+						<h:outputText value="#{recaudacion.beneficiario}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.comprobante']}" />
+						</f:facet>
+						<h:outputText value="#{recaudacion.comprobante}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.fecha']}" />
+						</f:facet>
+						<h:outputText value="#{recaudacion.fechaRecaudacion}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.valor']}" />
+						</f:facet>
+						<h:outputText value="#{recaudacion.valorRecaudacion} USD" />
+					</p:column>
+				</p:dataTable>
 			</div>
 			<p:spacer height="30px;" />
-			<p:chart type="bar" model="#{reporteGastosBacking.barModel}" style="height:300px" />
+			<div>
+				<h:panelGrid id="idGrafico" columns="1">
+					<p:chart type="bar" model="#{reporteGastosBacking.barModel}" style="height:300px" />
+				</h:panelGrid>
+			</div>
 		</h:form>
 	</ui:define>
 

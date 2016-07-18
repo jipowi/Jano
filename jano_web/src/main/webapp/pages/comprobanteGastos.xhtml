@@ -10,12 +10,12 @@
 		<div align="center">
 			<p:outputLabel value="#{emision['titulo.recaudacionGastos']}" styleClass="negrita" />
 			<p:separator id="customSeparator" style="width:auto;height:1px" />
-			<p:spacer height="15px;" />
+			<p:spacer height="10px;" />
 		</div>
 		<h:form id="formRecaudacion">
 			<p:panel>
 				<f:facet name="header">
-				<h:outputText value="GASTOS" />
+					<h:outputText value="GASTOS" />
 				</f:facet>
 				<h:panelGrid columns="1" cellpadding="2" cellspacing="2">
 					<h:panelGrid columns="3" cellpadding="2" cellspacing="2">
@@ -46,14 +46,6 @@
 						</h:panelGrid>
 
 						<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
-							<p:outputLabel value="#{emision['lbl.partida']}" styleClass="negrita" />
-							<p:selectOneMenu id="idPartida" value="#{recaudacionGastoBacking.idPartida}" effect="drop" required="true">
-								<f:selectItem itemLabel="Seleccione Partida" noSelectionOption="true" />
-								<f:selectItems value="#{recaudacionGastoBacking.partidasItems}" itemValue="" />
-							</p:selectOneMenu>
-						</h:panelGrid>
-
-						<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
 							<p:outputLabel value="#{emision['lbl.periodo']}: " styleClass="negrita" />
 							<p:selectOneMenu value="#{recaudacionGastoBean.periodo}" effect="drop">
 								<f:selectItem itemLabel="Seleccione Periodo" noSelectionOption="true" />
@@ -62,37 +54,110 @@
 						</h:panelGrid>
 
 						<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
-							<p:outputLabel value="#{emision['lbl.fecha']}: " styleClass="negrita" />
-							<p:calendar id="fechaNacimientoId" value="#{recaudacionGastoBean.fecha}" locale="de" navigator="true" pattern="MM/dd/yyyy" mask="true" />
-						</h:panelGrid>
-
-						<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
 							<p:outputLabel value="#{emision['lbl.comprobante']}: " styleClass="negrita" />
-							<p:inputText value="#{recaudacionGastoBean.comprobante}" readonly="true"/>
+							<p:inputText value="#{recaudacionGastoBean.comprobante}" readonly="true" />
 						</h:panelGrid>
-
-						<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
-							<p:outputLabel value="#{emision['lbl.beneficiario']}: " styleClass="negrita" />
-							<p:inputText value="#{recaudacionGastoBean.beneficiario}" style="text-transform:uppercase;"/>
-						</h:panelGrid>
-
-						<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
-							<p:outputLabel value="#{emision['lbl.valor']}: " styleClass="negrita" />
-							<p:inputText value="#{recaudacionGastoBean.valor}" />
-						</h:panelGrid>
-					</h:panelGrid>
-					
-					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
-						<p:outputLabel value="#{emision['lbl.observacion']}: " styleClass="negrita" />
-						<p:inputTextarea value="#{recaudacionGastoBean.observacion}" rows="5" cols="30" counter="display" maxlength="200"
-							counterTemplate="{0} characters remaining." autoResize="false" style="text-transform:uppercase;"/>
-						<h:outputText id="display" />
 					</h:panelGrid>
 				</h:panelGrid>
 			</p:panel>
-			<p:spacer height="30px;" />
+			<p:spacer height="15px;" />
+			<!-- REGISTRO GASTOS -->
+			<p:panel>
+				<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+						<p:outputLabel value="#{emision['lbl.partida']}" styleClass="negrita" />
+						<p:selectOneMenu id="idPartida" value="#{recaudacionGastoBacking.idPartida}" effect="drop" required="true">
+							<f:selectItem itemLabel="Seleccione Partida" noSelectionOption="true" />
+							<f:selectItems value="#{recaudacionGastoBacking.partidasItems}" itemValue="" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+						<p:outputLabel value="#{emision['lbl.fecha']}: " styleClass="negrita" />
+						<p:calendar value="#{recaudacionGastoBean.fecha}" locale="de" navigator="true" pattern="MM/dd/yyyy" mask="true" />
+					</h:panelGrid>
+
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+						<p:outputLabel value="#{emision['lbl.beneficiario']}: " styleClass="negrita" />
+						<p:inputText value="#{recaudacionGastoBean.beneficiario}" style="text-transform:uppercase;" />
+					</h:panelGrid>
+
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+						<p:outputLabel value="#{emision['lbl.valor']}: " styleClass="negrita" />
+						<p:inputText value="#{recaudacionGastoBean.valor}" />
+					</h:panelGrid>
+
+				</h:panelGrid>
+
+				<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+					<p:outputLabel value="#{emision['lbl.observacion']}: " styleClass="negrita" />
+					<p:inputTextarea value="#{recaudacionGastoBean.observacion}" rows="5" cols="30" counter="display" maxlength="200"
+						counterTemplate="{0} characters remaining." autoResize="false" style="text-transform:uppercase;" />
+					<h:outputText id="display" />
+				</h:panelGrid>
+
+
+				<div align="center">
+					<p:commandButton id="agregarDetalle" update="formRecaudacion" icon="icon-add" value="#{emision['boton.agregar']}"
+						actionListener="#{recaudacionGastoBacking.addGasto()}" title="Agregar" />
+				</div>
+
+			</p:panel>
+			<p:spacer height="15px;" />
 			<div align="center">
-				<p:commandButton value="Guardar" icon="icon-save" actionListener="#{recaudacionGastoBacking.guardarGasto()}" update="formRecaudacion"/>
+				<p:dataTable id="tablaGastos" value="#{recaudacionGastoBacking.recaudacionesDTO}" var="recaudacion" widgetVar="50" style="width: 80%;"
+					editable="true">
+					<p:ajax event="rowEdit" listener="#{recaudacionGastoBacking.onEdit}" />
+					<p:ajax event="rowEditCancel" listener="#{recaudacionGastoBacking.onCancel}" />
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.partida']}" />
+						</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{recaudacion.partida.partida}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{recaudacion.partida.partida}" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.valor']}" />
+						</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{recaudacion.valorRecaudacion}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{recaudacion.valorRecaudacion}" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.fecha']}" />
+						</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{recaudacion.fechaRecaudacion}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:calendar value="#{recaudacion.fechaRecaudacion}" locale="de" navigator="true" pattern="MM/dd/yyyy" mask="true" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="Options" style="width:50px">
+						<p:rowEditor />
+					</p:column>
+				</p:dataTable>
+			</div>
+			<p:spacer height="20px;" />
+
+			<div align="center">
+				<p:commandButton value="Guardar" icon="icon-save" actionListener="#{recaudacionGastoBacking.guardarRecaudacion()}" update="formRecaudacion" />
 			</div>
 		</h:form>
 	</ui:define>

@@ -203,7 +203,7 @@
 				<!-- BOTON ACEPTAR -->
 				<p:spacer height="30px;" />
 				<div align="center">
-					<p:commandButton value="Aceptar" onclick="newEgreso.hide();" icon="icon-save" />
+					<p:commandButton value="Aceptar" onclick="newEgreso.hide();" icon="icon-save" update="formEgresos"/>
 				</div>
 			</h:form>
 		</p:dialog>
@@ -215,7 +215,7 @@
 				<h:commandLink action="hiperion.xhtml">
 					<h:graphicImage name="home.png" library="img" />
 				</h:commandLink>
-				<p:commandLink title="Guardar Informacion Egreso" process="@this" actionListener="#{egresoBacking.guardarEgreso()}">
+				<p:commandLink title="Guardar Informacion Egreso" process="@this" actionListener="#{egresoBacking.guardarEgreso()}" update=":formEgresos">
 					<h:graphicImage name="save.png" library="img" />
 				</p:commandLink>
 				<p:commandLink onclick="help.show()">

@@ -231,7 +231,7 @@ public class ReporteGastosBacking implements Serializable {
 				recaudacionDTOs.add(recaudacionDTO);
 			}
 
-			obtenerTotalIngresos();
+			obtenerTotalGastos();
 			createBarModels();
 
 		} catch (HiperionException e) {
@@ -249,7 +249,7 @@ public class ReporteGastosBacking implements Serializable {
 	 * 
 	 * @throws HiperionException
 	 */
-	public void obtenerTotalIngresos() throws HiperionException {
+	public void obtenerTotalGastos() throws HiperionException {
 
 		totalPresupuesto = 0.0;
 		try {
@@ -287,7 +287,7 @@ public class ReporteGastosBacking implements Serializable {
 		BarChartModel model = new BarChartModel();
 
 		ChartSeries recaudaciones = new ChartSeries();
-		recaudaciones.setLabel("Recaudaciones");
+		recaudaciones.setLabel("Certificaciones");
 
 		ChartSeries recaudacionesPres = new ChartSeries();
 		recaudacionesPres.setLabel("Presupuestadas");
@@ -529,18 +529,18 @@ public class ReporteGastosBacking implements Serializable {
 	}
 
 	/**
-	 * @return the totalRecaudaciones
+	 * @return the totalGastos
 	 */
-	public double getTotalRecaudaciones() {
+	public double getTotalGastos() {
 		return totalGastos;
 	}
 
 	/**
-	 * @param totalRecaudaciones
-	 *            the totalRecaudaciones to set
+	 * @param totalGastos
+	 *            the totalGastos to set
 	 */
-	public void setTotalRecaudaciones(double totalRecaudaciones) {
-		this.totalGastos = totalRecaudaciones;
+	public void setTotalGastos(double totalGastos) {
+		this.totalGastos = totalGastos;
 	}
 
 }

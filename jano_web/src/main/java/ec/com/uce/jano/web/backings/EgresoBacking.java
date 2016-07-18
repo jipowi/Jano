@@ -342,6 +342,7 @@ public class EgresoBacking implements Serializable {
 				}
 				egresoService.guardarEgreso(egreso, detalles, save);
 				MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
+				egresosDTO.clear();
 			}
 
 		} catch (HiperionException e) {
@@ -383,16 +384,27 @@ public class EgresoBacking implements Serializable {
 			double presupuesto = this.presupuesto.doubleValue();
 
 			EgresoDTO egreso = new EgresoDTO(this.partida, presupuesto);
+			
 			Egreso egresoDB = egresoService.buscarEgresos(egresoBean.getPeriodo(), egresoBean.getAfectacion());
 
+			int cont = 0;
 			if (egresoDB != null) {
+
+				List<DetalleEgreso> detEgresos = egresoService.buscarEgresos(egresoDB.getIdEgreso());
+
+				for (DetalleEgreso detEgreso : detEgresos) {
+					if (detEgreso.getPartida().getPartida().equals(this.partida.getPartida())) {
+						cont++;
+					}
+				}
+
+			}
+
+			if (cont > 0) {
 				MessagesController.addWarn(null, "Ya existe ingresada una partida similar ");
 			} else {
 				egresosDTO.add(egreso);
 			}
-
-			partida = new Partida();
-			presupuesto = 0.0;
 
 		} catch (HiperionException e) {
 			MessagesController.addError(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.error.save"));

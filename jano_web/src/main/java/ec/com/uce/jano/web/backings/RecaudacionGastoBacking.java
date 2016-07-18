@@ -6,19 +6,27 @@ package ec.com.uce.jano.web.backings;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import org.primefaces.event.RowEditEvent;
+
 import ec.com.uce.jano.comun.HiperionException;
+import ec.com.uce.jano.dto.RecaudacionDTO;
 import ec.com.uce.jano.entities.Afectacion;
 import ec.com.uce.jano.entities.Catalogo;
 import ec.com.uce.jano.entities.DetalleCatalogo;
+import ec.com.uce.jano.entities.DetalleEgreso;
+import ec.com.uce.jano.entities.Egreso;
 import ec.com.uce.jano.entities.Gasto;
 import ec.com.uce.jano.entities.Partida;
 import ec.com.uce.jano.servicio.AfectacionService;
@@ -67,8 +75,10 @@ public class RecaudacionGastoBacking implements Serializable {
 	private List<SelectItem> dependenciaItems;
 	private List<SelectItem> departamentoItems;
 	private List<SelectItem> partidasItems;
-
+	private List<RecaudacionDTO> recaudacionesDTO = new ArrayList<>();
+	private Partida partida;
 	private Long idPartida;
+	Afectacion afectacion;
 
 	@PostConstruct
 	public void inicializar() throws HiperionException {
@@ -193,51 +203,153 @@ public class RecaudacionGastoBacking implements Serializable {
 
 	/**
 	 * 
-	 * <b> Permite registrar una recaudacion. </b>
+	 * <b> Permite agregar un gasto. </b>
 	 * <p>
-	 * [Author: HIPERION, Date: 23/02/2016]
+	 * [Author: Paul Jimenez, Date: 16/07/2016]
 	 * </p>
 	 * 
 	 * @throws HiperionException
-	 * 
 	 */
-	public void guardarGasto() throws HiperionException {
+	public void addGasto() throws HiperionException {
 
-		Gasto gasto = new Gasto();
+		try {
+			this.partida = egresoService.obtenerPartidaById(idPartida);
 
-		gasto.setCodigoGasto(recaudacionGastoBean.getComprobante());
+			String beneficiario = recaudacionGastoBean.getBeneficiario();
+			String comprobante = recaudacionGastoBean.getComprobante();
+			Date fechaRecaudacion = recaudacionGastoBean.getFecha();
+			String observacion = recaudacionGastoBean.getObservacion();
+			String periodo = recaudacionGastoBean.getPeriodo();
+			double valor = recaudacionGastoBean.getValor();
+			afectacion = new Afectacion();
+			afectacion.setIdFacultad(recaudacionGastoBean.getFacultad());
+			afectacion.setIdDependencia(recaudacionGastoBean.getDependencia());
+			afectacion.setIdAfectacion(recaudacionGastoBean.getIdAfectacion());
 
-		gasto.setComprobanteGasto(recaudacionGastoBean.getComprobante());
-		gasto.setFechaGasto(recaudacionGastoBean.getFecha());
-		gasto.setBeneficiarioGasto(recaudacionGastoBean.getBeneficiario());
-		gasto.setObsGasto(recaudacionGastoBean.getObservacion());
-		gasto.setValorGasto(recaudacionGastoBean.getValor());
+			RecaudacionDTO recaudacionDTO = new RecaudacionDTO(beneficiario, comprobante, fechaRecaudacion, observacion, valor, afectacion, partida,
+					periodo);
 
-		Afectacion afectacion = new Afectacion();
-		afectacion.setIdFacultad(recaudacionGastoBean.getFacultad());
-		afectacion.setIdDependencia(recaudacionGastoBean.getDependencia());
-		afectacion.setIdAfectacion(recaudacionGastoBean.getIdAfectacion());
+			Egreso egresoDB = egresoService.buscarEgresos(periodo, afectacion.getIdAfectacion());
 
-		gasto.setAfectacion(afectacion);
+			if (egresoDB != null) {
+				List<DetalleEgreso> detEgresos = egresoService.buscarEgresos(egresoDB.getIdEgreso());
 
-		Partida partida = new Partida();
-		partida.setIdPartida(this.idPartida);
+				for (DetalleEgreso detEgreso : detEgresos) {
+					if (detEgreso.getPartida().getPartida().equals(this.partida.getPartida())) {
+						if (valor > detEgreso.getPresupuesto()) {
+							MessagesController.addWarn(null, "El valor ingresado sobrepasa el PRESUPUESTO!");
+						}
+					}
+				}
+			}
+			boolean validacion1 = true;
 
-		gasto.setPartida(partida);
+			if (!recaudacionesDTO.isEmpty()) {
+				for (RecaudacionDTO recDTO : recaudacionesDTO) {
+					if (recDTO.getPartida().getPartida().equals(partida.getPartida())) {
+						validacion1 = false;
+					}
+				}
+			}
 
-		recaudacionService.guardarGastos(gasto);
-		MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
+			if (validacion1) {
+				recaudacionesDTO.add(recaudacionDTO);
+			} else {
+				MessagesController.addWarn(null, "Ya existe ingresada una partida similar ");
+			}
 
-		recaudacionGastoBean.setFacultad(null);
-		recaudacionGastoBean.setDependencia(null);
-		recaudacionGastoBean.setIdAfectacion(null);
-		recaudacionGastoBean.setPeriodo(null);
-		recaudacionGastoBean.setBeneficiario(null);
-		recaudacionGastoBean.setFecha(null);
-		recaudacionGastoBean.setComprobante(null);
-		recaudacionGastoBean.setValor(0);
-		recaudacionGastoBean.setObservacion(null);
+			recaudacionGastoBean.setBeneficiario(null);
+			recaudacionGastoBean.setValor(0.0);
+			recaudacionGastoBean.setFecha(null);
+			recaudacionGastoBean.setObservacion("N/A");
 
+		} catch (HiperionException e) {
+			MessagesController.addError(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.error.save"));
+			throw new HiperionException(e);
+		}
+	}
+
+	/**
+	 * 
+	 * <b> Permite editar un registro. </b>
+	 * <p>
+	 * [Author: HIPERION, Date: 25/02/2016]
+	 * </p>
+	 * 
+	 * @param event
+	 */
+	public void onEdit(RowEditEvent event) {
+		FacesMessage msg = new FacesMessage("Item Edited", ((RecaudacionDTO) event.getObject()).getPartida().toString());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	/**
+	 * 
+	 * <b> permite eliminar un registro de la tabla</b>
+	 * <p>
+	 * [Author: Paul Jimenez, Date: Mar 3, 2014]
+	 * </p>
+	 * 
+	 * @param event
+	 */
+	public void onCancel(RowEditEvent event) {
+		FacesMessage msg = new FacesMessage("Item Cancelled");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		recaudacionesDTO.remove((RecaudacionDTO) event.getObject());
+	}
+
+	/**
+	 * 
+	 * <b> Permite regsitrar las recaudaciones ingresadas en la base de datos. </b>
+	 * <p>
+	 * [Author: kruger, Date: 17/07/2016]
+	 * </p>
+	 * 
+	 * @throws HiperionException
+	 */
+	public void guardarRecaudacion() throws HiperionException {
+
+		try {
+			if (recaudacionesDTO.isEmpty()) {
+
+				MessagesController.addWarn(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.war.detCertifica"));
+
+			} else {
+				for (RecaudacionDTO recaudacionDTO : recaudacionesDTO) {
+					Gasto gasto = new Gasto();
+
+					gasto.setCodigoGasto(recaudacionGastoBean.getComprobante());
+
+					gasto.setComprobanteGasto(recaudacionGastoBean.getComprobante());
+					gasto.setFechaGasto(recaudacionDTO.getFechaRecaudacion());
+					gasto.setBeneficiarioGasto(recaudacionDTO.getBeneficiario());
+					gasto.setObsGasto(recaudacionDTO.getObservacion());
+					gasto.setValorGasto(recaudacionDTO.getValorRecaudacion());
+
+					afectacion = new Afectacion();
+					afectacion.setIdFacultad(recaudacionGastoBean.getFacultad());
+					afectacion.setIdDependencia(recaudacionGastoBean.getDependencia());
+					afectacion.setIdAfectacion(recaudacionGastoBean.getIdAfectacion());
+
+					gasto.setAfectacion(afectacion);
+
+					gasto.setPartida(recaudacionDTO.getPartida());
+
+					recaudacionService.guardarGastos(gasto);
+				}
+
+				MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
+				recaudacionGastoBean.setFacultad(null);
+				recaudacionGastoBean.setDependencia(null);
+				recaudacionGastoBean.setIdAfectacion(null);
+				recaudacionGastoBean.setPeriodo(null);
+			}
+			recaudacionesDTO.clear();
+
+		} catch (HiperionException e) {
+			MessagesController.addError(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.error.save"));
+			throw new HiperionException(e);
+		}
 	}
 
 	/**
@@ -252,7 +364,7 @@ public class RecaudacionGastoBacking implements Serializable {
 
 		List<Gasto> gastos;
 		String codigo = null;
-		
+
 		try {
 			gastos = recaudacionService.obtenerGastos();
 
@@ -266,7 +378,7 @@ public class RecaudacionGastoBacking implements Serializable {
 		}
 		recaudacionGastoBean.setComprobante(codigo);
 	}
-	
+
 	/**
 	 * @return the dependenciaItems
 	 */
@@ -324,7 +436,7 @@ public class RecaudacionGastoBacking implements Serializable {
 
 			List<Partida> partidas;
 
-			partidas = egresoService.obtenerPartidas("Ingreso");
+			partidas = egresoService.obtenerPartidas("Egreso");
 
 			for (Partida partida : partidas) {
 				SelectItem selectItem = new SelectItem(partida.getIdPartida(), partida.getPartida());
@@ -373,6 +485,21 @@ public class RecaudacionGastoBacking implements Serializable {
 	 */
 	public void setRecaudacionGastoBean(RecaudacionGastoBean recaudacionGastoBean) {
 		this.recaudacionGastoBean = recaudacionGastoBean;
+	}
+
+	/**
+	 * @return the recaudacionesDTO
+	 */
+	public List<RecaudacionDTO> getRecaudacionesDTO() {
+		return recaudacionesDTO;
+	}
+
+	/**
+	 * @param recaudacionesDTO
+	 *            the recaudacionesDTO to set
+	 */
+	public void setRecaudacionesDTO(List<RecaudacionDTO> recaudacionesDTO) {
+		this.recaudacionesDTO = recaudacionesDTO;
 	}
 
 }
