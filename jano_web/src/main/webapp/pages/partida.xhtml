@@ -70,7 +70,7 @@
 							</p:selectOneMenu>
 
 							<p:outputLabel value="#{emision['lbl.partida']}:" styleClass="negrita" />
-							<p:inputText value="#{partidaBean.partida}" />
+							<p:inputText value="#{partidaBean.partida}" style="text-transform:uppercase;"/>
 						</h:panelGrid>
 					</h:panelGrid>
 					<div align="center">
@@ -92,10 +92,10 @@
 							</f:facet>
 							<p:cellEditor>
 								<f:facet name="output">
-									<h:outputText value="#{partida.partida}" />
+									<h:outputText value="#{partida.partida}" style="text-transform:uppercase;"/>
 								</f:facet>
 								<f:facet name="input">
-									<p:inputText value="#{partida.partida}" />
+									<p:inputText value="#{partida.partida}" style="text-transform:uppercase;" />
 								</f:facet>
 							</p:cellEditor>
 						</p:column>

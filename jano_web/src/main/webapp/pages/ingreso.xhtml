@@ -14,7 +14,7 @@
 			<p:spacer height="15px;" />
 		</div>
 
-		<!-- PANEL DE BUSQUEDAA -->
+		<!-- PANEL DE BUSQUEDA -->
 		<h:form id="formIngreso">
 			<p:panel>
 				<f:facet name="header">
@@ -207,36 +207,13 @@
 						</p:dataTable>
 					</div>
 				</p:panel>
-				<!-- BOTON ACEPTAR -->
+				<!-- BOTON GUARDAR -->
 				<p:spacer height="30px;" />
 				<div align="center">
-					<p:commandButton value="Aceptar" onclick="newIngreso.hide();" icon="icon-save" />
+					<p:commandButton value="Guardar" actionListener="#{ingresoBacking.guardarIngreso}" oncomplete="PF('newIngreso').hide();" icon="icon-save" update="formIngresos"/>
 				</div>
 			</h:form>
 		</p:dialog>
-	</ui:define>
-	<!-- BOTONES -->
-	<ui:define name="buttons">
-		<h:form>
-			<h:panelGrid columns="1">
-				<h:commandLink action="hiperion.xhtml">
-					<h:graphicImage name="home.png" library="img" />
-				</h:commandLink>
-				<p:commandLink title="Guardar Informacion Ingreso" process="@this" actionListener="#{ingresoBacking.guardarIngreso()}">
-					<h:graphicImage name="save.png" library="img" />
-				</p:commandLink>
-				<p:commandLink onclick="help.show()">
-					<h:graphicImage name="helpII.png" library="img" />
-				</p:commandLink>
-			</h:panelGrid>
-			<p:dialog header="Egreso" widgetVar="help" showEffect="explode" hideEffect="bounce" height="100">
-				<h:panelGrid columns="1">
-					<h:outputText value="Informacion Ingreso" />
-					<h:outputText value="Permite registra cada uno de los ingresos efectuados en el periodo correspondiente" />
-					<h:outputText value="Ante cualquier inquietud por favor comuniquese con Ruben Yanez, Administradr del Sitema Hiperion" />
-				</h:panelGrid>
-			</p:dialog>
-		</h:form>
-	</ui:define>
+	</ui:define>	
 </ui:composition>
 </html>

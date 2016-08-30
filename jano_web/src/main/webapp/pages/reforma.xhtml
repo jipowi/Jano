@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:composition template="/templates/menuPrincipalTemplate.xhtml">
+	<ui:define name="content">
+		<p:outputPanel id="idMessages">
+			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+		</p:outputPanel>
+
+		<div align="center">
+			<p:outputLabel value="#{emision['titulo.reporte.gastos']}" styleClass="negrita" />
+			<p:separator id="customSeparator" style="width:auto;height:1px" />
+			<p:spacer height="15px;" />
+		</div>
+		<h:form id="formRecaudacion">
+			<p:panel>
+				<f:facet name="header">
+					<h:outputText value="FILTROS" />
+				</f:facet>
+				<h:panelGrid columns="1" cellpadding="2" cellspacing="2">
+					<h:panelGrid columns="2">
+						<p:outputLabel value="#{emision['lbl.facultad']}: " styleClass="negrita" />
+						<p:selectOneMenu value="#{reformaBean.facultad}" effect="drop">
+							<f:selectItem itemLabel="Seleccione Facultad" noSelectionOption="true" />
+							<f:selectItems value="#{reformaBacking.facultadItems}" itemValue="" />
+							<p:ajax event="change" listener="#{reformaBacking.obtenerDependencias}" update="formRecaudacion,idDependencia, idDepartamento" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+
+					<h:panelGrid columns="2" id="idDependencia">
+						<p:outputLabel value="#{emision['lbl.dependencia']}: " styleClass="negrita" />
+						<p:selectOneMenu value="#{reformaBean.dependencia}" effect="drop">
+							<f:selectItem itemLabel="Seleccione Dependencia" noSelectionOption="true" />
+							<f:selectItems value="#{reformaBacking.dependenciaItems}" itemValue="" />
+							<p:ajax event="change" listener="#{reformaBacking.obtenerDepartamentos}" update="idDepartamento" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+
+					<h:panelGrid columns="2" id="idDepartamento">
+						<p:outputLabel value="#{emision['lbl.departamento']}: " styleClass="negrita" />
+						<p:selectOneMenu value="#{reformaBean.idAfectacion}" effect="drop">
+							<f:selectItem itemLabel="Seleccione Departamento" noSelectionOption="true" />
+							<f:selectItems value="#{reformaBacking.departamentoItems}" itemValue="" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+
+					<h:panelGrid columns="2">
+						<p:outputLabel value="#{emision['lbl.periodo']}: " styleClass="negrita" />
+						<p:selectOneMenu value="#{reformaBean.periodo}" effect="drop">
+							<f:selectItem itemLabel="Seleccione Periodo" noSelectionOption="true" />
+							<f:selectItems value="#{reformaBacking.periodoItems}" itemValue="" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+				</h:panelGrid>
+			</p:panel>
+			
+
+			<p:spacer height="20px;" />
+			
+			<div align="center" style="width: 80%;">
+				<p:dataTable id="tablaReporte" value="#{reformaBacking.recaudacionDTOs}" var="recaudacion" widgetVar="50">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.partida']}" />
+						</f:facet>
+						<h:outputText value="#{recaudacion.partida.partida}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.beneficiario']}" />
+						</f:facet>
+						<h:outputText value="#{recaudacion.beneficiario}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.comprobante']}" />
+						</f:facet>
+						<h:outputText value="#{recaudacion.comprobante}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.fecha']}" />
+						</f:facet>
+						<h:outputText value="#{recaudacion.fechaRecaudacion}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.valor']}" />
+						</f:facet>
+						<h:outputText value="#{recaudacion.valorRecaudacion} USD" />
+					</p:column>
+				</p:dataTable>
+			</div>
+		
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>

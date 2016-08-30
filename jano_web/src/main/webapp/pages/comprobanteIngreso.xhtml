@@ -80,6 +80,11 @@
 							<p:outputLabel value="#{emision['lbl.valor']}: " styleClass="negrita" />
 							<p:inputText value="#{recaudacionIngresoBean.valor}" />
 						</h:panelGrid>
+						
+						<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+							<p:outputLabel value="#{emision['lbl.cur']}: " styleClass="negrita" />
+							<p:inputText value="#{recaudacionIngresoBean.cur}" style="text-transform:uppercase;" />
+						</h:panelGrid>
 					</h:panelGrid>
 					
 					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
