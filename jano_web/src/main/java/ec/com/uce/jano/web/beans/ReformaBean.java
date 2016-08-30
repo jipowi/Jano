@@ -19,7 +19,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class RecaudacionIngresoBean implements Serializable {
+public class ReformaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String comprobante;
@@ -31,7 +31,6 @@ public class RecaudacionIngresoBean implements Serializable {
 	private Integer facultad;
 	private Integer dependencia;
 	private Long idAfectacion;
-	private String cur;
 
 	/**
 	 * @return the periodo
@@ -161,26 +160,12 @@ public class RecaudacionIngresoBean implements Serializable {
 	}
 
 	/**
-	 * @param idAfectacion
-	 *            the idAfectacion to set
+	 * @param idAfectacion the idAfectacion to set
 	 */
 	public void setIdAfectacion(Long idAfectacion) {
 		this.idAfectacion = idAfectacion;
 	}
 
-	/**
-	 * @return the cur
-	 */
-	public String getCur() {
-		return cur;
-	}
-
-	/**
-	 * @param cur
-	 *            the cur to set
-	 */
-	public void setCur(String cur) {
-		this.cur = cur;
-	}
+	
 
 }

@@ -221,47 +221,52 @@ public class RecaudacionGastoBacking implements Serializable {
 			String observacion = recaudacionGastoBean.getObservacion();
 			String periodo = recaudacionGastoBean.getPeriodo();
 			double valor = recaudacionGastoBean.getValor();
-			afectacion = new Afectacion();
-			afectacion.setIdFacultad(recaudacionGastoBean.getFacultad());
-			afectacion.setIdDependencia(recaudacionGastoBean.getDependencia());
-			afectacion.setIdAfectacion(recaudacionGastoBean.getIdAfectacion());
 
-			RecaudacionDTO recaudacionDTO = new RecaudacionDTO(beneficiario, comprobante, fechaRecaudacion, observacion, valor, afectacion, partida,
-					periodo);
+			if (valor > 0) {
+				
+				afectacion = new Afectacion();
+				afectacion.setIdFacultad(recaudacionGastoBean.getFacultad());
+				afectacion.setIdDependencia(recaudacionGastoBean.getDependencia());
+				afectacion.setIdAfectacion(recaudacionGastoBean.getIdAfectacion());
 
-			Egreso egresoDB = egresoService.buscarEgresos(periodo, afectacion.getIdAfectacion());
+				RecaudacionDTO recaudacionDTO = new RecaudacionDTO(beneficiario, comprobante, fechaRecaudacion, observacion, valor, afectacion,
+						partida, periodo);
 
-			if (egresoDB != null) {
-				List<DetalleEgreso> detEgresos = egresoService.buscarEgresos(egresoDB.getIdEgreso());
+				Egreso egresoDB = egresoService.buscarEgresos(periodo, afectacion.getIdAfectacion());
 
-				for (DetalleEgreso detEgreso : detEgresos) {
-					if (detEgreso.getPartida().getPartida().equals(this.partida.getPartida())) {
-						if (valor > detEgreso.getPresupuesto()) {
-							MessagesController.addWarn(null, "El valor ingresado sobrepasa el PRESUPUESTO!");
+				if (egresoDB != null) {
+					List<DetalleEgreso> detEgresos = egresoService.buscarEgresos(egresoDB.getIdEgreso());
+
+					for (DetalleEgreso detEgreso : detEgresos) {
+						if (detEgreso.getPartida().getPartida().equals(this.partida.getPartida())) {
+							if (valor > detEgreso.getPresupuesto()) {
+								MessagesController.addWarn(null, "El valor ingresado sobrepasa el PRESUPUESTO!");
+								recaudacionDTO.setEstado("I");
+							}
 						}
 					}
 				}
-			}
-			boolean validacion1 = true;
+				boolean validacion1 = true;
 
-			if (!recaudacionesDTO.isEmpty()) {
-				for (RecaudacionDTO recDTO : recaudacionesDTO) {
-					if (recDTO.getPartida().getPartida().equals(partida.getPartida())) {
-						validacion1 = false;
+				if (!recaudacionesDTO.isEmpty()) {
+					for (RecaudacionDTO recDTO : recaudacionesDTO) {
+						if (recDTO.getPartida().getPartida().equals(partida.getPartida())) {
+							validacion1 = false;
+						}
 					}
 				}
-			}
 
-			if (validacion1) {
-				recaudacionesDTO.add(recaudacionDTO);
+				if (validacion1) {
+					recaudacionesDTO.add(recaudacionDTO);
+					recaudacionGastoBean.setValor(0.0);
+				} else {
+					MessagesController.addWarn(null, "Ya existe ingresada una partida similar ");
+				}
+				
 			} else {
-				MessagesController.addWarn(null, "Ya existe ingresada una partida similar ");
-			}
-
-			recaudacionGastoBean.setBeneficiario(null);
-			recaudacionGastoBean.setValor(0.0);
-			recaudacionGastoBean.setFecha(null);
-			recaudacionGastoBean.setObservacion("N/A");
+				MessagesController.addWarn(null, "El valor debe ser mayor que cero. ");
+			}	
+			
 
 		} catch (HiperionException e) {
 			MessagesController.addError(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.error.save"));

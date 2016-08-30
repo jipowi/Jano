@@ -339,7 +339,10 @@ public class IngresoBacking implements Serializable {
 				}
 
 				egresoService.guardarIngreso(ingreso, detalles, save);
+				
 				MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
+				
+				ingresosDTO = new ArrayList<>();
 			}
 
 		} catch (HiperionException e) {
@@ -399,6 +402,8 @@ public class IngresoBacking implements Serializable {
 				MessagesController.addWarn(null, "Ya existe ingresada una partida similar ");
 			} else {
 				ingresosDTO.add(ingreso);
+				this.partida = null;
+				this.presupuesto = null;
 			}
 
 		} catch (HiperionException e) {

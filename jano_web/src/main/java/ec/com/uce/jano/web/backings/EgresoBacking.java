@@ -255,8 +255,6 @@ public class EgresoBacking implements Serializable {
 		}
 	}
 
-
-
 	/**
 	 * @return the dependenciaItems
 	 */
@@ -323,6 +321,7 @@ public class EgresoBacking implements Serializable {
 				afectacion.setIdAfectacion(egresoBean.getAfectacion());
 
 				egreso.setAfectacion(afectacion);
+				
 			} else {
 				save = false;
 			}
@@ -342,7 +341,7 @@ public class EgresoBacking implements Serializable {
 				}
 				egresoService.guardarEgreso(egreso, detalles, save);
 				MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
-				egresosDTO.clear();
+				egresosDTO = new ArrayList<>();
 			}
 
 		} catch (HiperionException e) {
@@ -381,29 +380,38 @@ public class EgresoBacking implements Serializable {
 		try {
 			this.partida = egresoService.obtenerPartidaById(idPartida);
 
-			double presupuesto = this.presupuesto.doubleValue();
+			if (this.presupuesto > 0) {
 
-			EgresoDTO egreso = new EgresoDTO(this.partida, presupuesto);
-			
-			Egreso egresoDB = egresoService.buscarEgresos(egresoBean.getPeriodo(), egresoBean.getAfectacion());
+				double presupuesto = this.presupuesto.doubleValue();
 
-			int cont = 0;
-			if (egresoDB != null) {
+				EgresoDTO egreso = new EgresoDTO(this.partida, presupuesto);
 
-				List<DetalleEgreso> detEgresos = egresoService.buscarEgresos(egresoDB.getIdEgreso());
+				Egreso egresoDB = egresoService.buscarEgresos(egresoBean.getPeriodo(), egresoBean.getAfectacion());
 
-				for (DetalleEgreso detEgreso : detEgresos) {
-					if (detEgreso.getPartida().getPartida().equals(this.partida.getPartida())) {
-						cont++;
+				int cont = 0;
+				if (egresoDB != null) {
+
+					List<DetalleEgreso> detEgresos = egresoService.buscarEgresos(egresoDB.getIdEgreso());
+
+					for (DetalleEgreso detEgreso : detEgresos) {
+						if (detEgreso.getPartida().getPartida().equals(this.partida.getPartida())) {
+							cont++;
+						}
 					}
+
 				}
 
-			}
+				if (cont > 0) {
+					MessagesController.addWarn(null, "Ya existe ingresada una partida similar ");
+				} else {
+					egresosDTO.add(egreso);
+					
+					this.partida = null;
+					this.presupuesto = null;
+				}
 
-			if (cont > 0) {
-				MessagesController.addWarn(null, "Ya existe ingresada una partida similar ");
 			} else {
-				egresosDTO.add(egreso);
+				MessagesController.addError(null, "El presupuesto debe ser mayor de cero, valor invalido.");
 			}
 
 		} catch (HiperionException e) {

@@ -31,6 +31,7 @@ public class RecaudacionGastoBean implements Serializable {
 	private Integer facultad;
 	private Integer dependencia;
 	private Long idAfectacion;
+	private String cur;
 
 	/**
 	 * @return the periodo
@@ -160,12 +161,26 @@ public class RecaudacionGastoBean implements Serializable {
 	}
 
 	/**
-	 * @param idAfectacion the idAfectacion to set
+	 * @param idAfectacion
+	 *            the idAfectacion to set
 	 */
 	public void setIdAfectacion(Long idAfectacion) {
 		this.idAfectacion = idAfectacion;
 	}
 
-	
+	/**
+	 * @return the cur
+	 */
+	public String getCur() {
+		return cur;
+	}
+
+	/**
+	 * @param cur
+	 *            the cur to set
+	 */
+	public void setCur(String cur) {
+		this.cur = cur;
+	}
 
 }
