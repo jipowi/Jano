@@ -28,7 +28,13 @@ public class Recaudacion implements Serializable {
 
 	private String beneficiario;
 
+	@Column(name = "codigo_ingreso")
+	private String codigoIngreso;
+
 	private String comprobante;
+
+	@Column(name = "estado_recaudacion")
+	private String estadoRecaudacion;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "fecha_recaudacion")
@@ -39,6 +45,9 @@ public class Recaudacion implements Serializable {
 	@Column(name = "perido_recaudacion")
 	private String peridoRecaudacion;
 
+	@Column(name = "cur_recaudacion")
+	private String cur;
+
 	@Column(name = "valor_recaudacion")
 	private double valorRecaudacion;
 
@@ -46,9 +55,6 @@ public class Recaudacion implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_afectacion")
 	private Afectacion afectacion;
-
-	@Column(name = "codigo_ingreso")
-	private String codigoIngreso;
 
 	// bi-directional many-to-one association to Partida
 	@ManyToOne
@@ -74,12 +80,28 @@ public class Recaudacion implements Serializable {
 		this.beneficiario = beneficiario.toUpperCase();
 	}
 
+	public String getCodigoIngreso() {
+		return this.codigoIngreso;
+	}
+
+	public void setCodigoIngreso(String codigoIngreso) {
+		this.codigoIngreso = codigoIngreso;
+	}
+
 	public String getComprobante() {
 		return this.comprobante;
 	}
 
 	public void setComprobante(String comprobante) {
 		this.comprobante = comprobante;
+	}
+
+	public String getEstadoRecaudacion() {
+		return this.estadoRecaudacion;
+	}
+
+	public void setEstadoRecaudacion(String estadoRecaudacion) {
+		this.estadoRecaudacion = estadoRecaudacion;
 	}
 
 	public Date getFechaRecaudacion() {
@@ -131,18 +153,18 @@ public class Recaudacion implements Serializable {
 	}
 
 	/**
-	 * @return the codigoIngreso
+	 * @return the cur
 	 */
-	public String getCodigoIngreso() {
-		return codigoIngreso;
+	public String getCur() {
+		return cur;
 	}
 
 	/**
-	 * @param codigoIngreso
-	 *            the codigoIngreso to set
+	 * @param cur
+	 *            the cur to set
 	 */
-	public void setCodigoIngreso(String codigoIngreso) {
-		this.codigoIngreso = codigoIngreso;
+	public void setCur(String cur) {
+		this.cur = cur;
 	}
 
 }

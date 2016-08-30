@@ -31,8 +31,14 @@ public class Gasto implements Serializable {
 	@Column(name = "beneficiario_gasto")
 	private String beneficiarioGasto;
 
+	@Column(name = "codigo_gasto")
+	private String codigoGasto;
+
 	@Column(name = "comprobante_gasto")
 	private String comprobanteGasto;
+
+	@Column(name = "estado_gasto")
+	private String estadoGasto;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "fecha_gasto")
@@ -44,11 +50,11 @@ public class Gasto implements Serializable {
 	@Column(name = "periodo_gasto")
 	private String periodoGasto;
 
-	@Column(name = "codigo_gasto")
-	private String codigoGasto;
-
 	@Column(name = "valor_gasto")
 	private double valorGasto;
+
+	@Column(name = "cur_gastos")
+	private String cur;
 
 	// bi-directional many-to-one association to Afectacion
 	@ManyToOne
@@ -79,12 +85,28 @@ public class Gasto implements Serializable {
 		this.beneficiarioGasto = beneficiarioGasto;
 	}
 
+	public String getCodigoGasto() {
+		return this.codigoGasto;
+	}
+
+	public void setCodigoGasto(String codigoGasto) {
+		this.codigoGasto = codigoGasto;
+	}
+
 	public String getComprobanteGasto() {
 		return this.comprobanteGasto;
 	}
 
 	public void setComprobanteGasto(String comprobanteGasto) {
 		this.comprobanteGasto = comprobanteGasto;
+	}
+
+	public String getEstadoGasto() {
+		return this.estadoGasto;
+	}
+
+	public void setEstadoGasto(String estadoGasto) {
+		this.estadoGasto = estadoGasto;
 	}
 
 	public Date getFechaGasto() {
@@ -136,18 +158,18 @@ public class Gasto implements Serializable {
 	}
 
 	/**
-	 * @return the codigoGasto
+	 * @return the cur
 	 */
-	public String getCodigoGasto() {
-		return codigoGasto;
+	public String getCur() {
+		return cur;
 	}
 
 	/**
-	 * @param codigoGasto
-	 *            the codigoGasto to set
+	 * @param cur
+	 *            the cur to set
 	 */
-	public void setCodigoGasto(String codigoGasto) {
-		this.codigoGasto = codigoGasto;
+	public void setCur(String cur) {
+		this.cur = cur;
 	}
 
 }

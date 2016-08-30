@@ -31,13 +31,17 @@ public class Partida implements Serializable {
 	@OneToMany(mappedBy="partida")
 	private List<DetalleIngreso> detalleIngresos;
 
+	//bi-directional many-to-one association to Gasto
+	@OneToMany(mappedBy="partida")
+	private List<Gasto> gastos;
+
 	//bi-directional many-to-one association to Recaudacion
 	@OneToMany(mappedBy="partida")
 	private List<Recaudacion> recaudacions;
 
-	//bi-directional many-to-one association to Gasto
+	//bi-directional many-to-one association to Reforma
 	@OneToMany(mappedBy="partida")
-	private List<Gasto> gastos;
+	private List<Reforma> reformas;
 
 	public Partida() {
 	}
@@ -55,7 +59,7 @@ public class Partida implements Serializable {
 	}
 
 	public void setPartida(String partida) {
-		this.partida = partida;
+		this.partida = partida.toUpperCase();
 	}
 
 	public String getTipoPartida() {
@@ -110,6 +114,28 @@ public class Partida implements Serializable {
 		return detalleIngreso;
 	}
 
+	public List<Gasto> getGastos() {
+		return this.gastos;
+	}
+
+	public void setGastos(List<Gasto> gastos) {
+		this.gastos = gastos;
+	}
+
+	public Gasto addGasto(Gasto gasto) {
+		getGastos().add(gasto);
+		gasto.setPartida(this);
+
+		return gasto;
+	}
+
+	public Gasto removeGasto(Gasto gasto) {
+		getGastos().remove(gasto);
+		gasto.setPartida(null);
+
+		return gasto;
+	}
+
 	public List<Recaudacion> getRecaudacions() {
 		return this.recaudacions;
 	}
@@ -132,26 +158,26 @@ public class Partida implements Serializable {
 		return recaudacion;
 	}
 
-	public List<Gasto> getGastos() {
-		return this.gastos;
+	public List<Reforma> getReformas() {
+		return this.reformas;
 	}
 
-	public void setGastos(List<Gasto> gastos) {
-		this.gastos = gastos;
+	public void setReformas(List<Reforma> reformas) {
+		this.reformas = reformas;
 	}
 
-	public Gasto addGasto(Gasto gasto) {
-		getGastos().add(gasto);
-		gasto.setPartida(this);
+	public Reforma addReforma(Reforma reforma) {
+		getReformas().add(reforma);
+		reforma.setPartida(this);
 
-		return gasto;
+		return reforma;
 	}
 
-	public Gasto removeGasto(Gasto gasto) {
-		getGastos().remove(gasto);
-		gasto.setPartida(null);
+	public Reforma removeReforma(Reforma reforma) {
+		getReformas().remove(reforma);
+		reforma.setPartida(null);
 
-		return gasto;
+		return reforma;
 	}
 
 }
