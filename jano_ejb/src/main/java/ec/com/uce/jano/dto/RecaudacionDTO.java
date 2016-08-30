@@ -25,6 +25,7 @@ public class RecaudacionDTO {
 	private Afectacion afectacion;
 	private Partida partida;
 	private String periodo;
+	private String estado;
 
 	/**
 	 * @param beneficiario
@@ -35,7 +36,8 @@ public class RecaudacionDTO {
 	 * @param afectacion
 	 * @param partida
 	 */
-	public RecaudacionDTO(String beneficiario, String comprobante, Date fechaRecaudacion, String observacion, double valorRecaudacion, Afectacion afectacion, Partida partida, String periodo) {
+	public RecaudacionDTO(String beneficiario, String comprobante, Date fechaRecaudacion, String observacion, double valorRecaudacion, Afectacion afectacion, Partida partida,
+			String periodo) {
 		super();
 		this.beneficiario = beneficiario;
 		this.comprobante = comprobante;
@@ -173,6 +175,21 @@ public class RecaudacionDTO {
 	 */
 	public void setPeriodo(String periodo) {
 		this.periodo = periodo;
+	}
+
+	/**
+	 * @return the estado
+	 */
+	public String getEstado() {
+		return estado;
+	}
+
+	/**
+	 * @param estado
+	 *            the estado to set
+	 */
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 }
