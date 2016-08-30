@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     06/06/2016 14:17:15                          */
+/* Created on:     01/08/2016 11:55:43                          */
 /*==============================================================*/
 
 
@@ -11,9 +11,11 @@ create table AFECTACION (
    ID_AFECTACION        SERIAL               not null,
    DESC_AFECTACION      TEXT                 null,
    ID_FACULTAD          INT4                 null,
-   ID_DEPENDENCIA       INT4                 null,
-   constraint PK_AFECTACION primary key (ID_AFECTACION)
+   ID_DEPENDENCIA       INT4                 null
 );
+
+alter table AFECTACION
+   add constraint PK_AFECTACION primary key (ID_AFECTACION);
 
 /*==============================================================*/
 /* Index: AFECTACION_PK                                         */
@@ -27,9 +29,11 @@ ID_AFECTACION
 /*==============================================================*/
 create table CATALOGO (
    ID_CATALOGO          SERIAL               not null,
-   DESCRIPCION_CATALOGO TEXT                 null,
-   constraint PK_CATALOGO primary key (ID_CATALOGO)
+   DESCRIPCION_CATALOGO TEXT                 null
 );
+
+alter table CATALOGO
+   add constraint PK_CATALOGO primary key (ID_CATALOGO);
 
 /*==============================================================*/
 /* Index: CATALOGO_PK                                           */
@@ -47,9 +51,11 @@ create table DETALLE_CATALOGO (
    COD_DETALLE_CATALOGO TEXT                 null,
    COD_DEP_CATALOGO     TEXT                 null,
    COD_DEP_DETALLE_CATALOGO TEXT                 null,
-   DESC_DET_CATALOGO    TEXT                 null,
-   constraint PK_DETALLE_CATALOGO primary key (ID_DETALLE_CATALOGO)
+   DESC_DET_CATALOGO    TEXT                 null
 );
+
+alter table DETALLE_CATALOGO
+   add constraint PK_DETALLE_CATALOGO primary key (ID_DETALLE_CATALOGO);
 
 /*==============================================================*/
 /* Index: DETALLE_CATALOGO_PK                                   */
@@ -72,9 +78,11 @@ create table DETALLE_EGRESO (
    ID_DET_EGRESO        SERIAL               not null,
    ID_EGRESO            INT4                 null,
    ID_PARTIDA           INT4                 null,
-   PRESUPUESTO          DECIMAL              null,
-   constraint PK_DETALLE_EGRESO primary key (ID_DET_EGRESO)
+   PRESUPUESTO          DECIMAL              null
 );
+
+alter table DETALLE_EGRESO
+   add constraint PK_DETALLE_EGRESO primary key (ID_DET_EGRESO);
 
 /*==============================================================*/
 /* Index: DETALLE_EGRESO_PK                                     */
@@ -104,9 +112,11 @@ create table DETALLE_INGRESO (
    ID_DET_INGRESO       SERIAL               not null,
    ID_INGRESO           INT4                 null,
    ID_PARTIDA           INT4                 null,
-   PRESUPUESTO_INGRESO  DECIMAL              null,
-   constraint PK_DETALLE_INGRESO primary key (ID_DET_INGRESO)
+   PRESUPUESTO_INGRESO  DECIMAL              null
 );
+
+alter table DETALLE_INGRESO
+   add constraint PK_DETALLE_INGRESO primary key (ID_DET_INGRESO);
 
 /*==============================================================*/
 /* Index: DETALLE_INGRESO_PK                                    */
@@ -135,9 +145,11 @@ ID_INGRESO
 create table EGRESO (
    ID_EGRESO            SERIAL               not null,
    ID_AFECTACION        INT4                 null,
-   PERIODO              TEXT                 null,
-   constraint PK_EGRESO primary key (ID_EGRESO)
+   PERIODO              TEXT                 null
 );
+
+alter table EGRESO
+   add constraint PK_EGRESO primary key (ID_EGRESO);
 
 /*==============================================================*/
 /* Index: EGRESO_PK                                             */
@@ -154,14 +166,57 @@ ID_AFECTACION
 );
 
 /*==============================================================*/
+/* Table: GASTOS                                                */
+/*==============================================================*/
+create table GASTOS (
+   ID_GASTOS            SERIAL               not null,
+   ID_AFECTACION        INT4                 null,
+   ID_PARTIDA           INT4                 null,
+   COMPROBANTE_GASTO    TEXT                 null,
+   BENEFICIARIO_GASTO   TEXT                 null,
+   FECHA_GASTO          DATE                 null,
+   PERIODO_GASTO        TEXT                 null,
+   OBS_GASTO            TEXT                 null,
+   VALOR_GASTO          DECIMAL              null,
+   CODIGO_GASTO         TEXT                 null,
+   ESTADO_GASTO         TEXT                 null
+);
+
+alter table GASTOS
+   add constraint PK_GASTOS primary key (ID_GASTOS);
+
+/*==============================================================*/
+/* Index: GASTOS_PK                                             */
+/*==============================================================*/
+create unique index GASTOS_PK on GASTOS (
+ID_GASTOS
+);
+
+/*==============================================================*/
+/* Index: AFECTACION_GASTO_FK                                   */
+/*==============================================================*/
+create  index AFECTACION_GASTO_FK on GASTOS (
+ID_AFECTACION
+);
+
+/*==============================================================*/
+/* Index: PARTIDA_GASTO_FK                                      */
+/*==============================================================*/
+create  index PARTIDA_GASTO_FK on GASTOS (
+ID_PARTIDA
+);
+
+/*==============================================================*/
 /* Table: INGRESO                                               */
 /*==============================================================*/
 create table INGRESO (
    ID_INGRESO           SERIAL               not null,
    ID_AFECTACION        INT4                 null,
-   PERIODO_INGRESO      TEXT                 null,
-   constraint PK_INGRESO primary key (ID_INGRESO)
+   PERIODO_INGRESO      TEXT                 null
 );
+
+alter table INGRESO
+   add constraint PK_INGRESO primary key (ID_INGRESO);
 
 /*==============================================================*/
 /* Index: INGRESO_PK                                            */
@@ -185,9 +240,11 @@ create table MENU (
    ID_PADRE             INT4                 null,
    NOMBRE_MENU          TEXT                 null,
    URL                  TEXT                 null,
-   ESTADO_MENU          TEXT                 null,
-   constraint PK_MENU primary key (ID_MENU)
+   ESTADO_MENU          TEXT                 null
 );
+
+alter table MENU
+   add constraint PK_MENU primary key (ID_MENU);
 
 /*==============================================================*/
 /* Index: MENU_PK                                               */
@@ -202,9 +259,11 @@ ID_MENU
 create table PARTIDA (
    ID_PARTIDA           SERIAL               not null,
    PARTIDA              TEXT                 null,
-   TIPO_PARTIDA         TEXT                 null,
-   constraint PK_PARTIDA primary key (ID_PARTIDA)
+   TIPO_PARTIDA         TEXT                 null
 );
+
+alter table PARTIDA
+   add constraint PK_PARTIDA primary key (ID_PARTIDA);
 
 /*==============================================================*/
 /* Index: PARTIDA_PK                                            */
@@ -226,15 +285,25 @@ create table RECAUDACION (
    PERIDO_RECAUDACION   TEXT                 null,
    OBSERVACION          TEXT                 null,
    VALOR_RECAUDACION    DECIMAL              null,
-   ESTADO				TEXT				 null,
-   constraint PK_RECAUDACION primary key (ID_RECAUDACION)
+   CODIGO_INGRESO       TEXT                 null,
+   ESTADO_RECAUDACION   TEXT                 null
 );
+
+alter table RECAUDACION
+   add constraint PK_RECAUDACION primary key (ID_RECAUDACION);
 
 /*==============================================================*/
 /* Index: RECAUDACION_PK                                        */
 /*==============================================================*/
 create unique index RECAUDACION_PK on RECAUDACION (
 ID_RECAUDACION
+);
+
+/*==============================================================*/
+/* Index: PARTIDA_RECAUDACION_FK                                */
+/*==============================================================*/
+create  index PARTIDA_RECAUDACION_FK on RECAUDACION (
+ID_PARTIDA
 );
 
 /*==============================================================*/
@@ -245,9 +314,36 @@ ID_AFECTACION
 );
 
 /*==============================================================*/
-/* Index: PARTIDA_RECAUDACION_FK                                */
+/* Table: REFORMA                                               */
 /*==============================================================*/
-create  index PARTIDA_RECAUDACION_FK on RECAUDACION (
+create table REFORMA (
+   ID_REFORMA           SERIAL               not null,
+   ID_PARTIDA           INT4                 null,
+   ID_AFECTACION        INT4                 null,
+   VALOR_REFORMA        DECIMAL              null
+);
+
+alter table REFORMA
+   add constraint PK_REFORMA primary key (ID_REFORMA);
+
+/*==============================================================*/
+/* Index: REFORMA_PK                                            */
+/*==============================================================*/
+create unique index REFORMA_PK on REFORMA (
+ID_REFORMA
+);
+
+/*==============================================================*/
+/* Index: AFECTACION_REFORMA_FK                                 */
+/*==============================================================*/
+create  index AFECTACION_REFORMA_FK on REFORMA (
+ID_AFECTACION
+);
+
+/*==============================================================*/
+/* Index: PARTIDA_REFORMA_FK                                    */
+/*==============================================================*/
+create  index PARTIDA_REFORMA_FK on REFORMA (
 ID_PARTIDA
 );
 
@@ -259,9 +355,11 @@ create table ROL (
    ID_USUARIO           INT4                 null,
    NOMBRE_ROL           TEXT                 null,
    DESCRIPCION_ROL      TEXT                 null,
-   ESTADO_ROL           TEXT                 null,
-   constraint PK_ROL primary key (ID_ROL)
+   ESTADO_ROL           TEXT                 null
 );
+
+alter table ROL
+   add constraint PK_ROL primary key (ID_ROL);
 
 /*==============================================================*/
 /* Index: ROL_PK                                                */
@@ -283,9 +381,11 @@ ID_USUARIO
 create table ROL_MENU (
    ID_MENU_ROL          SERIAL               not null,
    ID_ROL               INT4                 null,
-   ID_MENU              INT4                 null,
-   constraint PK_ROL_MENU primary key (ID_MENU_ROL)
+   ID_MENU              INT4                 null
 );
+
+alter table ROL_MENU
+   add constraint PK_ROL_MENU primary key (ID_MENU_ROL);
 
 /*==============================================================*/
 /* Index: ROL_MENU_PK                                           */
@@ -322,9 +422,11 @@ create table USUARIO (
    ID_USUARIO_CREACION  INT4                 null,
    FECHA_CREACION       DATE                 null,
    ID_USUARIO_ACTUALIZACION INT4                 null,
-   FECHA_ACTUALIZACION  DATE                 null,
-   constraint PK_USUARIO primary key (ID_USUARIO)
+   FECHA_ACTUALIZACION  DATE                 null
 );
+
+alter table USUARIO
+   add constraint PK_USUARIO primary key (ID_USUARIO);
 
 /*==============================================================*/
 /* Index: USUARIO_PK                                            */
@@ -363,6 +465,16 @@ alter table EGRESO
       references AFECTACION (ID_AFECTACION)
       on delete restrict on update restrict;
 
+alter table GASTOS
+   add constraint FK_GASTOS_AFECTACIO_AFECTACI foreign key (ID_AFECTACION)
+      references AFECTACION (ID_AFECTACION)
+      on delete restrict on update restrict;
+
+alter table GASTOS
+   add constraint FK_GASTOS_PARTIDA_G_PARTIDA foreign key (ID_PARTIDA)
+      references PARTIDA (ID_PARTIDA)
+      on delete restrict on update restrict;
+
 alter table INGRESO
    add constraint FK_INGRESO_AFECTACIO_AFECTACI foreign key (ID_AFECTACION)
       references AFECTACION (ID_AFECTACION)
@@ -375,6 +487,16 @@ alter table RECAUDACION
 
 alter table RECAUDACION
    add constraint FK_RECAUDAC_PARTIDA_R_PARTIDA foreign key (ID_PARTIDA)
+      references PARTIDA (ID_PARTIDA)
+      on delete restrict on update restrict;
+
+alter table REFORMA
+   add constraint FK_REFORMA_AFECTACIO_AFECTACI foreign key (ID_AFECTACION)
+      references AFECTACION (ID_AFECTACION)
+      on delete restrict on update restrict;
+
+alter table REFORMA
+   add constraint FK_REFORMA_PARTIDA_R_PARTIDA foreign key (ID_PARTIDA)
       references PARTIDA (ID_PARTIDA)
       on delete restrict on update restrict;
 

@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     06/06/2016 14:17:15                          */
+/* Created on:     30/08/2016 16:02:10                          */
 /*==============================================================*/
 
 
@@ -154,6 +154,46 @@ ID_AFECTACION
 );
 
 /*==============================================================*/
+/* Table: GASTOS                                                */
+/*==============================================================*/
+create table GASTOS (
+   ID_GASTOS            SERIAL               not null,
+   ID_AFECTACION        INT4                 null,
+   ID_PARTIDA           INT4                 null,
+   COMPROBANTE_GASTO    TEXT                 null,
+   BENEFICIARIO_GASTO   TEXT                 null,
+   FECHA_GASTO          DATE                 null,
+   PERIODO_GASTO        TEXT                 null,
+   OBS_GASTO            TEXT                 null,
+   VALOR_GASTO          DECIMAL              null,
+   CODIGO_GASTO         TEXT                 null,
+   ESTADO_GASTO         TEXT                 null,
+   CUR_GASTOS           TEXT                 null,
+   constraint PK_GASTOS primary key (ID_GASTOS)
+);
+
+/*==============================================================*/
+/* Index: GASTOS_PK                                             */
+/*==============================================================*/
+create unique index GASTOS_PK on GASTOS (
+ID_GASTOS
+);
+
+/*==============================================================*/
+/* Index: AFECTACION_GASTO_FK                                   */
+/*==============================================================*/
+create  index AFECTACION_GASTO_FK on GASTOS (
+ID_AFECTACION
+);
+
+/*==============================================================*/
+/* Index: PARTIDA_GASTO_FK                                      */
+/*==============================================================*/
+create  index PARTIDA_GASTO_FK on GASTOS (
+ID_PARTIDA
+);
+
+/*==============================================================*/
 /* Table: INGRESO                                               */
 /*==============================================================*/
 create table INGRESO (
@@ -226,7 +266,9 @@ create table RECAUDACION (
    PERIDO_RECAUDACION   TEXT                 null,
    OBSERVACION          TEXT                 null,
    VALOR_RECAUDACION    DECIMAL              null,
-   ESTADO				TEXT				 null,
+   CODIGO_INGRESO       TEXT                 null,
+   ESTADO_RECAUDACION   TEXT                 null,
+   CUR_RECAUDACION      TEXT                 null,
    constraint PK_RECAUDACION primary key (ID_RECAUDACION)
 );
 
@@ -238,6 +280,13 @@ ID_RECAUDACION
 );
 
 /*==============================================================*/
+/* Index: PARTIDA_RECAUDACION_FK                                */
+/*==============================================================*/
+create  index PARTIDA_RECAUDACION_FK on RECAUDACION (
+ID_PARTIDA
+);
+
+/*==============================================================*/
 /* Index: AFECTACION_RECAUDACION_FK                             */
 /*==============================================================*/
 create  index AFECTACION_RECAUDACION_FK on RECAUDACION (
@@ -245,9 +294,34 @@ ID_AFECTACION
 );
 
 /*==============================================================*/
-/* Index: PARTIDA_RECAUDACION_FK                                */
+/* Table: REFORMA                                               */
 /*==============================================================*/
-create  index PARTIDA_RECAUDACION_FK on RECAUDACION (
+create table REFORMA (
+   ID_REFORMA           SERIAL               not null,
+   ID_PARTIDA           INT4                 null,
+   ID_AFECTACION        INT4                 null,
+   VALOR_REFORMA        DECIMAL              null,
+   constraint PK_REFORMA primary key (ID_REFORMA)
+);
+
+/*==============================================================*/
+/* Index: REFORMA_PK                                            */
+/*==============================================================*/
+create unique index REFORMA_PK on REFORMA (
+ID_REFORMA
+);
+
+/*==============================================================*/
+/* Index: AFECTACION_REFORMA_FK                                 */
+/*==============================================================*/
+create  index AFECTACION_REFORMA_FK on REFORMA (
+ID_AFECTACION
+);
+
+/*==============================================================*/
+/* Index: PARTIDA_REFORMA_FK                                    */
+/*==============================================================*/
+create  index PARTIDA_REFORMA_FK on REFORMA (
 ID_PARTIDA
 );
 
@@ -363,6 +437,16 @@ alter table EGRESO
       references AFECTACION (ID_AFECTACION)
       on delete restrict on update restrict;
 
+alter table GASTOS
+   add constraint FK_GASTOS_AFECTACIO_AFECTACI foreign key (ID_AFECTACION)
+      references AFECTACION (ID_AFECTACION)
+      on delete restrict on update restrict;
+
+alter table GASTOS
+   add constraint FK_GASTOS_PARTIDA_G_PARTIDA foreign key (ID_PARTIDA)
+      references PARTIDA (ID_PARTIDA)
+      on delete restrict on update restrict;
+
 alter table INGRESO
    add constraint FK_INGRESO_AFECTACIO_AFECTACI foreign key (ID_AFECTACION)
       references AFECTACION (ID_AFECTACION)
@@ -375,6 +459,16 @@ alter table RECAUDACION
 
 alter table RECAUDACION
    add constraint FK_RECAUDAC_PARTIDA_R_PARTIDA foreign key (ID_PARTIDA)
+      references PARTIDA (ID_PARTIDA)
+      on delete restrict on update restrict;
+
+alter table REFORMA
+   add constraint FK_REFORMA_AFECTACIO_AFECTACI foreign key (ID_AFECTACION)
+      references AFECTACION (ID_AFECTACION)
+      on delete restrict on update restrict;
+
+alter table REFORMA
+   add constraint FK_REFORMA_PARTIDA_R_PARTIDA foreign key (ID_PARTIDA)
       references PARTIDA (ID_PARTIDA)
       on delete restrict on update restrict;
 

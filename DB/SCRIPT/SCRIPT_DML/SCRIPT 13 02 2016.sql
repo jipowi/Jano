@@ -51,13 +51,15 @@ INSERT INTO MENU VALUES (2, 1, 'Ingresar Usuarios', '/pages/usuarios.jsf','A');
 INSERT INTO MENU VALUES (3, NULL, 'Ingresos & Egresos', NULL,'A');
 INSERT INTO MENU VALUES (4, 3, 'Registrar Egresos', '/pages/egreso.jsf','A');
 INSERT INTO MENU VALUES (5, 1, 'Ingresar Partidas', '/pages/partida.jsf','A');
-INSERT INTO MENU VALUES (6, 1, 'Ingresar Afectaciones', '/pages/afectacion.jsf','A');
+INSERT INTO MENU VALUES (6, 1, 'Ingresar Entidades', '/pages/afectacion.jsf','A');
 INSERT INTO MENU VALUES (7, 3, 'Registrar Ingresos', '/pages/ingreso.jsf','A');
 INSERT INTO MENU VALUES (8, 3, 'Recaudaciones', '/pages/comprobanteIngreso.jsf','A');
 INSERT INTO MENU VALUES (9, NULL, 'Reportes', NULL,'A');
 INSERT INTO MENU VALUES (10, 9, 'Reporte Recaudaciones', '/pages/reporteRecaudaciones.jsf','A');
 INSERT INTO MENU VALUES (11, 9, 'Reporte Gastos', '/pages/reporteGastos.jsf','A');
-INSERT INTO MENU VALUES (12, 3, 'Certificaciones', '/pages/comprobanteGastos.jsf','A');
+INSERT INTO MENU VALUES (12, 3, 'Compromisos', '/pages/comprobanteGastos.jsf','A');
+INSERT INTO MENU VALUES (13, 3, 'Reformas', '/pages/reforma.jsf','A');
+
 
 
 
@@ -73,3 +75,4 @@ INSERT INTO ROL_MENU VALUES (9,1,9);
 INSERT INTO ROL_MENU VALUES (10,1,10);
 INSERT INTO ROL_MENU VALUES (11,1,11);
 INSERT INTO ROL_MENU VALUES (12,1,12);
+INSERT INTO ROL_MENU VALUES (13,1,13);
