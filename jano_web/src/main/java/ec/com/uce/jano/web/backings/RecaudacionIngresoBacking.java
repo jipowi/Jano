@@ -212,6 +212,7 @@ public class RecaudacionIngresoBacking implements Serializable {
 		recaudacion.setBeneficiario(recaudacionIngresoBean.getBeneficiario());
 		recaudacion.setObservacion(recaudacionIngresoBean.getObservacion());
 		recaudacion.setValorRecaudacion(recaudacionIngresoBean.getValor());
+		recaudacion.setCur(recaudacionIngresoBean.getCur());
 
 		Afectacion afectacion = new Afectacion();
 		afectacion.setIdFacultad(recaudacionIngresoBean.getFacultad());

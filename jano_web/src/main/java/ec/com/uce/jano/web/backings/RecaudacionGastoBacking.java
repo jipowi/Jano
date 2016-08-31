@@ -330,6 +330,7 @@ public class RecaudacionGastoBacking implements Serializable {
 					gasto.setBeneficiarioGasto(recaudacionDTO.getBeneficiario());
 					gasto.setObsGasto(recaudacionDTO.getObservacion());
 					gasto.setValorGasto(recaudacionDTO.getValorRecaudacion());
+					gasto.setCur(recaudacionGastoBean.getCur());
 
 					afectacion = new Afectacion();
 					afectacion.setIdFacultad(recaudacionGastoBean.getFacultad());
