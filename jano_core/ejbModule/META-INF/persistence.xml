@@ -20,5 +20,6 @@
 		<class>ec.com.uce.jano.entities.Ingreso</class>
 		<class>ec.com.uce.jano.entities.Recaudacion</class>
 		<class>ec.com.uce.jano.entities.Gasto</class>
+		<class>ec.com.uce.jano.entities.Reforma</class>
 	</persistence-unit>
 </persistence>
