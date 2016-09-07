@@ -39,7 +39,6 @@ INSERT INTO DETALLE_CATALOGO (ID_CATALOGO, COD_DETALLE_CATALOGO, DESC_DET_CATALO
 
 --TABLA USUARIO
 INSERT INTO USUARIO VALUES (1, 'admin', 'PAUL JIMENEZ','admin', '1719186262', 'A', 'A');
-INSERT INTO USUARIO VALUES (2, 'fpozo', 'FRANKLIN POZO','fpozo', '1719186262', 'A', 'A');
 
 -- TABLA DE ROL
 INSERT INTO ROL VALUES (1, 1, 'COMERCIAL', 'DEPARTAMENTO COMERCIAL', 'A');
@@ -59,9 +58,8 @@ INSERT INTO MENU VALUES (10, 9, 'Reporte Recaudaciones', '/pages/reporteRecaudac
 INSERT INTO MENU VALUES (11, 9, 'Reporte Gastos', '/pages/reporteGastos.jsf','A');
 INSERT INTO MENU VALUES (12, 3, 'Compromisos', '/pages/comprobanteGastos.jsf','A');
 INSERT INTO MENU VALUES (13, 3, 'Reformas', '/pages/reforma.jsf','A');
-
-
-
+INSERT INTO MENU VALUES (14, 3, 'Buscar Compromisos', '/pages/buscarCompromisos.jsf','A');
+INSERT INTO MENU VALUES (15, 3, 'Buscar Recaudaciones', '/pages/buscarRecaudaciones.jsf','A');
 
 INSERT INTO ROL_MENU VALUES (1,1,1);
 INSERT INTO ROL_MENU VALUES (2,1,2);
@@ -76,3 +74,5 @@ INSERT INTO ROL_MENU VALUES (10,1,10);
 INSERT INTO ROL_MENU VALUES (11,1,11);
 INSERT INTO ROL_MENU VALUES (12,1,12);
 INSERT INTO ROL_MENU VALUES (13,1,13);
+INSERT INTO ROL_MENU VALUES (14,1,14);
+INSERT INTO ROL_MENU VALUES (15,1,15);
