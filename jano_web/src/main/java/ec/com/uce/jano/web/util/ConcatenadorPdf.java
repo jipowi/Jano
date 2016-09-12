@@ -59,8 +59,7 @@ public class ConcatenadorPdf {
 		PdfReader reader = new PdfReader(pdf);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		PdfStamper stamp = new PdfStamper(reader, byteArrayOutputStream);
-		PdfContentByte over;
-		PdfContentByte under;
+		PdfContentByte over;	PdfContentByte under;
 		BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA_OBLIQUE, BaseFont.WINANSI, BaseFont.EMBEDDED);
 
 		int numPaginas = reader.getNumberOfPages();
@@ -70,7 +69,7 @@ public class ConcatenadorPdf {
 
 		Image img = null;
 		if (marcaDeAgua) {
-			img = Image.getInstance(new URL("http://127.0.0.1:8080/hiperion_web/" + imagenMarcaAgua));
+			img = Image.getInstance(new URL("http://localhost:8080/jano_web" + imagenMarcaAgua));
 			img.setAbsolutePosition(rec.getWidth() / 2 - img.getWidth() / 2, rec.getHeight() / 2 - img.getHeight() / 2);
 		}
 

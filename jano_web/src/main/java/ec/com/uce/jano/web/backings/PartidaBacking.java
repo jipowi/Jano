@@ -69,7 +69,7 @@ public class PartidaBacking implements Serializable {
 	public void guardarPartida() throws HiperionException {
 
 		try {
-			
+
 			for (PartidaDTO partidaDTO : partidas) {
 				Partida partida = new Partida();
 				partida.setPartida(partidaDTO.getPartida());
@@ -80,7 +80,6 @@ public class PartidaBacking implements Serializable {
 
 			MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
 			partidas.clear();
-			
 
 		} catch (HiperionException e) {
 			MessagesController.addError(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.error.save"));
@@ -198,15 +197,23 @@ public class PartidaBacking implements Serializable {
 	 * 
 	 */
 	public void addPartida() {
-		PartidaDTO item = new PartidaDTO(partidaBean.getTipoPartida(), partidaBean.getPartida());
 
-		partidas.add(item);
-
-		partidaBean.setTipoPartida(null);
-		partidaBean.setPartida(null);
+		if (partidaBean.getPartida().equals("") || partidaBean.getPartida().equals("")) {
+			
+			MessagesController.addWarn(null, "Todos los campos son requeridos.");
 		
-		activarTabla = true;
+		} else {
+			
+			PartidaDTO item = new PartidaDTO(partidaBean.getTipoPartida(), partidaBean.getPartida());
 
+			partidas.add(item);
+
+			partidaBean.setTipoPartida(null);
+			partidaBean.setPartida(null);
+
+			activarTabla = true;
+
+		}
 	}
 
 	/**

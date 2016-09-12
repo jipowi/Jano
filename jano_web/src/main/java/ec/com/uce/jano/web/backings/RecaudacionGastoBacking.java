@@ -223,7 +223,7 @@ public class RecaudacionGastoBacking implements Serializable {
 			double valor = recaudacionGastoBean.getValor();
 
 			if (valor > 0) {
-				
+
 				afectacion = new Afectacion();
 				afectacion.setIdFacultad(recaudacionGastoBean.getFacultad());
 				afectacion.setIdDependencia(recaudacionGastoBean.getDependencia());
@@ -262,11 +262,10 @@ public class RecaudacionGastoBacking implements Serializable {
 				} else {
 					MessagesController.addWarn(null, "Ya existe ingresada una partida similar ");
 				}
-				
+
 			} else {
 				MessagesController.addWarn(null, "El valor debe ser mayor que cero. ");
-			}	
-			
+			}
 
 		} catch (HiperionException e) {
 			MessagesController.addError(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.error.save"));
@@ -331,6 +330,8 @@ public class RecaudacionGastoBacking implements Serializable {
 					gasto.setObsGasto(recaudacionDTO.getObservacion());
 					gasto.setValorGasto(recaudacionDTO.getValorRecaudacion());
 					gasto.setCur(recaudacionGastoBean.getCur());
+					gasto.setPeriodoGasto(recaudacionGastoBean.getPeriodo());
+					gasto.setEstadoGasto(recaudacionDTO.getEstado());
 
 					afectacion = new Afectacion();
 					afectacion.setIdFacultad(recaudacionGastoBean.getFacultad());

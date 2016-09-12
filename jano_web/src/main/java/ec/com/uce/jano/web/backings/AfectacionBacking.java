@@ -59,7 +59,6 @@ public class AfectacionBacking implements Serializable {
 	private boolean activarDependencia = false;
 	private boolean activarDepartamento = false;
 
-
 	/**
 	 * @return the periodoItems
 	 * @throws HiperionException
@@ -189,7 +188,7 @@ public class AfectacionBacking implements Serializable {
 
 				Afectacion afectacion = new Afectacion();
 
-				if (afectacionBean.getAfectacion() != null) {
+				if (!afectacionBean.getAfectacion().equals("")) {
 
 					afectacion.setDescAfectacion(afectacionBean.getAfectacion());
 					afectacion.setIdDependencia(null);
@@ -197,30 +196,41 @@ public class AfectacionBacking implements Serializable {
 					afectacionService.guardarAfectacion(afectacion);
 					MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
 					afectacionBean.setAfectacion("");
+				} else {
+					MessagesController.addWarn(null, "El nombre de la afectacion es requerido.");
 				}
 
 			} else if (tipoAfectacion.equals("Dependencia")) {
 
-				Afectacion afectacion = new Afectacion();
+				if (afectacionBean.getAfectacion().equals("") || afectacionBean.getFacultad().equals("")) {
+					MessagesController.addWarn(null, "Todos los campos son requeridos.");
+				} else {
+					Afectacion afectacion = new Afectacion();
 
-				afectacion.setDescAfectacion(afectacionBean.getAfectacion());
-				afectacion.setIdFacultad(afectacionBean.getFacultad());
+					afectacion.setDescAfectacion(afectacionBean.getAfectacion());
+					afectacion.setIdFacultad(afectacionBean.getFacultad());
 
-				afectacionService.guardarAfectacion(afectacion);
-				MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
-				afectacionBean.setAfectacion("");
+					afectacionService.guardarAfectacion(afectacion);
+					MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
+					afectacionBean.setAfectacion("");
+				}
 
 			} else if (tipoAfectacion.equals("Departamento")) {
 
-				Afectacion afectacion = new Afectacion();
+				if (afectacionBean.getAfectacion().equals("") || afectacionBean.getFacultad().equals("")
+						|| afectacionBean.getDependencia().equals("")) {
+					MessagesController.addWarn(null, "Todos los campos son requeridos.");
+				} else {
+					Afectacion afectacion = new Afectacion();
 
-				afectacion.setDescAfectacion(afectacionBean.getAfectacion());
-				afectacion.setIdFacultad(afectacionBean.getFacultad());
-				afectacion.setIdDependencia(afectacionBean.getDependencia());
+					afectacion.setDescAfectacion(afectacionBean.getAfectacion());
+					afectacion.setIdFacultad(afectacionBean.getFacultad());
+					afectacion.setIdDependencia(afectacionBean.getDependencia());
 
-				afectacionService.guardarAfectacion(afectacion);
-				MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
-				afectacionBean.setAfectacion("");
+					afectacionService.guardarAfectacion(afectacion);
+					MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
+					afectacionBean.setAfectacion("");
+				}
 			}
 		} catch (HiperionException e) {
 
