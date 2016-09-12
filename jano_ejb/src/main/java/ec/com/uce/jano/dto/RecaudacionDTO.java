@@ -17,6 +17,7 @@ import ec.com.uce.jano.entities.Partida;
  */
 public class RecaudacionDTO {
 
+	private Integer idRecaudacion;
 	private String beneficiario;
 	private String comprobante;
 	private Date fechaRecaudacion;
@@ -26,6 +27,8 @@ public class RecaudacionDTO {
 	private Partida partida;
 	private String periodo;
 	private String estado;
+	private String cur;
+	private String codigoIngreso;
 
 	/**
 	 * @param beneficiario
@@ -190,6 +193,51 @@ public class RecaudacionDTO {
 	 */
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	/**
+	 * @return the idRecaudacion
+	 */
+	public Integer getIdRecaudacion() {
+		return idRecaudacion;
+	}
+
+	/**
+	 * @param idRecaudacion
+	 *            the idRecaudacion to set
+	 */
+	public void setIdRecaudacion(Integer idRecaudacion) {
+		this.idRecaudacion = idRecaudacion;
+	}
+
+	/**
+	 * @return the cur
+	 */
+	public String getCur() {
+		return cur;
+	}
+
+	/**
+	 * @param cur
+	 *            the cur to set
+	 */
+	public void setCur(String cur) {
+		this.cur = cur;
+	}
+
+	/**
+	 * @return the codigoIngreso
+	 */
+	public String getCodigoIngreso() {
+		return codigoIngreso;
+	}
+
+	/**
+	 * @param codigoIngreso
+	 *            the codigoIngreso to set
+	 */
+	public void setCodigoIngreso(String codigoIngreso) {
+		this.codigoIngreso = codigoIngreso;
 	}
 
 }

@@ -3,11 +3,14 @@
  */
 package ec.com.uce.jano.servicio;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
 
 import ec.com.uce.jano.comun.HiperionException;
+import ec.com.uce.jano.dto.CompromisoDTO;
+import ec.com.uce.jano.dto.RecaudacionDTO;
 import ec.com.uce.jano.entities.Gasto;
 import ec.com.uce.jano.entities.Recaudacion;
 
@@ -94,4 +97,96 @@ public interface RecaudacionService {
 	 * @throws HiperionException
 	 */
 	public List<Gasto> obtenerGastos() throws HiperionException;
+
+	/**
+	 * 
+	 * <b> Permite editar un compromiso, mediante un parametro. </b>
+	 * <p>
+	 * [Author: kruger, Date: 06/09/2016]
+	 * </p>
+	 * 
+	 * @param compromiso
+	 * @throws HiperionException
+	 */
+	public void editarCompromiso(CompromisoDTO compromiso) throws HiperionException;
+
+	/**
+	 * 
+	 * <b> Permite eliminar un registro desde de la base de datos. </b>
+	 * <p>
+	 * [Author: kruger, Date: 06/09/2016]
+	 * </p>
+	 * 
+	 * @param compromiso
+	 * @throws HiperionException
+	 */
+	public void eliminarCompromiso(CompromisoDTO compromiso) throws HiperionException;
+
+	/**
+	 * 
+	 * <b> Permite buscar los compromisos cargados en la base de datos. </b>
+	 * <p>
+	 * [Author: kruger, Date: 07/09/2016]
+	 * </p>
+	 * 
+	 * @param periodo
+	 * @param beneficiario
+	 * @param fechaInicio
+	 * @param fechaFin
+	 * @return
+	 * @throws HiperionException
+	 */
+	public List<CompromisoDTO> buscarGastos(String periodo, String beneficiario, Date fechaInicio, Date fechaFin) throws HiperionException;
+
+	/**
+	 * 
+	 * <b> Permite buscar las recaudaciones ingresadas en la base de datos. </b>
+	 * <p>
+	 * [Author: kruger, Date: 07/09/2016]
+	 * </p>
+	 * 
+	 * @param periodo
+	 * @param fechaInicio
+	 * @param fechaFin
+	 * @return
+	 * @throws HiperionException
+	 */
+	public List<RecaudacionDTO> buscarRecaudaciones(String periodo, Date fechaInicio, Date fechaFin) throws HiperionException;
+
+	/**
+	 * 
+	 * <b> Permite editar el regsitro correspondiente en la base de datos. </b>
+	 * <p>
+	 * [Author: kruger, Date: 07/09/2016]
+	 * </p>
+	 * 
+	 * @param recaudacionDTO
+	 * @throws HiperionException
+	 */
+	public void editarRecaudacion(RecaudacionDTO recaudacionDTO) throws HiperionException;
+
+	/**
+	 * 
+	 * <b> Permite eliminar el regsitro seleccionado en la base de datos. </b>
+	 * <p>
+	 * [Author: kruger, Date: 07/09/2016]
+	 * </p>
+	 * 
+	 * @param recaudacionDTO
+	 * @throws HiperionException
+	 */
+	public void eliminarRecaudacion(RecaudacionDTO recaudacionDTO) throws HiperionException;
+
+	/**
+	 * 
+	 * <b> Permite buscar gasto por ID. </b>
+	 * <p>
+	 * [Author: kruger, Date: 12/09/2016]
+	 * </p>
+	 * 
+	 * @param idGasto
+	 * @return
+	 * @throws HiperionException
+	 */
+	public Gasto buscarGastoById(Long idGasto) throws HiperionException;
 }
