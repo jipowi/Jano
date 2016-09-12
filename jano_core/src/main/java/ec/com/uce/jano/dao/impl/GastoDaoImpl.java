@@ -4,6 +4,7 @@
  */
 package ec.com.uce.jano.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -44,6 +45,7 @@ public class GastoDaoImpl extends GenericDAOImpl<Gasto, Long> implements GastoDa
 		try {
 			Query query = em.createNamedQuery("Gastos.reporte");
 			query.setParameter("afectacion", idAfectacion);
+			query.setParameter("beneficiario", idAfectacion);
 
 			List<Gasto> gastos = query.getResultList();
 
@@ -51,6 +53,31 @@ public class GastoDaoImpl extends GenericDAOImpl<Gasto, Long> implements GastoDa
 
 		} catch (Exception ex) {
 			log.error("Error: No se pudo realizar la Consulta --> Gastos.reporte", ex);
+			throw new HiperionException(ex);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ec.com.uce.jano.dao.GastoDao#buscarGastos(java.lang.Long)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Gasto> buscarGastos(String periodo, String beneficiario, Date fechaInicio, Date fechaFin) throws HiperionException {
+		try {
+			Query query = em.createNamedQuery("Gastos.buscar");
+			query.setParameter("periodo", periodo);
+			query.setParameter("beneficiario", "%" + beneficiario + "%");
+			query.setParameter("fechaInicio", fechaInicio);
+			query.setParameter("fechaFin", fechaFin);
+
+			List<Gasto> gastos = query.getResultList();
+
+			return gastos;
+
+		} catch (Exception ex) {
+			log.error("Error: No se pudo realizar la Consulta --> Gastos.buscar", ex);
 			throw new HiperionException(ex);
 		}
 	}

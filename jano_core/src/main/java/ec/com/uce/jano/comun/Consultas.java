@@ -47,6 +47,10 @@ import javax.persistence.NamedQuery;
 
 		// RECAUDACIONES
 		@NamedQuery(name = "Recaudacion.reporte", query = "SELECT r FROM Recaudacion r WHERE r.afectacion.idAfectacion =:afectacion"),
+		@NamedQuery(name = "Recaudacion.buscar", query = "SELECT r FROM Recaudacion r WHERE r.peridoRecaudacion =:periodo AND r.fechaRecaudacion BETWEEN :fechaInicio AND :fechaFin"),
+		
+		// COMPROMISOS
+		@NamedQuery(name = "Gastos.buscar", query = "SELECT c FROM Gasto c WHERE c.periodoGasto =:periodo AND c.beneficiarioGasto like :beneficiario AND c.fechaGasto BETWEEN :fechaInicio AND :fechaFin"),
 
 		// RECAUDACIONES
 		@NamedQuery(name = "Gastos.reporte", query = "SELECT g FROM Gasto g WHERE g.afectacion.idAfectacion =:afectacion"),

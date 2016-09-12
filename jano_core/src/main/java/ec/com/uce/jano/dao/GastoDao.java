@@ -4,6 +4,7 @@
  */
 package ec.com.uce.jano.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -34,6 +35,21 @@ public interface GastoDao extends GenericDAO<Gasto, Long> {
 	 * @throws HiperionException
 	 */
 	public List<Gasto> obtenerGastos(Long idAfectacion) throws HiperionException;
-	
-	
+
+	/**
+	 * 
+	 * <b> Permite buscar los compromisos por los siguientes criterios ingresados. </b>
+	 * <p>
+	 * [Author: kruger, Date: 07/09/2016]
+	 * </p>
+	 * 
+	 * @param periodo
+	 * @param beneficiario
+	 * @param fechaInicio
+	 * @param fechaFin
+	 * @return
+	 * @throws HiperionException
+	 */
+	public List<Gasto> buscarGastos(String periodo, String beneficiario, Date fechaInicio, Date fechaFin) throws HiperionException;
+
 }

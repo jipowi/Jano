@@ -26,7 +26,7 @@ public class Gasto implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_gastos")
-	private Integer idGastos;
+	private Long idGastos;
 
 	@Column(name = "beneficiario_gasto")
 	private String beneficiarioGasto;
@@ -69,11 +69,11 @@ public class Gasto implements Serializable {
 	public Gasto() {
 	}
 
-	public Integer getIdGastos() {
+	public Long getIdGastos() {
 		return this.idGastos;
 	}
 
-	public void setIdGastos(Integer idGastos) {
+	public void setIdGastos(Long idGastos) {
 		this.idGastos = idGastos;
 	}
 
@@ -82,7 +82,7 @@ public class Gasto implements Serializable {
 	}
 
 	public void setBeneficiarioGasto(String beneficiarioGasto) {
-		this.beneficiarioGasto = beneficiarioGasto;
+		this.beneficiarioGasto = beneficiarioGasto.toUpperCase();
 	}
 
 	public String getCodigoGasto() {

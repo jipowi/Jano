@@ -4,6 +4,7 @@
  */
 package ec.com.uce.jano.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -24,14 +25,16 @@ public interface RecaudacionDao extends GenericDAO<Recaudacion, Long> {
 
 	/**
 	 * 
-	 * <b>
-	 * Incluir aqui­ la descripcion del metodo.
-	 * </b>
-	 * <p>[Author: kruger, Date: 10/06/2016]</p>
-	 *
+	 * <b> Incluir aqui­ la descripcion del metodo. </b>
+	 * <p>
+	 * [Author: kruger, Date: 10/06/2016]
+	 * </p>
+	 * 
 	 * @param idAfectacion
 	 * @return
 	 * @throws HiperionException
 	 */
 	public List<Recaudacion> obtenerRecaudaciones(Long idAfectacion) throws HiperionException;
+
+	public List<Recaudacion> buscarRecaudaciones(String periodo, Date fechaInicio, Date fechaFin) throws HiperionException;
 }
