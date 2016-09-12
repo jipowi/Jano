@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:composition template="/templates/menuPrincipalTemplate.xhtml">
+	<ui:define name="content">
+
+		<p:outputPanel id="idMessages">
+			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+		</p:outputPanel>
+
+		<div align="center">
+			<p:outputLabel value="Listar Compromisos(Busqueda)" styleClass="negrita" />
+			<p:separator id="customSeparator" style="width:auto;height:1px" />
+			<p:spacer height="15px;" />
+		</div>
+
+		<!-- PANEL DE BUSQUEDA -->
+		<h:form id="formCompromiso">
+			<p:panel>
+				<f:facet name="header">
+					<h:outputText value="COMPROMISOS" />
+				</f:facet>
+				<h:panelGrid columns="2">
+					<h:panelGrid columns="1">
+						<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+							<p:outputLabel value="#{emision['lbl.periodo']}: " styleClass="negrita" />
+							<p:selectOneMenu value="#{buscarRecaudacionesBean.periodo}" effect="drop">
+								<f:selectItem itemLabel="Seleccione Periodo" noSelectionOption="true" />
+								<f:selectItems value="#{egresoBacking.periodoItems}" itemValue="" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+							<p:outputLabel value="#{emision['lbl.comprobante']}: " styleClass="negrita" />
+							<p:inputText value="#{buscarRecaudacionesBean.comprobante}" style="text-transform:uppercase;" />
+						</h:panelGrid>
+
+						<h:panelGrid columns="4" cellpadding="2" cellspacing="2">
+							<p:outputLabel value="#{emision['lbl.fechaInicio']}: " styleClass="negrita" />
+							<p:calendar value="#{buscarRecaudacionesBean.fechaInicio}" locale="de" navigator="true" pattern="MM/dd/yyyy" mask="true" />
+
+							<p:outputLabel value="#{emision['lbl.fechaFin']}: " styleClass="negrita" />
+							<p:calendar value="#{buscarRecaudacionesBean.fechaFin}" locale="de" navigator="true" pattern="MM/dd/yyyy" mask="true" />
+						</h:panelGrid>
+
+					</h:panelGrid>
+					<p:commandLink title="Buscar" action="#{buscarRecaudacionesBacking.buscarCompromisos}" update="tablaCompromisos">
+						<h:graphicImage name="search.png" library="img/icon" />
+					</p:commandLink>
+				</h:panelGrid>
+			</p:panel>
+			<p:spacer height="15px;" />
+			<p:dataTable id="tablaCompromisos" value="#{buscarRecaudacionesBacking.recaudacionDTOs}" var="recaudacionDTO" widgetVar="50" style="width: 100%;"
+				editable="true">
+				<p:ajax event="rowEdit" listener="#{buscarRecaudacionesBacking.editarRecaudacion}" />
+				<p:ajax event="rowEditCancel" listener="#{buscarRecaudacionesBacking.eliminarRecaudacion}" />
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.cur']}" />
+					</f:facet>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{recaudacionDTO.cur}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{recaudacionDTO.cur}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.comprobante']}" />
+					</f:facet>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{recaudacionDTO.comprobante}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{recaudacionDTO.comprobante}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.fechaCompromiso']}" />
+					</f:facet>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{recaudacionDTO.fechaRecaudacion}" pattern="MM/dd/yyyy" />
+						</f:facet>
+						<f:facet name="input">
+							<p:calendar value="#{recaudacionDTO.fechaRecaudacion}" locale="de" navigator="true" pattern="MM/dd/yyyy" mask="true" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.valor']}" />
+					</f:facet>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{recaudacionDTO.valorRecaudacion}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{recaudacionDTO.valorRecaudacion}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Options" style="width:50px">
+					<p:rowEditor />
+				</p:column>
+				
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

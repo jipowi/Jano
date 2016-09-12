@@ -4,6 +4,9 @@
 <ui:composition template="/templates/menuPrincipalTemplate.xhtml">
 	<ui:define name="content">
 		<h:form id="formAfectacion">
+		<p:outputPanel id="idMessagesAfectacion">
+				<p:messages id="messagesAfectacion" showDetail="true" autoUpdate="true" closable="true" />
+			</p:outputPanel>
 			<p:panel>
 				<p:growl id="growl" showDetail="true" showSummary="false" sticky="false" rendered="true" />
 				<div align="center">
