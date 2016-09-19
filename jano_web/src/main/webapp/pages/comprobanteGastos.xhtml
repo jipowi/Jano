@@ -69,12 +69,12 @@
 							<p:outputLabel value="#{emision['lbl.beneficiario']}: " styleClass="negrita" />
 							<p:inputText value="#{recaudacionGastoBean.beneficiario}" style="text-transform:uppercase;" />
 						</h:panelGrid>
-						
+
 						<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
 							<p:outputLabel value="#{emision['lbl.cur']}: " styleClass="negrita" />
 							<p:inputText value="#{recaudacionGastoBean.cur}" style="text-transform:uppercase;" />
 						</h:panelGrid>
-						
+
 					</h:panelGrid>
 					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
 						<p:outputLabel value="#{emision['lbl.observacion']}: " styleClass="negrita" />
@@ -153,6 +153,13 @@
 								<p:calendar value="#{recaudacion.fechaRecaudacion}" locale="de" navigator="true" pattern="MM/dd/yyyy" mask="true" />
 							</f:facet>
 						</p:cellEditor>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.estado']}" />
+						</f:facet>						
+						<h:graphicImage name="circle_red.png" library="img" rendered="#{recaudacion.estado=='I'}" />
+						<h:graphicImage name="circle_green.png" library="img" rendered="#{recaudacion.estado=='A'}" />
 					</p:column>
 					<p:column headerText="Options" style="width:50px">
 						<p:rowEditor />

@@ -140,8 +140,8 @@
 			</p:dataTable>
 			<h:panelGrid columns="3" cellpadding="2" cellspacing="2">
 				<p:outputLabel value="#{emision['lbl.codigo']}: " styleClass="negrita" />
-				<p:inputText value="#{buscarCompromisosBacking.idGasto}" style="text-transform:uppercase;" />
-				<p:commandLink title="Descargar compromiso PDF" actionListener="#{buscarCompromisosBacking.imprimirComprobante}">
+				<p:inputText value="#{buscarCompromisosBacking.comprobante}" style="text-transform:uppercase;" />
+				<p:commandLink title="Descargar compromiso PDF" actionListener="#{buscarCompromisosBacking.imprimirComprobanteII}">
 					<h:graphicImage name="pdf.png" library="img" />
 				</p:commandLink>
 			</h:panelGrid>
