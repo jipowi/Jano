@@ -1,9 +1,12 @@
 package ec.com.uce.jano.doc;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import ec.com.uce.jano.comun.HiperionException;
 import ec.com.uce.jano.dto.CompromisoDTO;
+import ec.com.uce.jano.entities.Gasto;
 
 /**
  * 
@@ -27,6 +30,6 @@ public interface GenerarDocumentoCompromiso {
 	 * @return
 	 * @throws HiperionException
 	 */
-	String generarXmlCompromiso(CompromisoDTO compromisoDTO) throws HiperionException;
+	String generarXmlCompromiso(CompromisoDTO compromisoDTO, List<Gasto> gastos) throws HiperionException;
 
 }

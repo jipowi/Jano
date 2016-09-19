@@ -242,4 +242,14 @@ public class RecaudacionServiceImpl implements RecaudacionService {
 		return gastoDao.findById(idGasto);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ec.com.uce.jano.servicio.RecaudacionService#buscaGastosByComprobante(java.lang.String)
+	 */
+	@Override
+	public List<Gasto> buscaGastosByComprobante(String comprobante) throws HiperionException {
+		return gastoDao.buscaGastosByComprobante(comprobante);
+	}
+
 }

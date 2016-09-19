@@ -189,4 +189,17 @@ public interface RecaudacionService {
 	 * @throws HiperionException
 	 */
 	public Gasto buscarGastoById(Long idGasto) throws HiperionException;
+
+	/**
+	 * 
+	 * <b> Permite buscar los gastos por un determinado comprobante </b>
+	 * <p>
+	 * [Author: kruger, Date: 16/09/2016]
+	 * </p>
+	 * 
+	 * @param comprobante
+	 * @return
+	 * @throws HiperionException
+	 */
+	public List<Gasto> buscaGastosByComprobante(String comprobante) throws HiperionException;
 }

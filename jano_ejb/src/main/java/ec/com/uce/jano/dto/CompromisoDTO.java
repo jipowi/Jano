@@ -5,6 +5,8 @@ package ec.com.uce.jano.dto;
 
 import java.util.Date;
 
+import ec.com.uce.jano.entities.Partida;
+
 /**
  * <b> DTO para almacenar la informacion de cada una de las recaudaciones obtenidas de la BD. </b>
  * 
@@ -23,6 +25,7 @@ public class CompromisoDTO {
 	private String periodo;
 	private String estado;
 	private String cur;
+	private Partida partida;
 
 	/**
 	 * 
@@ -164,6 +167,21 @@ public class CompromisoDTO {
 	 */
 	public void setCur(String cur) {
 		this.cur = cur;
+	}
+
+	/**
+	 * @return the partida
+	 */
+	public Partida getPartida() {
+		return partida;
+	}
+
+	/**
+	 * @param partida
+	 *            the partida to set
+	 */
+	public void setPartida(Partida partida) {
+		this.partida = partida;
 	}
 
 }
