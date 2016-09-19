@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.faces.context.FacesContext;
 import javax.xml.transform.TransformerException;
@@ -14,6 +15,7 @@ import com.lowagie.text.DocumentException;
 
 import ec.com.kruger.framework.common.util.pdf.HtmltoPDF;
 import ec.com.uce.jano.dto.CompromisoDTO;
+import ec.com.uce.jano.entities.Gasto;
 
 public class GenerarPdfUtil implements Serializable {
 
@@ -30,8 +32,8 @@ public class GenerarPdfUtil implements Serializable {
 	 * @return
 	 * @throws Exception
 	 */
-	public static byte[] generarAchivoPDFCompromiso(CompromisoDTO compromisoDTO) throws Exception {
-		String pHtml = XSLUtil.getInstancia().obtenerHtmlCompromiso(compromisoDTO);
+	public static byte[] generarAchivoPDFCompromiso(CompromisoDTO compromisoDTO, List<Gasto> gastos) throws Exception {
+		String pHtml = XSLUtil.getInstancia().obtenerHtmlCompromiso(compromisoDTO, gastos);
 
 		byte[] contenido = obtenerCadenaBytes(pHtml);
 

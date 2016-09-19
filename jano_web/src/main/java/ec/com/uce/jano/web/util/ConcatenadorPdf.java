@@ -89,17 +89,17 @@ public class ConcatenadorPdf {
 				over.beginText();
 				over.setFontAndSize(bf, 7);
 				over.setTextMatrix(50, 50);
-				over.showText("Banco Guayaquil");
+				over.showText("Universidad Central del Ecuador");
 				over.endText();
 				over.beginText();
 				over.setFontAndSize(bf, 7);
 				over.setTextMatrix(50, 40);
-				over.showText("Pichincha 105 - 107 y Francisco de Paula Ycaza");
+				over.showText("Ciudadela Universitaria , Av. América y Universitaria");
 				over.endText();
 				over.beginText();
 				over.setFontAndSize(bf, 7);
 				over.setTextMatrix(50, 30);
-				over.showText("Teléfono 3730100");
+				over.showText("Teléfono (593 2) 2521500");
 				over.endText();
 			}
 		}

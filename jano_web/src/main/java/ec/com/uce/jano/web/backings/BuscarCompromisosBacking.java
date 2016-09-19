@@ -64,6 +64,7 @@ public class BuscarCompromisosBacking implements Serializable {
 
 	private List<CompromisoDTO> compromisosDTO;
 	private Long idGasto;
+	private String comprobante;
 
 	/**
 	 * @return the periodoItems
@@ -147,6 +148,15 @@ public class BuscarCompromisosBacking implements Serializable {
 		compromisosDTO.remove((CompromisoDTO) event.getObject());
 	}
 
+	/**
+	 * 
+	 * <b> Permite imprimir el compromiso que busca mediente el codigo de gasto. </b>
+	 * <p>
+	 * [Author: kruger, Date: 16/09/2016]
+	 * </p>
+	 * 
+	 * @throws HiperionException
+	 */
 	public void imprimirComprobante() throws HiperionException {
 
 		Gasto gasto = recaudacionService.buscarGastoById(idGasto);
@@ -155,7 +165,27 @@ public class BuscarCompromisosBacking implements Serializable {
 		compromisoDTO.setBeneficiario(gasto.getBeneficiarioGasto());
 		compromisoDTO.setComprobante(gasto.getComprobanteGasto());
 
-		descargarCompromisoPDF(compromisoDTO);
+		// descargarCompromisoPDF(compromisoDTO);
+	}
+
+	/**
+	 * 
+	 * <b> Permite generar un documento en foramto PDF con los compromisos obtenidos. </b>
+	 * <p>
+	 * [Author: kruger, Date: 17/09/2016]
+	 * </p>
+	 * 
+	 * @throws HiperionException
+	 */
+	public void imprimirComprobanteII() throws HiperionException {
+
+		List<Gasto> gastos = recaudacionService.buscaGastosByComprobante(comprobante);
+
+		CompromisoDTO compromisoDTO = new CompromisoDTO();
+		compromisoDTO.setIdGasto(gastos.get(0).getIdGastos());
+		compromisoDTO.setBeneficiario(gastos.get(0).getBeneficiarioGasto());
+		compromisoDTO.setComprobante(gastos.get(0).getComprobanteGasto());
+		descargarCompromisoPDF(compromisoDTO, gastos);
 	}
 
 	/**
@@ -167,7 +197,7 @@ public class BuscarCompromisosBacking implements Serializable {
 	 * 
 	 * @throws DioneException
 	 */
-	public void descargarCompromisoPDF(CompromisoDTO compromisoDTO) throws HiperionException {
+	public void descargarCompromisoPDF(CompromisoDTO compromisoDTO, List<Gasto> gastos) throws HiperionException {
 		try {
 
 			Map<String, Object> parametrosDocumento = new HashMap<String, Object>();
@@ -175,7 +205,7 @@ public class BuscarCompromisosBacking implements Serializable {
 			parametrosDocumento.put(ConstantesUtil.CONTENT_TYPE_IDENTIFICADOR, ConstantesUtil.CONTENT_TYPE_PDF);
 			parametrosDocumento.put(ConstantesUtil.NOMBRE_ARCHIVO_IDENTIFICADOR, "compromiso_" + compromisoDTO.getComprobante());
 
-			parametrosDocumento.put(ConstantesUtil.CONTENIDO_BYTES_IDENTIFICADOR, GenerarPdfUtil.generarAchivoPDFCompromiso(compromisoDTO));
+			parametrosDocumento.put(ConstantesUtil.CONTENIDO_BYTES_IDENTIFICADOR, GenerarPdfUtil.generarAchivoPDFCompromiso(compromisoDTO, gastos));
 
 			JsfUtil.setSessionAttribute(ConstantesUtil.PARAMETROS_DESCARGADOR_IDENTIFICADOR, parametrosDocumento);
 
@@ -239,6 +269,21 @@ public class BuscarCompromisosBacking implements Serializable {
 	 */
 	public void setIdGasto(Long idGasto) {
 		this.idGasto = idGasto;
+	}
+
+	/**
+	 * @return the comprobante
+	 */
+	public String getComprobante() {
+		return comprobante;
+	}
+
+	/**
+	 * @param comprobante
+	 *            the comprobante to set
+	 */
+	public void setComprobante(String comprobante) {
+		this.comprobante = comprobante;
 	}
 
 }

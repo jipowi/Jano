@@ -6,16 +6,22 @@ package ec.com.uce.jano.web.backings;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import org.primefaces.event.RowEditEvent;
+
 import ec.com.uce.jano.comun.HiperionException;
+import ec.com.uce.jano.dto.RecaudacionDTO;
 import ec.com.uce.jano.entities.Afectacion;
 import ec.com.uce.jano.entities.Catalogo;
 import ec.com.uce.jano.entities.DetalleCatalogo;
@@ -67,8 +73,10 @@ public class RecaudacionIngresoBacking implements Serializable {
 	private List<SelectItem> dependenciaItems;
 	private List<SelectItem> departamentoItems;
 	private List<SelectItem> partidasItems;
-
+	private List<RecaudacionDTO> recaudacionesDTO = new ArrayList<>();
+	private Partida partida;
 	private Long idPartida;
+	Afectacion afectacion;
 
 	@PostConstruct
 	public void inicializar() throws HiperionException {
@@ -170,8 +178,7 @@ public class RecaudacionIngresoBacking implements Serializable {
 		try {
 			this.departamentoItems = new ArrayList<SelectItem>();
 
-			List<Afectacion> departamentos = afectacionService.obtenerDepartamentos(recaudacionIngresoBean.getFacultad(),
-					recaudacionIngresoBean.getDependencia());
+			List<Afectacion> departamentos = afectacionService.obtenerDepartamentos(recaudacionIngresoBean.getFacultad(), recaudacionIngresoBean.getDependencia());
 
 			for (Afectacion departamento : departamentos) {
 				SelectItem selectItem = new SelectItem(departamento.getIdAfectacion(), departamento.getDescAfectacion());
@@ -193,6 +200,75 @@ public class RecaudacionIngresoBacking implements Serializable {
 
 	/**
 	 * 
+	 * <b> Permite agregar un gasto. </b>
+	 * <p>
+	 * [Author: Paul Jimenez, Date: 16/07/2016]
+	 * </p>
+	 * 
+	 * @throws HiperionException
+	 */
+	public void addIngreso() throws HiperionException {
+
+		try {
+			this.partida = egresoService.obtenerPartidaById(idPartida);
+
+			String beneficiario = recaudacionIngresoBean.getBeneficiario();
+			String comprobante = recaudacionIngresoBean.getComprobante();
+			Date fechaRecaudacion = recaudacionIngresoBean.getFecha();
+			String observacion = recaudacionIngresoBean.getObservacion();
+			String periodo = recaudacionIngresoBean.getPeriodo();
+			double valor = recaudacionIngresoBean.getValor();
+
+			if (valor > 0) {
+
+				afectacion = new Afectacion();
+				afectacion.setIdFacultad(recaudacionIngresoBean.getFacultad());
+				afectacion.setIdDependencia(recaudacionIngresoBean.getDependencia());
+				afectacion.setIdAfectacion(recaudacionIngresoBean.getIdAfectacion());
+
+				RecaudacionDTO recaudacionDTO = new RecaudacionDTO(beneficiario, comprobante, fechaRecaudacion, observacion, valor, afectacion, partida, periodo);
+				recaudacionesDTO.add(recaudacionDTO);
+			} else {
+				MessagesController.addWarn(null, "El valor debe ser mayor que cero. ");
+			}
+
+		} catch (HiperionException e) {
+			MessagesController.addError(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.error.save"));
+			throw new HiperionException(e);
+		}
+	}
+
+	/**
+	 * 
+	 * <b> Permite editar un registro. </b>
+	 * <p>
+	 * [Author: HIPERION, Date: 25/02/2016]
+	 * </p>
+	 * 
+	 * @param event
+	 */
+	public void onEdit(RowEditEvent event) {
+		FacesMessage msg = new FacesMessage("Item Edited", ((RecaudacionDTO) event.getObject()).getPartida().toString());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	/**
+	 * 
+	 * <b> permite eliminar un registro de la tabla</b>
+	 * <p>
+	 * [Author: Paul Jimenez, Date: Mar 3, 2014]
+	 * </p>
+	 * 
+	 * @param event
+	 */
+	public void onCancel(RowEditEvent event) {
+		FacesMessage msg = new FacesMessage("Item Cancelled");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		recaudacionesDTO.remove((RecaudacionDTO) event.getObject());
+	}
+
+	/**
+	 * 
 	 * <b> Permite registrar una recaudacion. </b>
 	 * <p>
 	 * [Author: HIPERION, Date: 23/02/2016]
@@ -203,42 +279,58 @@ public class RecaudacionIngresoBacking implements Serializable {
 	 */
 	public void guardarRecaudacion() throws HiperionException {
 
-		Recaudacion recaudacion = new Recaudacion();
-		Long idAfectacion = recaudacionIngresoBean.getIdAfectacion();
+		try {
 
-		recaudacion.setCodigoIngreso(recaudacionIngresoBean.getComprobante());
-		recaudacion.setComprobante(recaudacionIngresoBean.getComprobante());
-		recaudacion.setFechaRecaudacion(recaudacionIngresoBean.getFecha());
-		recaudacion.setBeneficiario(recaudacionIngresoBean.getBeneficiario());
-		recaudacion.setObservacion(recaudacionIngresoBean.getObservacion());
-		recaudacion.setValorRecaudacion(recaudacionIngresoBean.getValor());
-		recaudacion.setCur(recaudacionIngresoBean.getCur());
-		recaudacion.setPeridoRecaudacion(recaudacionIngresoBean.getPeriodo());
+			if (recaudacionesDTO.isEmpty()) {
 
-		Afectacion afectacion = new Afectacion();
-		afectacion.setIdFacultad(recaudacionIngresoBean.getFacultad());
-		afectacion.setIdDependencia(recaudacionIngresoBean.getDependencia());
-		afectacion.setIdAfectacion(idAfectacion);
+				MessagesController.addWarn(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.war.detCertifica"));
 
-		recaudacion.setAfectacion(afectacion);
+			} else {
 
-		Partida partida = new Partida();
-		partida.setIdPartida(this.idPartida);
+				for (RecaudacionDTO recaudacionDTO : recaudacionesDTO) {
 
-		recaudacion.setPartida(partida);
+					Recaudacion recaudacion = new Recaudacion();
+					Long idAfectacion = recaudacionIngresoBean.getIdAfectacion();
 
-		recaudacionService.guardarRecaudacion(recaudacion);
-		MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
+					recaudacion.setCodigoIngreso(recaudacionIngresoBean.getComprobante());
+					recaudacion.setComprobante(recaudacionIngresoBean.getComprobante());
+					recaudacion.setFechaRecaudacion(recaudacionIngresoBean.getFecha());
+					recaudacion.setBeneficiario(recaudacionIngresoBean.getBeneficiario());
+					recaudacion.setObservacion(recaudacionIngresoBean.getObservacion());
+					recaudacion.setValorRecaudacion(recaudacionDTO.getValorRecaudacion());
+					recaudacion.setCur(recaudacionIngresoBean.getCur());
+					recaudacion.setPeridoRecaudacion(recaudacionIngresoBean.getPeriodo());
 
-		recaudacionIngresoBean.setFacultad(null);
-		recaudacionIngresoBean.setDependencia(null);
-		recaudacionIngresoBean.setIdAfectacion(null);
-		recaudacionIngresoBean.setPeriodo(null);
-		recaudacionIngresoBean.setBeneficiario(null);
-		recaudacionIngresoBean.setFecha(null);
-		recaudacionIngresoBean.setComprobante(null);
-		recaudacionIngresoBean.setValor(0);
-		recaudacionIngresoBean.setObservacion(null);
+					Afectacion afectacion = new Afectacion();
+					afectacion.setIdFacultad(recaudacionIngresoBean.getFacultad());
+					afectacion.setIdDependencia(recaudacionIngresoBean.getDependencia());
+					afectacion.setIdAfectacion(idAfectacion);
+
+					recaudacion.setAfectacion(afectacion);
+
+					recaudacion.setPartida(recaudacionDTO.getPartida());
+
+					recaudacionService.guardarRecaudacion(recaudacion);
+					MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
+				}
+
+				recaudacionIngresoBean.setFacultad(null);
+				recaudacionIngresoBean.setDependencia(null);
+				recaudacionIngresoBean.setIdAfectacion(null);
+				recaudacionIngresoBean.setPeriodo(null);
+				recaudacionIngresoBean.setBeneficiario(null);
+				recaudacionIngresoBean.setFecha(null);
+				recaudacionIngresoBean.setComprobante(null);
+				recaudacionIngresoBean.setValor(0);
+				recaudacionIngresoBean.setObservacion(null);
+				recaudacionIngresoBean.setCur(null);
+			}
+			recaudacionesDTO.clear();
+			
+		} catch (HiperionException e) {
+			MessagesController.addError(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.error.save"));
+			throw new HiperionException(e);
+		}
 
 	}
 
@@ -376,4 +468,48 @@ public class RecaudacionIngresoBacking implements Serializable {
 		this.idPartida = idPartida;
 	}
 
+	/**
+	 * @return the partida
+	 */
+	public Partida getPartida() {
+		return partida;
+	}
+
+	/**
+	 * @param partida
+	 *            the partida to set
+	 */
+	public void setPartida(Partida partida) {
+		this.partida = partida;
+	}
+
+	/**
+	 * @return the afectacion
+	 */
+	public Afectacion getAfectacion() {
+		return afectacion;
+	}
+
+	/**
+	 * @param afectacion
+	 *            the afectacion to set
+	 */
+	public void setAfectacion(Afectacion afectacion) {
+		this.afectacion = afectacion;
+	}
+
+	/**
+	 * @return the recaudacionesDTO
+	 */
+	public List<RecaudacionDTO> getRecaudacionesDTO() {
+		return recaudacionesDTO;
+	}
+
+	/**
+	 * @param recaudacionesDTO
+	 *            the recaudacionesDTO to set
+	 */
+	public void setRecaudacionesDTO(List<RecaudacionDTO> recaudacionesDTO) {
+		this.recaudacionesDTO = recaudacionesDTO;
+	}
 }
