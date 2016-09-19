@@ -82,4 +82,25 @@ public class GastoDaoImpl extends GenericDAOImpl<Gasto, Long> implements GastoDa
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see ec.com.uce.jano.dao.GastoDao#buscaGastosByComprobante(java.lang.String)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Gasto> buscaGastosByComprobante(String comprobante) throws HiperionException {
+		try {
+			Query query = em.createNamedQuery("Gastos.findBycomprobante");
+			query.setParameter("comprobante", comprobante);
+			
+
+			List<Gasto> gastos = query.getResultList();
+
+			return gastos;
+
+		} catch (Exception ex) {
+			log.error("Error: No se pudo realizar la Consulta --> Gastos.buscar", ex);
+			throw new HiperionException(ex);
+		}
+	}
+
 }
