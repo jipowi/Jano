@@ -51,7 +51,7 @@ public interface GastoDao extends GenericDAO<Gasto, Long> {
 	 * @throws HiperionException
 	 */
 	public List<Gasto> buscarGastos(String periodo, String beneficiario, Date fechaInicio, Date fechaFin) throws HiperionException;
-	
+
 	/**
 	 * 
 	 * <b> Permite buscar los gastos por un determinado comprobante </b>
@@ -64,5 +64,19 @@ public interface GastoDao extends GenericDAO<Gasto, Long> {
 	 * @throws HiperionException
 	 */
 	public List<Gasto> buscaGastosByComprobante(String comprobante) throws HiperionException;
+
+	/**
+	 * 
+	 * <b> Permite buscar los gastos por un estado. </b>
+	 * <p>
+	 * [Author: kruger, Date: 19/09/2016]
+	 * </p>
+	 * 
+	 * @param estado
+	 *            , excedido y correcto
+	 * @return
+	 * @throws HiperionException
+	 */
+	public List<Gasto> buscarGastosByEstado(String estado) throws HiperionException;
 
 }

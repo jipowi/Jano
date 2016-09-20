@@ -51,7 +51,8 @@ import javax.persistence.NamedQuery;
 
 		// COMPROMISOS
 		@NamedQuery(name = "Gastos.buscar", query = "SELECT c FROM Gasto c WHERE c.periodoGasto =:periodo AND c.beneficiarioGasto like :beneficiario AND c.fechaGasto BETWEEN :fechaInicio AND :fechaFin"),
-		@NamedQuery(name = "Gastos.findBycomprobante", query = "SELECT g FROM Gasto g WHERE g.comprobanteGasto =:comprobante"),
+		@NamedQuery(name = "Gastos.findByComprobante", query = "SELECT g FROM Gasto g WHERE g.comprobanteGasto =:comprobante"),
+		@NamedQuery(name = "Gastos.findByEstado", query = "SELECT g FROM Gasto g WHERE g.estadoGasto =:estado"),
 
 		// RECAUDACIONES
 		@NamedQuery(name = "Gastos.reporte", query = "SELECT g FROM Gasto g WHERE g.afectacion.idAfectacion =:afectacion"),

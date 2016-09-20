@@ -89,7 +89,7 @@ public class GastoDaoImpl extends GenericDAOImpl<Gasto, Long> implements GastoDa
 	@Override
 	public List<Gasto> buscaGastosByComprobante(String comprobante) throws HiperionException {
 		try {
-			Query query = em.createNamedQuery("Gastos.findBycomprobante");
+			Query query = em.createNamedQuery("Gastos.findByComprobante");
 			query.setParameter("comprobante", comprobante);
 			
 
@@ -98,9 +98,31 @@ public class GastoDaoImpl extends GenericDAOImpl<Gasto, Long> implements GastoDa
 			return gastos;
 
 		} catch (Exception ex) {
-			log.error("Error: No se pudo realizar la Consulta --> Gastos.buscar", ex);
+			log.error("Error: No se pudo realizar la Consulta --> Gastos.findByComprobante", ex);
 			throw new HiperionException(ex);
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see ec.com.uce.jano.dao.GastoDao#buscarGastosByEstado(java.lang.String)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Gasto> buscarGastosByEstado(String estado) throws HiperionException {
+		try {
+			Query query = em.createNamedQuery("Gastos.findByEstado");
+			query.setParameter("estado", estado);
+			
+
+			List<Gasto> gastos = query.getResultList();
+
+			return gastos;
+
+		} catch (Exception ex) {
+			log.error("Error: No se pudo realizar la Consulta --> Gastos.findByEstado", ex);
+			throw new HiperionException(ex);
+		}
+	}
+
+	
 }
