@@ -252,4 +252,33 @@ public class RecaudacionServiceImpl implements RecaudacionService {
 		return gastoDao.buscaGastosByComprobante(comprobante);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ec.com.uce.jano.servicio.RecaudacionService#buscarGastosByEstado(java.lang.String)
+	 */
+	@Override
+	public List<CompromisoDTO> buscarGastosByEstado(String estado) throws HiperionException {
+
+		List<Gasto> gastos = gastoDao.buscarGastosByEstado(estado);
+		List<CompromisoDTO> compromisoDTOs = new ArrayList<>();
+
+		for (Gasto gasto : gastos) {
+			CompromisoDTO compromisoDTO = new CompromisoDTO();
+
+			compromisoDTO.setIdGasto(gasto.getIdGastos());
+			compromisoDTO.setBeneficiario(gasto.getBeneficiarioGasto());
+			compromisoDTO.setEstado(gasto.getEstadoGasto());
+			compromisoDTO.setPeriodo(gasto.getPeriodoGasto());
+			compromisoDTO.setValor(gasto.getValorGasto());
+			compromisoDTO.setFecha(gasto.getFechaGasto());
+			compromisoDTO.setComprobante(gasto.getComprobanteGasto());
+			compromisoDTO.setCur(gasto.getCur());
+
+			compromisoDTOs.add(compromisoDTO);
+		}
+
+		return compromisoDTOs;
+	}
+
 }

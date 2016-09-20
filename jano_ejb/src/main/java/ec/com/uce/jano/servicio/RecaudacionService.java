@@ -202,4 +202,18 @@ public interface RecaudacionService {
 	 * @throws HiperionException
 	 */
 	public List<Gasto> buscaGastosByComprobante(String comprobante) throws HiperionException;
+
+	/**
+	 * 
+	 * <b> Permite buscar los gastos por un estado. </b>
+	 * <p>
+	 * [Author: kruger, Date: 19/09/2016]
+	 * </p>
+	 * 
+	 * @param estado
+	 *            , excedido y correcto
+	 * @return
+	 * @throws HiperionException
+	 */
+	public List<CompromisoDTO> buscarGastosByEstado(String estado) throws HiperionException;
 }
