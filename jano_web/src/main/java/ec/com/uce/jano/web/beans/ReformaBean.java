@@ -25,12 +25,15 @@ public class ReformaBean implements Serializable {
 	private String comprobante;
 	private Date fecha;
 	private String periodo;
-	private String observacion;
 	private String beneficiario;
 	private double valor;
 	private Integer facultad;
 	private Integer dependencia;
 	private Long idAfectacion;
+	private Date fechaReforma;
+	private String oficio;
+	private String observacion;
+	private String estado;
 
 	/**
 	 * @return the periodo
@@ -160,12 +163,56 @@ public class ReformaBean implements Serializable {
 	}
 
 	/**
-	 * @param idAfectacion the idAfectacion to set
+	 * @param idAfectacion
+	 *            the idAfectacion to set
 	 */
 	public void setIdAfectacion(Long idAfectacion) {
 		this.idAfectacion = idAfectacion;
 	}
 
-	
+	/**
+	 * @return the fechaReforma
+	 */
+	public Date getFechaReforma() {
+		return fechaReforma;
+	}
+
+	/**
+	 * @param fechaReforma
+	 *            the fechaReforma to set
+	 */
+	public void setFechaReforma(Date fechaReforma) {
+		this.fechaReforma = fechaReforma;
+	}
+
+	/**
+	 * @return the oficio
+	 */
+	public String getOficio() {
+		return oficio;
+	}
+
+	/**
+	 * @param oficio
+	 *            the oficio to set
+	 */
+	public void setOficio(String oficio) {
+		this.oficio = oficio;
+	}
+
+	/**
+	 * @return the estado
+	 */
+	public String getEstado() {
+		return estado;
+	}
+
+	/**
+	 * @param estado
+	 *            the estado to set
+	 */
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
 
 }

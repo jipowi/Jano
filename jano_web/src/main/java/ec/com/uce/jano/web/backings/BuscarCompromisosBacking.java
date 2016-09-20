@@ -114,7 +114,7 @@ public class BuscarCompromisosBacking implements Serializable {
 
 	/**
 	 * 
-	 * <b> Permite editar una partida. </b>
+	 * <b> Permite editar un compromiso. </b>
 	 * <p>
 	 * [Author: Paul Jimenez, Date: 24/03/2016]
 	 * </p>
@@ -130,7 +130,7 @@ public class BuscarCompromisosBacking implements Serializable {
 
 	/**
 	 * 
-	 * <b> Permite eliminar una partida. </b>
+	 * <b> Permite eliminar un compromiso. </b>
 	 * <p>
 	 * [Author: Paul Jimenez, Date: 24/03/2016]
 	 * </p>
