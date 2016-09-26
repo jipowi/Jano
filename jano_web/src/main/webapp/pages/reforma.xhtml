@@ -17,8 +17,26 @@
 				<f:facet name="header">
 					<h:outputText value="FILTROS" />
 				</f:facet>
+				<h:panelGrid columns="2">
+					<p:outputLabel value="#{emision['lbl.estado']}" styleClass="negrita" />
+					<p:selectOneMenu value="#{reformaBean.estado}" effect="drop">
+						<f:selectItem itemLabel="Seleccione un estado" noSelectionOption="true" />
+						<f:selectItem itemLabel="Correcto" itemValue="A" />
+						<f:selectItem itemLabel="Excedido" itemValue="I" />
+						<f:selectItem itemLabel="Todos" itemValue="T" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<p:commandLink title="Buscar" action="#{reformaBacking.buscarCompromisos}" update="tablaCompromisos">
+						<h:graphicImage name="search.png" library="img/icon" />
+					</p:commandLink>
+			</p:panel>
+			<p:spacer height="10px;" />
+			<p:panel>
+				<f:facet name="header">
+					<h:outputText value="PANTALLA REFORMA" />
+				</f:facet>
 				<h:panelGrid columns="1" cellpadding="2" cellspacing="2">
-					<h:panelGrid columns="2">
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
 						<p:outputLabel value="#{emision['lbl.facultad']}: " styleClass="negrita" />
 						<p:selectOneMenu value="#{reformaBean.facultad}" effect="drop">
 							<f:selectItem itemLabel="Seleccione Facultad" noSelectionOption="true" />
@@ -27,7 +45,7 @@
 						</p:selectOneMenu>
 					</h:panelGrid>
 
-					<h:panelGrid columns="2" id="idDependencia">
+					<h:panelGrid columns="2" id="idDependencia" cellpadding="2" cellspacing="2">
 						<p:outputLabel value="#{emision['lbl.dependencia']}: " styleClass="negrita" />
 						<p:selectOneMenu value="#{reformaBean.dependencia}" effect="drop">
 							<f:selectItem itemLabel="Seleccione Dependencia" noSelectionOption="true" />
@@ -36,7 +54,7 @@
 						</p:selectOneMenu>
 					</h:panelGrid>
 
-					<h:panelGrid columns="2" id="idDepartamento">
+					<h:panelGrid columns="2" id="idDepartamento" cellpadding="2" cellspacing="2">
 						<p:outputLabel value="#{emision['lbl.departamento']}: " styleClass="negrita" />
 						<p:selectOneMenu value="#{reformaBean.idAfectacion}" effect="drop">
 							<f:selectItem itemLabel="Seleccione Departamento" noSelectionOption="true" />
@@ -44,56 +62,127 @@
 						</p:selectOneMenu>
 					</h:panelGrid>
 
-					<h:panelGrid columns="2">
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
 						<p:outputLabel value="#{emision['lbl.periodo']}: " styleClass="negrita" />
 						<p:selectOneMenu value="#{reformaBean.periodo}" effect="drop">
 							<f:selectItem itemLabel="Seleccione Periodo" noSelectionOption="true" />
 							<f:selectItems value="#{reformaBacking.periodoItems}" itemValue="" />
 						</p:selectOneMenu>
 					</h:panelGrid>
+
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+						<p:outputLabel value="#{emision['lbl.fechaReforma']}: " styleClass="negrita" />
+						<p:calendar value="#{reformaBean.fechaReforma}" locale="de" navigator="true" pattern="MM/dd/yyyy" mask="true" />
+					</h:panelGrid>
+
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+						<p:outputLabel value="#{emision['lbl.oficio']}: " styleClass="negrita" />
+						<p:inputText value="#{reformaBean.oficio}" />
+					</h:panelGrid>
+
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+						<p:outputLabel value="#{emision['lbl.observacion']}: " styleClass="negrita" />
+						<p:inputTextarea value="#{reformaBean.observacion}" rows="5" cols="30" counter="display" maxlength="200"
+							counterTemplate="{0} characters remaining." autoResize="false" style="text-transform:uppercase;" />
+						<h:outputText id="display" />
+					</h:panelGrid>
 				</h:panelGrid>
 			</p:panel>
-			
-
-			<p:spacer height="20px;" />
-			
-			<div align="center" style="width: 80%;">
-				<p:dataTable id="tablaReporte" value="#{reformaBacking.recaudacionDTOs}" var="recaudacion" widgetVar="50">
+			<p:spacer height="10px;" />
+			<p:panel>
+				<f:facet name="header">
+					<h:outputText value="RESULTADOS BUSQUEDA" />
+				</f:facet>
+				<p:dataTable id="tablaCompromisos" value="#{reformaBacking.compromisosDTO}" var="compromiso" widgetVar="50" style="width: 100%;" editable="true">
+					<p:ajax event="rowEdit" listener="#{reformaBacking.editarCompromiso}" />
+					<p:ajax event="rowEditCancel" listener="#{reformaBacking.eliminarCompromiso}" />
 					<p:column>
 						<f:facet name="header">
-							<h:outputText value="#{emision['lbl.partida']}" />
+							<h:outputText value="#{emision['lbl.codigo']}" />
 						</f:facet>
-						<h:outputText value="#{recaudacion.partida.partida}" />
+						<h:outputText value="#{compromiso.idGasto}" />
 					</p:column>
 					<p:column>
 						<f:facet name="header">
-							<h:outputText value="#{emision['lbl.beneficiario']}" />
+							<h:outputText value="#{emision['lbl.cur']}" />
 						</f:facet>
-						<h:outputText value="#{recaudacion.beneficiario}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{compromiso.cur}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{compromiso.cur}" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
 					<p:column>
 						<f:facet name="header">
 							<h:outputText value="#{emision['lbl.comprobante']}" />
 						</f:facet>
-						<h:outputText value="#{recaudacion.comprobante}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{compromiso.comprobante}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{compromiso.comprobante}" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
 					<p:column>
 						<f:facet name="header">
-							<h:outputText value="#{emision['lbl.fecha']}" />
+							<h:outputText value="#{emision['lbl.beneficiario']}" />
 						</f:facet>
-						<h:outputText value="#{recaudacion.fechaRecaudacion}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{compromiso.beneficiario}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{compromiso.beneficiario}" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.fechaCompromiso']}" />
+						</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{compromiso.fecha}" pattern="MM/dd/yyyy" />
+							</f:facet>
+							<f:facet name="input">
+								<p:calendar value="#{compromiso.fecha}" locale="de" navigator="true" pattern="MM/dd/yyyy" mask="true" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
 					<p:column>
 						<f:facet name="header">
 							<h:outputText value="#{emision['lbl.valor']}" />
 						</f:facet>
-						<h:outputText value="#{recaudacion.valorRecaudacion} USD" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{compromiso.valor}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{compromiso.valor}" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.estado']}" />
+						</f:facet>						
+						<h:graphicImage name="circle_red.png" library="img" rendered="#{compromiso.estado=='I'}" />
+						<h:graphicImage name="circle_green.png" library="img" rendered="#{compromiso.estado=='A'}" />
+					</p:column>
+
+					<p:column headerText="Options" style="width:50px">
+						<p:rowEditor />
+					</p:column>
+					
+
 				</p:dataTable>
-			</div>
-		
+			</p:panel>
 		</h:form>
 	</ui:define>
-
 </ui:composition>
 </html>
