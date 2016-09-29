@@ -26,6 +26,9 @@ public class CompromisoDTO {
 	private String estado;
 	private String cur;
 	private Partida partida;
+	private String facultad;
+	private String dependencia;
+	private String afectacion;
 
 	/**
 	 * 
@@ -182,6 +185,51 @@ public class CompromisoDTO {
 	 */
 	public void setPartida(Partida partida) {
 		this.partida = partida;
+	}
+
+	/**
+	 * @return the facultad
+	 */
+	public String getFacultad() {
+		return facultad;
+	}
+
+	/**
+	 * @param facultad
+	 *            the facultad to set
+	 */
+	public void setFacultad(String facultad) {
+		this.facultad = facultad;
+	}
+
+	/**
+	 * @return the dependencia
+	 */
+	public String getDependencia() {
+		return dependencia;
+	}
+
+	/**
+	 * @param dependencia
+	 *            the dependencia to set
+	 */
+	public void setDependencia(String dependencia) {
+		this.dependencia = dependencia;
+	}
+
+	/**
+	 * @return the afectacion
+	 */
+	public String getAfectacion() {
+		return afectacion;
+	}
+
+	/**
+	 * @param afectacion
+	 *            the afectacion to set
+	 */
+	public void setAfectacion(String afectacion) {
+		this.afectacion = afectacion;
 	}
 
 }

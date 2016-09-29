@@ -31,7 +31,7 @@ public interface AfectacionService {
 	 * @throws HiperionException
 	 */
 	public void guardarAfectacion(Afectacion afectacion) throws HiperionException;
-	
+
 	/**
 	 * 
 	 * <b> Permite listar las facultades ingresadas en la tabla afectaciones. </b>
@@ -43,7 +43,7 @@ public interface AfectacionService {
 	 * @throws HiperionException
 	 */
 	public List<Afectacion> obtenerFacultades() throws HiperionException;
-	
+
 	/**
 	 * 
 	 * <b> Permite listar las dependencias ingresadas con codigo de facultad. </b>
@@ -55,8 +55,8 @@ public interface AfectacionService {
 	 * @return
 	 * @throws HiperionException
 	 */
-	public List<Afectacion> obtenerDependencias(Integer idFacultad) throws HiperionException;
-	
+	public List<Afectacion> obtenerDependencias(Long idFacultad) throws HiperionException;
+
 	/**
 	 * 
 	 * <b> Permite listar los departamentos ingresados que dependen de una facultad y dependencia. </b>
@@ -69,5 +69,19 @@ public interface AfectacionService {
 	 * @return
 	 * @throws HiperionException
 	 */
-	public List<Afectacion> obtenerDepartamentos(Integer idFacultad, Integer idDependencia) throws HiperionException;
+	public List<Afectacion> obtenerDepartamentos(Long idFacultad, Long idDependencia) throws HiperionException;
+
+	/**
+	 * 
+	 * <b> Permite obtener la afectacion por medio del ID. </b>
+	 * <p>
+	 * [Author: kruger, Date: Sep 29, 2016]
+	 * </p>
+	 * 
+	 * @param idAfectacion
+	 * @return
+	 * @throws HiperionException
+	 */
+	public Afectacion obetenerAfectacionById(Long idAfectacion) throws HiperionException;
+
 }

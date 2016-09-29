@@ -25,12 +25,13 @@ public class RecaudacionDTO {
 	private double valorRecaudacion;
 	private Afectacion afectacion;
 	private Partida partida;
-	private String periodo;
-	private String estado;
 	private String cur;
+	private String periodo;
 	private String codigoIngreso;
+	private String estado;
 
 	/**
+	 * @param idRecaudacion
 	 * @param beneficiario
 	 * @param comprobante
 	 * @param fechaRecaudacion
@@ -38,10 +39,31 @@ public class RecaudacionDTO {
 	 * @param valorRecaudacion
 	 * @param afectacion
 	 * @param partida
+	 * @param cur
+	 * @param periodo
+	 * @param codigoIngreso
+	 * @param estado
 	 */
+	public RecaudacionDTO(Integer idRecaudacion, String beneficiario, String comprobante, Date fechaRecaudacion, String observacion, double valorRecaudacion,
+			Afectacion afectacion, Partida partida, String cur, String periodo, String codigoIngreso, String estado) {
+		super();
+		this.idRecaudacion = idRecaudacion;
+		this.beneficiario = beneficiario;
+		this.comprobante = comprobante;
+		this.fechaRecaudacion = fechaRecaudacion;
+		this.observacion = observacion;
+		this.valorRecaudacion = valorRecaudacion;
+		this.afectacion = afectacion;
+		this.partida = partida;
+		this.cur = cur;
+		this.periodo = periodo;
+		this.codigoIngreso = codigoIngreso;
+		this.estado = estado;
+	}
+
 	public RecaudacionDTO(String beneficiario, String comprobante, Date fechaRecaudacion, String observacion, double valorRecaudacion, Afectacion afectacion, Partida partida,
 			String periodo) {
-		super();
+
 		this.beneficiario = beneficiario;
 		this.comprobante = comprobante;
 		this.fechaRecaudacion = fechaRecaudacion;
@@ -50,7 +72,6 @@ public class RecaudacionDTO {
 		this.afectacion = afectacion;
 		this.partida = partida;
 		this.periodo = periodo;
-
 	}
 
 	/**
@@ -58,6 +79,7 @@ public class RecaudacionDTO {
 	 */
 	public RecaudacionDTO() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -166,36 +188,6 @@ public class RecaudacionDTO {
 	}
 
 	/**
-	 * @return the periodo
-	 */
-	public String getPeriodo() {
-		return periodo;
-	}
-
-	/**
-	 * @param periodo
-	 *            the periodo to set
-	 */
-	public void setPeriodo(String periodo) {
-		this.periodo = periodo;
-	}
-
-	/**
-	 * @return the estado
-	 */
-	public String getEstado() {
-		return estado;
-	}
-
-	/**
-	 * @param estado
-	 *            the estado to set
-	 */
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
-	/**
 	 * @return the idRecaudacion
 	 */
 	public Integer getIdRecaudacion() {
@@ -238,6 +230,36 @@ public class RecaudacionDTO {
 	 */
 	public void setCodigoIngreso(String codigoIngreso) {
 		this.codigoIngreso = codigoIngreso;
+	}
+
+	/**
+	 * @return the periodo
+	 */
+	public String getPeriodo() {
+		return periodo;
+	}
+
+	/**
+	 * @param periodo
+	 *            the periodo to set
+	 */
+	public void setPeriodo(String periodo) {
+		this.periodo = periodo;
+	}
+
+	/**
+	 * @return the estado
+	 */
+	public String getEstado() {
+		return estado;
+	}
+
+	/**
+	 * @param estado
+	 *            the estado to set
+	 */
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 }

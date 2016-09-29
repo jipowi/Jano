@@ -52,7 +52,7 @@ public class AfectacionServiceImpl implements AfectacionService {
 	 * @see ec.com.uce.jano.servicio.AfectacionService#obtenerDependencias(java.lang.Integer)
 	 */
 	@Override
-	public List<Afectacion> obtenerDependencias(Integer idFacultad) throws HiperionException {
+	public List<Afectacion> obtenerDependencias(Long idFacultad) throws HiperionException {
 		return afectacionDao.obtenerDependencias(idFacultad);
 	}
 
@@ -62,8 +62,18 @@ public class AfectacionServiceImpl implements AfectacionService {
 	 * @see ec.com.uce.jano.servicio.AfectacionService#obtenerDepartamentos(java.lang.Integer, java.lang.Integer)
 	 */
 	@Override
-	public List<Afectacion> obtenerDepartamentos(Integer idFacultad, Integer idDependencia) throws HiperionException {
+	public List<Afectacion> obtenerDepartamentos(Long idFacultad, Long idDependencia) throws HiperionException {
 		return afectacionDao.obtenerDepartamentos(idFacultad, idDependencia);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ec.com.uce.jano.servicio.AfectacionService#obetenerAfectacionById(java.lang.Integer)
+	 */
+	@Override
+	public Afectacion obetenerAfectacionById(Long idAfectacion) throws HiperionException {
+		return afectacionDao.findById(idAfectacion);
 	}
 
 }

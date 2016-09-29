@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import ec.com.uce.jano.doc.GenerarDocumentoCompromiso;
+import ec.com.uce.jano.dto.AfectacionDTO;
 import ec.com.uce.jano.dto.CompromisoDTO;
 import ec.com.uce.jano.entities.Gasto;
 
@@ -36,9 +37,17 @@ public class CompromisoImpl implements GenerarDocumentoCompromiso {
 	private static String tagFinCompromisos = "</compromisos>";
 	private static String tagInicioTotal = "<total>";
 	private static String tagFinTotal = "</total>";
+	private static String tagInicioAfectaciones = "<afectaciones>";
+	private static String tagFinAfectaciones = "</afectaciones>";
+	private static String tagInicioFacultad = "<facultad>";
+	private static String tagFinFacultad = "</facultad>";
+	private static String tagInicioDependencia = "<dependencia>";
+	private static String tagFinDependencia = "</dependencia>";
+	private static String tagInicioAfectacion = "<afectacion>";
+	private static String tagFinAfectacion = "</afectacion>";
 
 	@Override
-	public String generarXmlCompromiso(CompromisoDTO compromisoDTO, List<Gasto> gastos) {
+	public String generarXmlCompromiso(CompromisoDTO compromisoDTO, List<Gasto> gastos, List<AfectacionDTO> afectacionDTOs) {
 
 		Date fecDate = new Date();
 
@@ -58,6 +67,14 @@ public class CompromisoImpl implements GenerarDocumentoCompromiso {
 			buffer.append(tagFinCompromisos);
 		}
 		buffer.append(tagInicioTotal).append(StringEscapeUtils.escapeXml(total + "")).append(tagFinTotal);
+
+		for (AfectacionDTO afectacionDTO : afectacionDTOs) {
+			buffer.append(tagInicioAfectaciones);
+			buffer.append(tagInicioFacultad).append(StringEscapeUtils.escapeXml(afectacionDTO.getFacultad())).append(tagFinFacultad);
+			buffer.append(tagInicioDependencia).append(StringEscapeUtils.escapeXml(afectacionDTO.getDependencia())).append(tagFinDependencia);
+			buffer.append(tagInicioAfectacion).append(StringEscapeUtils.escapeXml(afectacionDTO.getAfectacion())).append(tagFinAfectacion);
+			buffer.append(tagFinAfectaciones);
+		}
 
 		return buffer.toString();
 	}
