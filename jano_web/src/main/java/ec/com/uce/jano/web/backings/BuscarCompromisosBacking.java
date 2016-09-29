@@ -21,10 +21,13 @@ import javax.faces.model.SelectItem;
 import org.primefaces.event.RowEditEvent;
 
 import ec.com.uce.jano.comun.HiperionException;
+import ec.com.uce.jano.dto.AfectacionDTO;
 import ec.com.uce.jano.dto.CompromisoDTO;
+import ec.com.uce.jano.entities.Afectacion;
 import ec.com.uce.jano.entities.Catalogo;
 import ec.com.uce.jano.entities.DetalleCatalogo;
 import ec.com.uce.jano.entities.Gasto;
+import ec.com.uce.jano.servicio.AfectacionService;
 import ec.com.uce.jano.servicio.CatalogoService;
 import ec.com.uce.jano.servicio.DetalleCatalogoService;
 import ec.com.uce.jano.servicio.RecaudacionService;
@@ -59,6 +62,9 @@ public class BuscarCompromisosBacking implements Serializable {
 
 	@EJB
 	private RecaudacionService recaudacionService;
+
+	@EJB
+	private AfectacionService afectacionService;
 
 	private List<SelectItem> periodoItems;
 
@@ -148,25 +154,6 @@ public class BuscarCompromisosBacking implements Serializable {
 		compromisosDTO.remove((CompromisoDTO) event.getObject());
 	}
 
-	/**
-	 * 
-	 * <b> Permite imprimir el compromiso que busca mediente el codigo de gasto. </b>
-	 * <p>
-	 * [Author: kruger, Date: 16/09/2016]
-	 * </p>
-	 * 
-	 * @throws HiperionException
-	 */
-	public void imprimirComprobante() throws HiperionException {
-
-		Gasto gasto = recaudacionService.buscarGastoById(idGasto);
-		CompromisoDTO compromisoDTO = new CompromisoDTO();
-		compromisoDTO.setIdGasto(gasto.getIdGastos());
-		compromisoDTO.setBeneficiario(gasto.getBeneficiarioGasto());
-		compromisoDTO.setComprobante(gasto.getComprobanteGasto());
-
-		// descargarCompromisoPDF(compromisoDTO);
-	}
 
 	/**
 	 * 
@@ -185,7 +172,26 @@ public class BuscarCompromisosBacking implements Serializable {
 		compromisoDTO.setIdGasto(gastos.get(0).getIdGastos());
 		compromisoDTO.setBeneficiario(gastos.get(0).getBeneficiarioGasto());
 		compromisoDTO.setComprobante(gastos.get(0).getComprobanteGasto());
-		descargarCompromisoPDF(compromisoDTO, gastos);
+
+		List<AfectacionDTO> afectacionDTOs = new ArrayList<>();
+		for (Gasto gasto : gastos) {
+
+			Long idAfectacion = gasto.getAfectacion().getIdAfectacion();
+			AfectacionDTO afectacionDTO = new AfectacionDTO();
+			afectacionDTO.setIdAfectacion(idAfectacion);
+			Afectacion afectacion = afectacionService.obetenerAfectacionById(idAfectacion);
+			afectacionDTO.setAfectacion(afectacion.getDescAfectacion());
+
+			Afectacion dependencia = afectacionService.obetenerAfectacionById(afectacion.getIdDependencia());
+			afectacionDTO.setDependencia(dependencia.getDescAfectacion());
+
+			Afectacion facultad = afectacionService.obetenerAfectacionById(afectacion.getIdFacultad());
+			afectacionDTO.setFacultad(facultad.getDescAfectacion());
+
+			afectacionDTOs.add(afectacionDTO);
+		}
+
+		descargarCompromisoPDF(compromisoDTO, gastos, afectacionDTOs);
 	}
 
 	/**
@@ -197,7 +203,7 @@ public class BuscarCompromisosBacking implements Serializable {
 	 * 
 	 * @throws DioneException
 	 */
-	public void descargarCompromisoPDF(CompromisoDTO compromisoDTO, List<Gasto> gastos) throws HiperionException {
+	public void descargarCompromisoPDF(CompromisoDTO compromisoDTO, List<Gasto> gastos, List<AfectacionDTO> afectacionDTOs) throws HiperionException {
 		try {
 
 			Map<String, Object> parametrosDocumento = new HashMap<String, Object>();
@@ -205,7 +211,7 @@ public class BuscarCompromisosBacking implements Serializable {
 			parametrosDocumento.put(ConstantesUtil.CONTENT_TYPE_IDENTIFICADOR, ConstantesUtil.CONTENT_TYPE_PDF);
 			parametrosDocumento.put(ConstantesUtil.NOMBRE_ARCHIVO_IDENTIFICADOR, "compromiso_" + compromisoDTO.getComprobante());
 
-			parametrosDocumento.put(ConstantesUtil.CONTENIDO_BYTES_IDENTIFICADOR, GenerarPdfUtil.generarAchivoPDFCompromiso(compromisoDTO, gastos));
+			parametrosDocumento.put(ConstantesUtil.CONTENIDO_BYTES_IDENTIFICADOR, GenerarPdfUtil.generarAchivoPDFCompromiso(compromisoDTO, gastos, afectacionDTOs));
 
 			JsfUtil.setSessionAttribute(ConstantesUtil.PARAMETROS_DESCARGADOR_IDENTIFICADOR, parametrosDocumento);
 

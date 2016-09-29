@@ -22,9 +22,9 @@ public class AfectacionBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String afectacion;
-	private Integer facultad;
-	private Integer dependencia;
-	private Integer departamento;
+	private Long facultad;
+	private Long dependencia;
+	private Long departamento;
 
 	/**
 	 * @return the afectacion
@@ -44,7 +44,7 @@ public class AfectacionBean implements Serializable {
 	/**
 	 * @return the facultad
 	 */
-	public Integer getFacultad() {
+	public Long getFacultad() {
 		return facultad;
 	}
 
@@ -52,14 +52,14 @@ public class AfectacionBean implements Serializable {
 	 * @param facultad
 	 *            the facultad to set
 	 */
-	public void setFacultad(Integer facultad) {
+	public void setFacultad(Long facultad) {
 		this.facultad = facultad;
 	}
 
 	/**
 	 * @return the dependencia
 	 */
-	public Integer getDependencia() {
+	public Long getDependencia() {
 		return dependencia;
 	}
 
@@ -67,14 +67,14 @@ public class AfectacionBean implements Serializable {
 	 * @param dependencia
 	 *            the dependencia to set
 	 */
-	public void setDependencia(Integer dependencia) {
+	public void setDependencia(Long dependencia) {
 		this.dependencia = dependencia;
 	}
 
 	/**
 	 * @return the departamento
 	 */
-	public Integer getDepartamento() {
+	public Long getDepartamento() {
 		return departamento;
 	}
 
@@ -82,7 +82,7 @@ public class AfectacionBean implements Serializable {
 	 * @param departamento
 	 *            the departamento to set
 	 */
-	public void setDepartamento(Integer departamento) {
+	public void setDepartamento(Long departamento) {
 		this.departamento = departamento;
 	}
 

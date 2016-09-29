@@ -180,7 +180,8 @@ public class RecaudacionGastoBacking implements Serializable {
 		try {
 			this.departamentoItems = new ArrayList<SelectItem>();
 
-			List<Afectacion> departamentos = afectacionService.obtenerDepartamentos(recaudacionGastoBean.getFacultad(), recaudacionGastoBean.getDependencia());
+			List<Afectacion> departamentos = afectacionService.obtenerDepartamentos(recaudacionGastoBean.getFacultad(),
+					recaudacionGastoBean.getDependencia());
 
 			for (Afectacion departamento : departamentos) {
 				SelectItem selectItem = new SelectItem(departamento.getIdAfectacion(), departamento.getDescAfectacion());
@@ -228,7 +229,8 @@ public class RecaudacionGastoBacking implements Serializable {
 				afectacion.setIdDependencia(recaudacionGastoBean.getDependencia());
 				afectacion.setIdAfectacion(recaudacionGastoBean.getIdAfectacion());
 
-				RecaudacionDTO recaudacionDTO = new RecaudacionDTO(beneficiario, comprobante, fechaRecaudacion, observacion, valor, afectacion, partida, periodo);
+				RecaudacionDTO recaudacionDTO = new RecaudacionDTO(beneficiario, comprobante, fechaRecaudacion, observacion, valor, afectacion,
+						partida, periodo);
 
 				Egreso egresoDB = egresoService.buscarEgresos(periodo, afectacion.getIdAfectacion());
 
@@ -350,6 +352,12 @@ public class RecaudacionGastoBacking implements Serializable {
 				recaudacionGastoBean.setDependencia(null);
 				recaudacionGastoBean.setIdAfectacion(null);
 				recaudacionGastoBean.setPeriodo(null);
+				recaudacionGastoBean.setComprobante(null);
+				recaudacionGastoBean.setFecha(null);
+				recaudacionGastoBean.setBeneficiario(null);
+				recaudacionGastoBean.setCur(null);
+				recaudacionGastoBean.setObservacion(null);
+
 			}
 			recaudacionesDTO.clear();
 

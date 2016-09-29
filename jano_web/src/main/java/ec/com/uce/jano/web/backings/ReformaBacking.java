@@ -60,6 +60,8 @@ public class ReformaBacking implements Serializable {
 	private List<SelectItem> partidasItems;
 	private List<RecaudacionDTO> recaudacionDTOs = new ArrayList<>();
 	private List<CompromisoDTO> compromisosDTO;
+	private Long idGasto;
+	private Gasto gastoObtenido;
 
 	/**
 	 * 
@@ -200,22 +202,19 @@ public class ReformaBacking implements Serializable {
 
 	/**
 	 * 
-	 * <b> Permite eliminar un compromiso. </b>
+	 * <b> Permite imprimir el compromiso que busca mediente el codigo de gasto. </b>
 	 * <p>
-	 * [Author: kruger, Date: 19/09/2016]
+	 * [Author: kruger, Date: 16/09/2016]
 	 * </p>
 	 * 
-	 * @param event
 	 * @throws HiperionException
 	 */
-	public void eliminarCompromiso(RowEditEvent event) throws HiperionException {
+	public void reformarCompromiso() throws HiperionException {
 
-		recaudacionService.eliminarCompromiso((CompromisoDTO) event.getObject());
+		gastoObtenido = recaudacionService.buscarGastoById(idGasto);
+		gastoObtenido.getAfectacion();
+		
 
-		FacesMessage msg = new FacesMessage("Item Eliminado");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-
-		compromisosDTO.remove((CompromisoDTO) event.getObject());
 	}
 
 	/**
@@ -337,4 +336,35 @@ public class ReformaBacking implements Serializable {
 	public void setCompromisosDTO(List<CompromisoDTO> compromisosDTO) {
 		this.compromisosDTO = compromisosDTO;
 	}
+
+	/**
+	 * @return the idGasto
+	 */
+	public Long getIdGasto() {
+		return idGasto;
+	}
+
+	/**
+	 * @param idGasto
+	 *            the idGasto to set
+	 */
+	public void setIdGasto(Long idGasto) {
+		this.idGasto = idGasto;
+	}
+
+	/**
+	 * @return the gastoObtenido
+	 */
+	public Gasto getGastoObtenido() {
+		return gastoObtenido;
+	}
+
+	/**
+	 * @param gastoObtenido
+	 *            the gastoObtenido to set
+	 */
+	public void setGastoObtenido(Gasto gastoObtenido) {
+		this.gastoObtenido = gastoObtenido;
+	}
+
 }

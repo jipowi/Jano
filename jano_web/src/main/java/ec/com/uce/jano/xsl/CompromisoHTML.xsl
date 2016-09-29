@@ -77,6 +77,34 @@
 						</tr>
 						<tr>
 							<td colspan="2">
+								<table width="50%" border="0" cellspacing="0" cellpadding="0"
+									class="blanco">
+									<col style="width:30%;" />
+									<col style="width:50%;" />
+									<col style="width:20%;" />
+									<tbody>
+										<xsl:for-each select="documento/afectaciones">
+											<tr>
+												<td>
+													<xsl:value-of select="facultad" />
+												</td>
+												<td>
+													<xsl:value-of select="dependencia" />
+												</td>
+												<td>
+													<xsl:value-of select="afectacion" />
+												</td>
+											</tr>
+										</xsl:for-each>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" style="height:0.8cm;"></td>
+						</tr>
+						<tr>
+							<td colspan="2">
 								<table width="50%" border="1" cellspacing="0" cellpadding="0"
 									class="blanco">
 									<col style="width:30%;" />
@@ -123,7 +151,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2" style="height:0.8cm;"></td>
+							<td colspan="2" style="height:5.0cm;"></td>
 						</tr>
 						<tr align="center">
 							<td colspan="2">

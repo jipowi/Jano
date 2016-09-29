@@ -18,6 +18,7 @@ import org.jdom.Document;
 import ec.com.kruger.framework.common.util.TransformerUtil;
 import ec.com.uce.jano.comun.HiperionException;
 import ec.com.uce.jano.doc.GenerarDocumentoCompromiso;
+import ec.com.uce.jano.dto.AfectacionDTO;
 import ec.com.uce.jano.dto.CompromisoDTO;
 import ec.com.uce.jano.entities.Gasto;
 import ec.com.uce.jano.xsl.XSLHelper;
@@ -57,7 +58,7 @@ public class XSLUtil {
 	 * @param compromisoDTO
 	 * @return
 	 */
-	public String generarXmlCompromiso(CompromisoDTO compromisoDTO, List<Gasto> gastos) {
+	public String generarXmlCompromiso(CompromisoDTO compromisoDTO, List<Gasto> gastos, List<AfectacionDTO> afectacionDTOs) {
 
 		StringBuilder xml = new StringBuilder();
 
@@ -67,7 +68,7 @@ public class XSLUtil {
 			try {
 				String nombreClase = "java:app/jano_web/CompromisoImpl";
 				GenerarDocumentoCompromiso generarDocumento = (GenerarDocumentoCompromiso) getObjectByJndi(nombreClase);
-				xml.append(generarDocumento.generarXmlCompromiso(compromisoDTO, gastos));
+				xml.append(generarDocumento.generarXmlCompromiso(compromisoDTO, gastos, afectacionDTOs));
 
 			} catch (Exception e) {
 				log.error("Error, generacion xml reporte, e{}", e);
@@ -90,7 +91,7 @@ public class XSLUtil {
 	 * @param compromisoDTO
 	 * @return
 	 */
-	public String obtenerHtmlCompromiso(CompromisoDTO compromisoDTO, List<Gasto> gastos) {
+	public String obtenerHtmlCompromiso(CompromisoDTO compromisoDTO, List<Gasto> gastos, List<AfectacionDTO> afectacionDTOs) {
 		String html = null;
 		try {
 			InputStream in = XSLHelper.class.getResourceAsStream("CompromisoHTML.xsl");
@@ -108,7 +109,7 @@ public class XSLUtil {
 			String contenidoXSL = sb.toString();
 
 			// Se genera el XML con los datos del correo
-			String contenidoXml = generarXmlCompromiso(compromisoDTO, gastos);
+			String contenidoXml = generarXmlCompromiso(compromisoDTO, gastos, afectacionDTOs);
 			Document docXML = TransformerUtil.stringToXMLDocument(contenidoXml.toString());
 			Document docXSL = TransformerUtil.stringToXML(contenidoXSL);
 			Document result = TransformerUtil.transformar(docXML, docXSL);

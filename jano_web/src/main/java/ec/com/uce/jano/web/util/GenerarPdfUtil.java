@@ -14,6 +14,7 @@ import org.jdom.JDOMException;
 import com.lowagie.text.DocumentException;
 
 import ec.com.kruger.framework.common.util.pdf.HtmltoPDF;
+import ec.com.uce.jano.dto.AfectacionDTO;
 import ec.com.uce.jano.dto.CompromisoDTO;
 import ec.com.uce.jano.entities.Gasto;
 
@@ -32,8 +33,8 @@ public class GenerarPdfUtil implements Serializable {
 	 * @return
 	 * @throws Exception
 	 */
-	public static byte[] generarAchivoPDFCompromiso(CompromisoDTO compromisoDTO, List<Gasto> gastos) throws Exception {
-		String pHtml = XSLUtil.getInstancia().obtenerHtmlCompromiso(compromisoDTO, gastos);
+	public static byte[] generarAchivoPDFCompromiso(CompromisoDTO compromisoDTO, List<Gasto> gastos, List<AfectacionDTO> afectacionDTOs) throws Exception {
+		String pHtml = XSLUtil.getInstancia().obtenerHtmlCompromiso(compromisoDTO, gastos, afectacionDTOs);
 
 		byte[] contenido = obtenerCadenaBytes(pHtml);
 

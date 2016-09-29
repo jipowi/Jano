@@ -27,8 +27,8 @@ public class ReformaBean implements Serializable {
 	private String periodo;
 	private String beneficiario;
 	private double valor;
-	private Integer facultad;
-	private Integer dependencia;
+	private Long facultad;
+	private Long dependencia;
 	private Long idAfectacion;
 	private Date fechaReforma;
 	private String oficio;
@@ -128,7 +128,7 @@ public class ReformaBean implements Serializable {
 	/**
 	 * @return the facultad
 	 */
-	public Integer getFacultad() {
+	public Long getFacultad() {
 		return facultad;
 	}
 
@@ -136,14 +136,14 @@ public class ReformaBean implements Serializable {
 	 * @param facultad
 	 *            the facultad to set
 	 */
-	public void setFacultad(Integer facultad) {
+	public void setFacultad(Long facultad) {
 		this.facultad = facultad;
 	}
 
 	/**
 	 * @return the dependencia
 	 */
-	public Integer getDependencia() {
+	public Long getDependencia() {
 		return dependencia;
 	}
 
@@ -151,7 +151,7 @@ public class ReformaBean implements Serializable {
 	 * @param dependencia
 	 *            the dependencia to set
 	 */
-	public void setDependencia(Integer dependencia) {
+	public void setDependencia(Long dependencia) {
 		this.dependencia = dependencia;
 	}
 
