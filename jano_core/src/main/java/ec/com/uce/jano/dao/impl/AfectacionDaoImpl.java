@@ -61,7 +61,7 @@ public class AfectacionDaoImpl extends GenericDAOImpl<Afectacion, Long> implemen
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Afectacion> obtenerDependencias(Integer idFacultad) throws HiperionException {
+	public List<Afectacion> obtenerDependencias(Long idFacultad) throws HiperionException {
 		try {
 			Query query = em.createNamedQuery("Afectacion.findDependencia");
 			query.setParameter("idFacultad", idFacultad);
@@ -83,7 +83,7 @@ public class AfectacionDaoImpl extends GenericDAOImpl<Afectacion, Long> implemen
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Afectacion> obtenerDepartamentos(Integer idFacultad, Integer idDependencia) throws HiperionException {
+	public List<Afectacion> obtenerDepartamentos(Long idFacultad, Long idDependencia) throws HiperionException {
 		try {
 			Query query = em.createNamedQuery("Afectacion.findDepartamento");
 			query.setParameter("idFacultad", idFacultad);

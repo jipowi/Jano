@@ -4,7 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the afectacion database table.
  * 
@@ -14,37 +13,37 @@ public class Afectacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_afectacion")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_afectacion")
 	private Long idAfectacion;
 
-	@Column(name="desc_afectacion")
+	@Column(name = "desc_afectacion")
 	private String descAfectacion;
 
-	@Column(name="id_dependencia")
-	private Integer idDependencia;
+	@Column(name = "id_dependencia")
+	private Long idDependencia;
 
-	@Column(name="id_facultad")
-	private Integer idFacultad;
+	@Column(name = "id_facultad")
+	private Long idFacultad;
 
-	//bi-directional many-to-one association to Egreso
-	@OneToMany(mappedBy="afectacion")
+	// bi-directional many-to-one association to Egreso
+	@OneToMany(mappedBy = "afectacion")
 	private List<Egreso> egresos;
 
-	//bi-directional many-to-one association to Gasto
-	@OneToMany(mappedBy="afectacion")
+	// bi-directional many-to-one association to Gasto
+	@OneToMany(mappedBy = "afectacion")
 	private List<Gasto> gastos;
 
-	//bi-directional many-to-one association to Ingreso
-	@OneToMany(mappedBy="afectacion")
+	// bi-directional many-to-one association to Ingreso
+	@OneToMany(mappedBy = "afectacion")
 	private List<Ingreso> ingresos;
 
-	//bi-directional many-to-one association to Recaudacion
-	@OneToMany(mappedBy="afectacion")
+	// bi-directional many-to-one association to Recaudacion
+	@OneToMany(mappedBy = "afectacion")
 	private List<Recaudacion> recaudacions;
 
-	//bi-directional many-to-one association to Reforma
-	@OneToMany(mappedBy="afectacion")
+	// bi-directional many-to-one association to Reforma
+	@OneToMany(mappedBy = "afectacion")
 	private List<Reforma> reformas;
 
 	public Afectacion() {
@@ -64,22 +63,6 @@ public class Afectacion implements Serializable {
 
 	public void setDescAfectacion(String descAfectacion) {
 		this.descAfectacion = descAfectacion.toUpperCase();
-	}
-
-	public Integer getIdDependencia() {
-		return this.idDependencia;
-	}
-
-	public void setIdDependencia(Integer idDependencia) {
-		this.idDependencia = idDependencia;
-	}
-
-	public Integer getIdFacultad() {
-		return this.idFacultad;
-	}
-
-	public void setIdFacultad(Integer idFacultad) {
-		this.idFacultad = idFacultad;
 	}
 
 	public List<Egreso> getEgresos() {
@@ -190,6 +173,36 @@ public class Afectacion implements Serializable {
 		reforma.setAfectacion(null);
 
 		return reforma;
+	}
+
+	/**
+	 * @return the idDependencia
+	 */
+	public Long getIdDependencia() {
+		return idDependencia;
+	}
+
+	/**
+	 * @param idDependencia
+	 *            the idDependencia to set
+	 */
+	public void setIdDependencia(Long idDependencia) {
+		this.idDependencia = idDependencia;
+	}
+
+	/**
+	 * @return the idFacultad
+	 */
+	public Long getIdFacultad() {
+		return idFacultad;
+	}
+
+	/**
+	 * @param idFacultad
+	 *            the idFacultad to set
+	 */
+	public void setIdFacultad(Long idFacultad) {
+		this.idFacultad = idFacultad;
 	}
 
 }

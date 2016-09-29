@@ -45,7 +45,7 @@ public interface AfectacionDao extends GenericDAO<Afectacion, Long> {
 	 * @return
 	 * @throws HiperionException
 	 */
-	public List<Afectacion> obtenerDependencias(Integer idFacultad) throws HiperionException;
+	public List<Afectacion> obtenerDependencias(Long idFacultad) throws HiperionException;
 
 	/**
 	 * 
@@ -59,6 +59,6 @@ public interface AfectacionDao extends GenericDAO<Afectacion, Long> {
 	 * @return
 	 * @throws HiperionException
 	 */
-	public List<Afectacion> obtenerDepartamentos(Integer idFacultad, Integer idDependencia) throws HiperionException;
+	public List<Afectacion> obtenerDepartamentos(Long idFacultad, Long idDependencia) throws HiperionException;
 
 }
