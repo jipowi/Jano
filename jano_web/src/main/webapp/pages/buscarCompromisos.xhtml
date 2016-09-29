@@ -137,7 +137,7 @@
 				</p:column>
 			</p:dataTable>
 			<h:panelGrid columns="3" cellpadding="2" cellspacing="2">
-				<p:outputLabel value="#{emision['lbl.cur']}: " styleClass="negrita" />
+				<p:outputLabel value="#{emision['lbl.comprobante']}: " styleClass="negrita" />
 				<p:inputText value="#{buscarCompromisosBacking.comprobante}" style="text-transform:uppercase;" />
 				<p:commandLink title="Descargar compromiso PDF" actionListener="#{buscarCompromisosBacking.imprimirComprobanteII}">
 					<h:graphicImage name="pdf.png" library="img" />

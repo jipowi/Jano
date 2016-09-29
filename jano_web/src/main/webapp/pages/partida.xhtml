@@ -21,7 +21,7 @@
 					</f:facet>
 					<h:panelGrid columns="2">
 						<h:panelGrid columns="2">
-							<p:outputLabel value="#{emision['lbl.tipoPartida']}" styleClass="negrita" />
+							<p:outputLabel value="#{emision['lbl.tipoPartida']}: " styleClass="negrita" />
 							<p:selectOneMenu value="#{partidaBacking.tipoPartida}" effect="drop">
 								<f:selectItem itemLabel="Seleccione tipo de partida" noSelectionOption="true" />
 								<f:selectItem itemLabel="Ingreso" itemValue="Ingreso" />
@@ -62,7 +62,7 @@
 					</f:facet>
 					<h:panelGrid columns="1">
 						<h:panelGrid columns="2">
-							<p:outputLabel value="#{emision['lbl.tipoPartida']}" styleClass="negrita" />
+							<p:outputLabel value="#{emision['lbl.tipoPartida']}: " styleClass="negrita" />
 							<p:selectOneMenu value="#{partidaBean.tipoPartida}" effect="drop">
 								<f:selectItem itemLabel="Seleccione tipo de partida" noSelectionOption="true" />
 								<f:selectItem itemLabel="Ingreso" itemValue="Ingreso" />

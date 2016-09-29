@@ -90,7 +90,7 @@
 			<p:panel>
 				<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
 					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
-						<p:outputLabel value="#{emision['lbl.partida']}" styleClass="negrita" />
+						<p:outputLabel value="#{emision['lbl.partida']}: " styleClass="negrita" />
 						<p:selectOneMenu id="idPartida" value="#{recaudacionIngresoBacking.idPartida}" effect="drop" required="true">
 							<f:selectItem itemLabel="Seleccione Partida" noSelectionOption="true" />
 							<f:selectItems value="#{recaudacionIngresoBacking.partidasItems}" itemValue="" />
