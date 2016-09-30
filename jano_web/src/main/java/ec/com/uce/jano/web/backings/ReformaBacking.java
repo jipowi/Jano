@@ -9,21 +9,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
-import org.primefaces.event.RowEditEvent;
-
 import ec.com.uce.jano.comun.HiperionException;
+import ec.com.uce.jano.dto.AfectacionDTO;
 import ec.com.uce.jano.dto.CompromisoDTO;
 import ec.com.uce.jano.dto.RecaudacionDTO;
 import ec.com.uce.jano.entities.Afectacion;
+import ec.com.uce.jano.entities.DetalleEgreso;
+import ec.com.uce.jano.entities.Egreso;
 import ec.com.uce.jano.entities.Gasto;
 import ec.com.uce.jano.servicio.AfectacionService;
+import ec.com.uce.jano.servicio.EgresoService;
 import ec.com.uce.jano.servicio.RecaudacionService;
 import ec.com.uce.jano.web.beans.ReformaBean;
 import ec.com.uce.jano.web.util.MessagesController;
@@ -53,6 +53,9 @@ public class ReformaBacking implements Serializable {
 	@EJB
 	private RecaudacionService recaudacionService;
 
+	@EJB
+	private EgresoService egresoService;
+
 	private List<SelectItem> periodoItems;
 	private List<SelectItem> facultadItems;
 	private List<SelectItem> dependenciaItems;
@@ -60,8 +63,14 @@ public class ReformaBacking implements Serializable {
 	private List<SelectItem> partidasItems;
 	private List<RecaudacionDTO> recaudacionDTOs = new ArrayList<>();
 	private List<CompromisoDTO> compromisosDTO;
-	private Long idGasto;
-	private Gasto gastoObtenido;
+	private Long idGastoOriginal;
+	private Long idGastoAfectado;
+	private Gasto gastoAfectado;
+	private Gasto gastoOriginal;
+	private double presupuestoOriginal;
+	private double presupuestoAfectado;
+
+	AfectacionDTO afectacionDTO = new AfectacionDTO();
 
 	/**
 	 * 
@@ -92,6 +101,7 @@ public class ReformaBacking implements Serializable {
 						compromisoDTO.setFecha(gasto.getFechaGasto());
 						compromisoDTO.setComprobante(gasto.getComprobanteGasto());
 						compromisoDTO.setCur(gasto.getCur());
+						compromisoDTO.setPartida(gasto.getPartida());
 
 						compromisosDTO.add(compromisoDTO);
 					}
@@ -184,36 +194,83 @@ public class ReformaBacking implements Serializable {
 		}
 	}
 
-	/**
-	 * 
-	 * <b> Permite editar un registro de la base de datos. </b>
-	 * <p>
-	 * [Author: kruger, Date: 19/09/2016]
-	 * </p>
-	 * 
-	 * @param event
-	 * @throws HiperionException
-	 */
-	public void editarCompromiso(RowEditEvent event) throws HiperionException {
-		FacesMessage msg = new FacesMessage("Item Editado", ((CompromisoDTO) event.getObject()).getComprobante());
-		recaudacionService.editarCompromiso((CompromisoDTO) event.getObject());
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+	
 
 	/**
 	 * 
-	 * <b> Permite imprimir el compromiso que busca mediente el codigo de gasto. </b>
+	 * <b> Permite obtener los datos del gasto original </b>
 	 * <p>
 	 * [Author: kruger, Date: 16/09/2016]
 	 * </p>
 	 * 
 	 * @throws HiperionException
 	 */
-	public void reformarCompromiso() throws HiperionException {
+	public void reformarOriginal() throws HiperionException {
 
-		gastoObtenido = recaudacionService.buscarGastoById(idGasto);
-		gastoObtenido.getAfectacion();
-		
+		gastoOriginal = new Gasto();
+		gastoOriginal = recaudacionService.buscarGastoById(idGastoOriginal);
+		Long idAfectacion = gastoOriginal.getAfectacion().getIdAfectacion();
+
+		afectacionDTO.setIdAfectacion(idAfectacion);
+		Afectacion afectacion = afectacionService.obetenerAfectacionById(idAfectacion);
+		afectacionDTO.setAfectacion(afectacion.getDescAfectacion());
+
+		Afectacion dependencia = afectacionService.obetenerAfectacionById(afectacion.getIdDependencia());
+		afectacionDTO.setDependencia(dependencia.getDescAfectacion());
+
+		Afectacion facultad = afectacionService.obetenerAfectacionById(afectacion.getIdFacultad());
+		afectacionDTO.setFacultad(facultad.getDescAfectacion());
+
+		Egreso egresoDB = egresoService.buscarEgresos(gastoOriginal.getPeriodoGasto(), idAfectacion);
+
+		if (egresoDB != null) {
+			List<DetalleEgreso> detEgresos = egresoService.buscarEgresos(egresoDB.getIdEgreso());
+
+			for (DetalleEgreso detEgreso : detEgresos) {
+				if (detEgreso.getPartida().getPartida().equals(gastoOriginal.getPartida().getPartida())) {
+					presupuestoOriginal = detEgreso.getPresupuesto();
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * 
+	 * <b> Permite obtener los datos del gasto afectado</b>
+	 * <p>
+	 * [Author: kruger, Date: 16/09/2016]
+	 * </p>
+	 * 
+	 * @throws HiperionException
+	 */
+	public void reformarAfectado() throws HiperionException {
+
+		gastoAfectado = new Gasto();
+		gastoAfectado = recaudacionService.buscarGastoById(idGastoAfectado);
+		Long idAfectacion = gastoAfectado.getAfectacion().getIdAfectacion();
+
+		afectacionDTO.setIdAfectacion(idAfectacion);
+		Afectacion afectacion = afectacionService.obetenerAfectacionById(idAfectacion);
+		afectacionDTO.setAfectacion(afectacion.getDescAfectacion());
+
+		Afectacion dependencia = afectacionService.obetenerAfectacionById(afectacion.getIdDependencia());
+		afectacionDTO.setDependencia(dependencia.getDescAfectacion());
+
+		Afectacion facultad = afectacionService.obetenerAfectacionById(afectacion.getIdFacultad());
+		afectacionDTO.setFacultad(facultad.getDescAfectacion());
+
+		Egreso egresoDB = egresoService.buscarEgresos(gastoAfectado.getPeriodoGasto(), idAfectacion);
+
+		if (egresoDB != null) {
+			List<DetalleEgreso> detEgresos = egresoService.buscarEgresos(egresoDB.getIdEgreso());
+
+			for (DetalleEgreso detEgreso : detEgresos) {
+				if (detEgreso.getPartida().getPartida().equals(gastoAfectado.getPartida().getPartida())) {
+					presupuestoAfectado = detEgreso.getPresupuesto();
+				}
+			}
+		}
 
 	}
 
@@ -338,33 +395,108 @@ public class ReformaBacking implements Serializable {
 	}
 
 	/**
-	 * @return the idGasto
+	 * @return the afectacionDTO
 	 */
-	public Long getIdGasto() {
-		return idGasto;
+	public AfectacionDTO getAfectacionDTO() {
+		return afectacionDTO;
 	}
 
 	/**
-	 * @param idGasto
-	 *            the idGasto to set
+	 * @param afectacionDTO
+	 *            the afectacionDTO to set
 	 */
-	public void setIdGasto(Long idGasto) {
-		this.idGasto = idGasto;
+	public void setAfectacionDTO(AfectacionDTO afectacionDTO) {
+		this.afectacionDTO = afectacionDTO;
 	}
 
 	/**
-	 * @return the gastoObtenido
+	 * @return the idGastoOriginal
 	 */
-	public Gasto getGastoObtenido() {
-		return gastoObtenido;
+	public Long getIdGastoOriginal() {
+		return idGastoOriginal;
 	}
 
 	/**
-	 * @param gastoObtenido
-	 *            the gastoObtenido to set
+	 * @param idGastoOriginal
+	 *            the idGastoOriginal to set
 	 */
-	public void setGastoObtenido(Gasto gastoObtenido) {
-		this.gastoObtenido = gastoObtenido;
+	public void setIdGastoOriginal(Long idGastoOriginal) {
+		this.idGastoOriginal = idGastoOriginal;
+	}
+
+	/**
+	 * @return the idGastoAfectado
+	 */
+	public Long getIdGastoAfectado() {
+		return idGastoAfectado;
+	}
+
+	/**
+	 * @param idGastoAfectado
+	 *            the idGastoAfectado to set
+	 */
+	public void setIdGastoAfectado(Long idGastoAfectado) {
+		this.idGastoAfectado = idGastoAfectado;
+	}
+
+	/**
+	 * @return the presupuestoOriginal
+	 */
+	public double getPresupuestoOriginal() {
+		return presupuestoOriginal;
+	}
+
+	/**
+	 * @param presupuestoOriginal
+	 *            the presupuestoOriginal to set
+	 */
+	public void setPresupuestoOriginal(double presupuestoOriginal) {
+		this.presupuestoOriginal = presupuestoOriginal;
+	}
+
+	/**
+	 * @return the presupuestoAfectado
+	 */
+	public double getPresupuestoAfectado() {
+		return presupuestoAfectado;
+	}
+
+	/**
+	 * @param presupuestoAfectado
+	 *            the presupuestoAfectado to set
+	 */
+	public void setPresupuestoAfectado(double presupuestoAfectado) {
+		this.presupuestoAfectado = presupuestoAfectado;
+	}
+
+	/**
+	 * @return the gastoAfectado
+	 */
+	public Gasto getGastoAfectado() {
+		return gastoAfectado;
+	}
+
+	/**
+	 * @param gastoAfectado
+	 *            the gastoAfectado to set
+	 */
+	public void setGastoAfectado(Gasto gastoAfectado) {
+		this.gastoAfectado = gastoAfectado;
+	}
+
+	/**
+	 * @return the gastoOriginal
+	 */
+	public Gasto getGastoOriginal() {
+		return gastoOriginal;
+	}
+
+	/**
+	 * @param gastoOriginal
+	 *            the gastoOriginal to set
+	 */
+	public void setGastoOriginal(Gasto gastoOriginal) {
+		this.gastoOriginal = gastoOriginal;
 	}
 
 }

@@ -17,7 +17,7 @@
 				<f:facet name="header">
 					<h:outputText value="FILTROS" />
 				</f:facet>
-				<h:panelGrid columns="2">
+				<h:panelGrid columns="3">
 					<p:outputLabel value="#{emision['lbl.estado']}" styleClass="negrita" />
 					<p:selectOneMenu value="#{reformaBean.estado}" effect="drop">
 						<f:selectItem itemLabel="Seleccione un estado" noSelectionOption="true" />
@@ -25,19 +25,18 @@
 						<f:selectItem itemLabel="Excedido" itemValue="I" />
 						<f:selectItem itemLabel="Todos" itemValue="T" />
 					</p:selectOneMenu>
+
+					<p:commandLink title="Buscar" action="#{reformaBacking.buscarCompromisos}" update="tablaCompromisos">
+						<h:graphicImage name="search.png" library="img/icon" />
+					</p:commandLink>
 				</h:panelGrid>
-				<p:commandLink title="Buscar" action="#{reformaBacking.buscarCompromisos}" update="tablaCompromisos">
-					<h:graphicImage name="search.png" library="img/icon" />
-				</p:commandLink>
 			</p:panel>
 			<p:spacer height="10px;" />
-
-
 			<p:panel>
 				<f:facet name="header">
 					<h:outputText value="RESULTADOS BUSQUEDA" />
 				</f:facet>
-				<p:dataTable id="tablaCompromisos" value="#{reformaBacking.compromisosDTO}" var="compromiso" widgetVar="50" style="width: 100%;" editable="true">
+				<p:dataTable id="tablaCompromisos" value="#{reformaBacking.compromisosDTO}" var="compromiso" editable="true">
 					<p:column>
 						<f:facet name="header">
 							<h:outputText value="#{emision['lbl.codigo']}" />
@@ -70,6 +69,12 @@
 					</p:column>
 					<p:column>
 						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.partida']}" />
+						</f:facet>
+						<h:outputText value="#{compromiso.partida.partida}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
 							<h:outputText value="#{emision['lbl.valor']}" />
 						</f:facet>
 						<h:outputText value="#{compromiso.valor}" />
@@ -83,52 +88,104 @@
 					</p:column>
 				</p:dataTable>
 			</p:panel>
-
-
-			<h:panelGrid columns="3" cellpadding="2" cellspacing="2">
-				<p:outputLabel value="#{emision['lbl.codigo']}: " styleClass="negrita" />
-				<p:inputText value="#{reformaBacking.idGasto}" style="text-transform:uppercase;" />
-				<p:commandLink title="Aplicar reformas" action="#{reformaBacking.reformarCompromiso}" update="panelReforma">
-					<h:graphicImage name="calculator.png" library="img" />
-				</p:commandLink>
-			</h:panelGrid>
-
-			<div align="center">
-				<p:panel id="panelReforma">
+			<p:spacer height="10px;" />
+			<h:panelGrid columns="2" cellpadding="2" cellspacing="3">
+				<h:panelGrid columns="1" cellpadding="2" cellspacing="2">
 					<f:facet name="header">
-						<h:outputText value="REFORMAS A CUENTAS" />
+						<p:outputLabel value="ORIGINAL" styleClass="negrita" style="color: #00FF00;" />
 					</f:facet>
-					<p:messages id="messagesReforma" showDetail="true" autoUpdate="true" closable="true" />
-
-					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
-						<h:panelGrid columns="1" cellpadding="2" cellspacing="2">
-							<p:panel>
-								<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
-									<p:outputLabel value="#{emision['lbl.codigo']}: " styleClass="negrita" />
-									<p:outputLabel value="#{reformaBacking.gastoObtenido.idGastos}" />
-
-									<p:outputLabel value="#{emision['lbl.cur']}: " styleClass="negrita" />
-									<p:outputLabel value="#{reformaBacking.gastoObtenido.cur}" />
-
-									<p:outputLabel value="#{emision['lbl.comprobante']}: " styleClass="negrita" />
-									<p:outputLabel value="#{reformaBacking.gastoObtenido.comprobanteGasto}" />
-
-									<p:outputLabel value="#{emision['lbl.beneficiario']}: " styleClass="negrita" />
-									<p:outputLabel value="#{reformaBacking.gastoObtenido.beneficiarioGasto}" />
-
-									<p:outputLabel value="#{emision['lbl.valor']}: " styleClass="negrita" />
-									<p:outputLabel value="#{reformaBacking.gastoObtenido.valorGasto}" />
-								</h:panelGrid>
-							</p:panel>
-						</h:panelGrid>
-						<h:panelGrid columns="1" cellpadding="2" cellspacing="2">
-							<p:panel>
-								<p:outputLabel value="#{emision['lbl.codigo']}: " styleClass="negrita" />
-							</p:panel>
-						</h:panelGrid>
+					<h:panelGrid columns="3" cellpadding="2" cellspacing="2">
+						<p:outputLabel value="#{emision['lbl.codigo']}: " styleClass="negrita" style="color: #00FF00;" />
+						<p:inputText value="#{reformaBacking.idGastoOriginal}" style="text-transform:uppercase;">
+							<p:ajax event="blur" listener="#{reformaBacking.reformarOriginal}" update="original" />
+						</p:inputText>
 					</h:panelGrid>
-				</p:panel>
-			</div>
+					<p:panel id="original">
+						<f:facet name="header">
+							<h:outputText value="ORIGINAL" />
+						</f:facet>
+						<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+							<p:outputLabel value="#{emision['lbl.facultad']}: " styleClass="negrita" />
+							<p:outputLabel value="#{reformaBacking.afectacionDTO.facultad}" />
+
+							<p:outputLabel value="#{emision['lbl.dependencia']}: " styleClass="negrita" />
+							<p:outputLabel value="#{reformaBacking.afectacionDTO.dependencia}" />
+
+							<p:outputLabel value="#{emision['lbl.departamento']}: " styleClass="negrita" />
+							<p:outputLabel value="#{reformaBacking.afectacionDTO.afectacion}" />
+
+							<p:outputLabel value="#{emision['lbl.codigo']}: " styleClass="negrita" />
+							<p:outputLabel value="#{reformaBacking.gastoOriginal.idGastos}" />
+
+							<p:outputLabel value="#{emision['lbl.cur']}: " styleClass="negrita" />
+							<p:outputLabel value="#{reformaBacking.gastoOriginal.cur}" />
+
+							<p:outputLabel value="#{emision['lbl.comprobante']}: " styleClass="negrita" />
+							<p:outputLabel value="#{reformaBacking.gastoOriginal.comprobanteGasto}" />
+
+							<p:outputLabel value="#{emision['lbl.beneficiario']}: " styleClass="negrita" />
+							<p:outputLabel value="#{reformaBacking.gastoOriginal.beneficiarioGasto}" />
+
+							<p:outputLabel value="#{emision['lbl.partida']}: " styleClass="negrita" />
+							<p:outputLabel value="#{reformaBacking.gastoOriginal.partida.partida}" />
+
+							<p:outputLabel value="#{emision['lbl.valor']}: " styleClass="negrita" />
+							<p:outputLabel value="#{reformaBacking.gastoOriginal.valorGasto}" />
+
+							<p:outputLabel value="#{emision['lbl.presupuesto']}: " styleClass="negrita" />
+							<p:outputLabel value="#{reformaBacking.presupuestoOriginal}" />
+						</h:panelGrid>
+					</p:panel>
+				</h:panelGrid>
+
+				<h:panelGrid columns="1" cellpadding="2" cellspacing="2">
+					<f:facet name="header">
+						<p:outputLabel value="DESTINO" styleClass="negrita" style="color: #FF0000;" />
+					</f:facet>
+					<h:panelGrid columns="3" cellpadding="2" cellspacing="2">
+						<p:outputLabel value="#{emision['lbl.codigo']}: " styleClass="negrita" style="color: #FF0000;" />
+						<p:inputText value="#{reformaBacking.idGastoAfectado}" style="text-transform:uppercase;">
+							<p:ajax event="blur" listener="#{reformaBacking.reformarAfectado}" update="afectadoII" />
+						</p:inputText>
+					</h:panelGrid>
+					<p:panel id="afectadoII">
+						<f:facet name="header">
+							<h:outputText value="AFECTADO" />
+						</f:facet>
+						<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+							<p:outputLabel value="#{emision['lbl.facultad']}: " styleClass="negrita" />
+							<p:outputLabel value="#{reformaBacking.afectacionDTO.facultad}" />
+
+							<p:outputLabel value="#{emision['lbl.dependencia']}: " styleClass="negrita" />
+							<p:outputLabel value="#{reformaBacking.afectacionDTO.dependencia}" />
+
+							<p:outputLabel value="#{emision['lbl.departamento']}: " styleClass="negrita" />
+							<p:outputLabel value="#{reformaBacking.afectacionDTO.afectacion}" />
+
+							<p:outputLabel value="#{emision['lbl.codigo']}: " styleClass="negrita" />
+							<p:outputLabel value="#{reformaBacking.gastoAfectado.idGastos}" />
+
+							<p:outputLabel value="#{emision['lbl.cur']}: " styleClass="negrita" />
+							<p:outputLabel value="#{reformaBacking.gastoAfectado.cur}" />
+
+							<p:outputLabel value="#{emision['lbl.comprobante']}: " styleClass="negrita" />
+							<p:outputLabel value="#{reformaBacking.gastoAfectado.comprobanteGasto}" />
+
+							<p:outputLabel value="#{emision['lbl.beneficiario']}: " styleClass="negrita" />
+							<p:outputLabel value="#{reformaBacking.gastoAfectado.beneficiarioGasto}" />
+
+							<p:outputLabel value="#{emision['lbl.partida']}: " styleClass="negrita" />
+							<p:outputLabel value="#{reformaBacking.gastoAfectado.partida.partida}" />
+
+							<p:outputLabel value="#{emision['lbl.valor']}: " styleClass="negrita" />
+							<p:outputLabel value="#{reformaBacking.gastoAfectado.valorGasto}" />
+
+							<p:outputLabel value="#{emision['lbl.presupuesto']}: " styleClass="negrita" />
+							<p:outputLabel value="#{reformaBacking.presupuestoAfectado}" />
+						</h:panelGrid>
+					</p:panel>
+				</h:panelGrid>
+			</h:panelGrid>
 		</h:form>
 	</ui:define>
 </ui:composition>
