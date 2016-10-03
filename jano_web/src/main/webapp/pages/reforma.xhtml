@@ -10,7 +10,7 @@
 		<div align="center">
 			<p:outputLabel value="#{emision['titulo.reporte.gastos']}" styleClass="negrita" />
 			<p:separator id="customSeparator" style="width:auto;height:1px" />
-			<p:spacer height="15px;" />
+			<p:spacer height="10px;" />
 		</div>
 		<h:form id="formRecaudacion">
 			<p:panel>
@@ -32,62 +32,64 @@
 				</h:panelGrid>
 			</p:panel>
 			<p:spacer height="10px;" />
-			<p:panel>
-				<f:facet name="header">
-					<h:outputText value="RESULTADOS BUSQUEDA" />
-				</f:facet>
-				<p:dataTable id="tablaCompromisos" value="#{reformaBacking.compromisosDTO}" var="compromiso" editable="true">
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="#{emision['lbl.codigo']}" />
-						</f:facet>
-						<h:outputText value="#{compromiso.idGasto}" />
-					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="#{emision['lbl.cur']}" />
-						</f:facet>
-						<h:outputText value="#{compromiso.cur}" />
-					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="#{emision['lbl.comprobante']}" />
-						</f:facet>
-						<h:outputText value="#{compromiso.comprobante}" />
-					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="#{emision['lbl.beneficiario']}" />
-						</f:facet>
-						<h:outputText value="#{compromiso.beneficiario}" />
-					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="#{emision['lbl.fechaCompromiso']}" />
-						</f:facet>
-						<h:outputText value="#{compromiso.fecha}" pattern="MM/dd/yyyy" />
-					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="#{emision['lbl.partida']}" />
-						</f:facet>
-						<h:outputText value="#{compromiso.partida.partida}" />
-					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="#{emision['lbl.valor']}" />
-						</f:facet>
-						<h:outputText value="#{compromiso.valor}" />
-					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="#{emision['lbl.estado']}" />
-						</f:facet>
-						<h:graphicImage name="circle_red.png" library="img" rendered="#{compromiso.estado=='I'}" />
-						<h:graphicImage name="circle_green.png" library="img" rendered="#{compromiso.estado=='A'}" />
-					</p:column>
-				</p:dataTable>
-			</p:panel>
+
+			<p:dataTable id="tablaCompromisos" value="#{reformaBacking.compromisosDTO}" var="compromiso" editable="true">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.codigo']}" />
+					</f:facet>
+					<h:outputText value="#{compromiso.idGasto}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.cur']}" />
+					</f:facet>
+					<h:outputText value="#{compromiso.cur}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.comprobante']}" />
+					</f:facet>
+					<h:outputText value="#{compromiso.comprobante}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.beneficiario']}" />
+					</f:facet>
+					<h:outputText value="#{compromiso.beneficiario}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.fechaCompromiso']}" />
+					</f:facet>
+					<h:outputText value="#{compromiso.fecha}" pattern="MM/dd/yyyy" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.partida']}" />
+					</f:facet>
+					<h:outputText value="#{compromiso.partida.partida}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.valor']}" />
+					</f:facet>
+					<h:outputText value="#{compromiso.valor}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.presupuesto']}" />
+					</f:facet>
+					<h:outputText value="#{compromiso.presupuesto}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{emision['lbl.estado']}" />
+					</f:facet>
+					<h:graphicImage name="circle_red.png" library="img" rendered="#{compromiso.estado=='I'}" />
+					<h:graphicImage name="circle_green.png" library="img" rendered="#{compromiso.estado=='A'}" />
+				</p:column>
+			</p:dataTable>
 			<p:spacer height="10px;" />
 			<h:panelGrid columns="2" cellpadding="2" cellspacing="3">
 				<h:panelGrid columns="1" cellpadding="2" cellspacing="2">
@@ -136,6 +138,12 @@
 							<p:outputLabel value="#{reformaBacking.presupuestoOriginal}" />
 						</h:panelGrid>
 					</p:panel>
+					<h:panelGrid columns="3" cellpadding="2" cellspacing="2">
+						<p:outputLabel value="Valor para acreditar: " styleClass="negrita" />
+						<p:inputText value="#{reformaBacking.tempOriginal}">
+							<p:ajax event="blur" listener="#{reformaBacking.transferir}" update="valorAfectado" />
+						</p:inputText>
+					</h:panelGrid>
 				</h:panelGrid>
 
 				<h:panelGrid columns="1" cellpadding="2" cellspacing="2">
@@ -184,8 +192,17 @@
 							<p:outputLabel value="#{reformaBacking.presupuestoAfectado}" />
 						</h:panelGrid>
 					</p:panel>
+					<h:panelGrid id="valorAfectado" columns="2" cellpadding="2" cellspacing="2">
+						<p:outputLabel value="Valor que desea afectar: " styleClass="negrita" />
+						<p:inputText value="#{reformaBacking.tempAfectado}" styleClass="negrita" style="color: #00FF00;" readonly="true"/>
+					</h:panelGrid>
 				</h:panelGrid>
 			</h:panelGrid>
+			<p:spacer height="10px;" />
+			<div align="center">
+				<p:commandButton value="Actualizar Transferencia" actionListener="#{reformaBacking.actualizarTransferencias}" icon="icon-save" />
+			</div>
+			
 		</h:form>
 	</ui:define>
 </ui:composition>
