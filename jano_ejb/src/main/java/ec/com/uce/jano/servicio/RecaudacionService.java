@@ -216,4 +216,16 @@ public interface RecaudacionService {
 	 * @throws HiperionException
 	 */
 	public List<CompromisoDTO> buscarGastosByEstado(String estado) throws HiperionException;
+
+	/**
+	 * 
+	 * <b> Permite actualizar un gasto. </b>
+	 * <p>
+	 * [Author: kruger, Date: Oct 3, 2016]
+	 * </p>
+	 * 
+	 * @param gasto
+	 * @throws HiperionException
+	 */
+	public void actualizarGasto(Gasto gasto) throws HiperionException;
 }

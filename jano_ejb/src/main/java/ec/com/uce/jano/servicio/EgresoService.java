@@ -142,4 +142,16 @@ public interface EgresoService {
 	 */
 	public List<DetalleIngreso> buscarIngresos(Long idIngreso) throws HiperionException;
 
+	/**
+	 * 
+	 * <b> Permite actualizar el detalle de egresos. </b>
+	 * <p>
+	 * [Author: kruger, Date: Oct 3, 2016]
+	 * </p>
+	 * 
+	 * @param detalleEgreso
+	 * @throws HiperionException
+	 */
+	public void editarDetalleEgreso(DetalleEgreso detalleEgreso) throws HiperionException;
+
 }

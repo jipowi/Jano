@@ -154,4 +154,14 @@ public class EgresoServiceImpl implements EgresoService {
 		return detalleIngresoDao.buscarIngreso(idIngreso);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ec.com.uce.jano.servicio.EgresoService#editarDetalleEgreso(ec.com.uce.jano.entities.DetalleEgreso)
+	 */
+	@Override
+	public void editarDetalleEgreso(DetalleEgreso detalleEgreso) throws HiperionException {
+		detalleEgresoDao.update(detalleEgreso);
+	}
+
 }

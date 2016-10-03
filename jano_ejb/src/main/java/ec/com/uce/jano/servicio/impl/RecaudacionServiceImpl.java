@@ -281,4 +281,14 @@ public class RecaudacionServiceImpl implements RecaudacionService {
 		return compromisoDTOs;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ec.com.uce.jano.servicio.RecaudacionService#actualizarGasto(ec.com.uce.jano.entities.Gasto)
+	 */
+	@Override
+	public void actualizarGasto(Gasto gasto) throws HiperionException {
+		gastoDao.update(gasto);
+	}
+
 }

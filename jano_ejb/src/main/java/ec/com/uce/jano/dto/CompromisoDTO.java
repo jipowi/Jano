@@ -29,6 +29,7 @@ public class CompromisoDTO {
 	private String facultad;
 	private String dependencia;
 	private String afectacion;
+	private double presupuesto;
 
 	/**
 	 * 
@@ -232,4 +233,19 @@ public class CompromisoDTO {
 		this.afectacion = afectacion;
 	}
 
+	/**
+	 * @return the presupuesto
+	 */
+	public double getPresupuesto() {
+		return presupuesto;
+	}
+
+	/**
+	 * @param presupuesto the presupuesto to set
+	 */
+	public void setPresupuesto(double presupuesto) {
+		this.presupuesto = presupuesto;
+	}
+
+	
 }
