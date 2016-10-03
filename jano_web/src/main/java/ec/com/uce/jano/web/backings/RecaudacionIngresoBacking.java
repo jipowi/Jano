@@ -320,12 +320,12 @@ public class RecaudacionIngresoBacking implements Serializable {
 				recaudacionIngresoBean.setPeriodo(null);
 				recaudacionIngresoBean.setBeneficiario(null);
 				recaudacionIngresoBean.setFecha(null);
-				recaudacionIngresoBean.setComprobante(null);
 				recaudacionIngresoBean.setValor(0);
 				recaudacionIngresoBean.setObservacion(null);
 				recaudacionIngresoBean.setCur(null);
 			}
 			recaudacionesDTO.clear();
+			obtenerCodigoComprobante();
 			
 		} catch (HiperionException e) {
 			MessagesController.addError(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.error.save"));

@@ -109,6 +109,8 @@ public class BuscarCompromisosBacking implements Serializable {
 			if (buscarCompromisosBean.getPeriodo() != null && buscarCompromisosBean.getBeneficiario() != "") {
 				compromisosDTO = recaudacionService.buscarGastos(buscarCompromisosBean.getPeriodo(), buscarCompromisosBean.getBeneficiario(),
 						buscarCompromisosBean.getFechaInicio(), buscarCompromisosBean.getFechaFin());
+				
+				
 			} else {
 				MessagesController.addWarn(null, "Se deben ingresar todos los parametros de busqueda.");
 			}

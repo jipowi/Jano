@@ -69,6 +69,8 @@ public class ReformaBacking implements Serializable {
 	private Gasto gastoOriginal;
 	private double presupuestoOriginal;
 	private double presupuestoAfectado;
+	private double tempOriginal;
+	private double tempAfectado;
 
 	AfectacionDTO afectacionDTO = new AfectacionDTO();
 
@@ -103,12 +105,104 @@ public class ReformaBacking implements Serializable {
 						compromisoDTO.setCur(gasto.getCur());
 						compromisoDTO.setPartida(gasto.getPartida());
 
+						Egreso egresoDB = egresoService.buscarEgresos(gasto.getPeriodoGasto(), gasto.getAfectacion().getIdAfectacion());
+
+						if (egresoDB != null) {
+							List<DetalleEgreso> detEgresos = egresoService.buscarEgresos(egresoDB.getIdEgreso());
+
+							for (DetalleEgreso detEgreso : detEgresos) {
+								if (detEgreso.getPartida().getPartida().equals(gasto.getPartida().getPartida())) {
+									compromisoDTO.setPresupuesto(detEgreso.getPresupuesto());
+								}
+							}
+						}
+
 						compromisosDTO.add(compromisoDTO);
 					}
 
 				}
+
 			} else {
 				MessagesController.addWarn(null, "Se deben ingresar todos los parametros de busqueda.");
+			}
+
+		} catch (HiperionException e) {
+			throw new HiperionException(e);
+		}
+	}
+
+	/**
+	 * 
+	 * <b> Permite realizar la tranferencia entre cuantas. </b>
+	 * <p>
+	 * [Author: kruger, Date: Oct 3, 2016]
+	 * </p>
+	 * 
+	 */
+	public void transferir() {
+		double valorDisponibe = presupuestoOriginal - gastoOriginal.getValorGasto();
+		if (this.tempOriginal <= valorDisponibe) {
+			this.tempAfectado = this.tempOriginal;
+		} else {
+			MessagesController.addWarn(null, "El valor dispobible del gasto con CUR " + gastoOriginal.getCur() + " es de " + valorDisponibe);
+		}
+	}
+
+	/**
+	 * 
+	 * <b> Permite actualizar un gasto en la base de datos. </b>
+	 * <p>
+	 * [Author: kruger, Date: Oct 3, 2016]
+	 * </p>
+	 * 
+	 * @throws HiperionException
+	 */
+	public void actualizarTransferencias() throws HiperionException {
+		try {
+
+			if (gastoOriginal == null) {
+				MessagesController.addWarn(null, "Usted debe ingresar el codigo de la cuenta que desea afectar y luego un valor.");
+			} else {
+
+				// Actualizar Original
+				DetalleEgreso detEgresoOriginal = new DetalleEgreso();
+				gastoOriginal.setValorGasto(gastoOriginal.getValorGasto() - this.tempOriginal);
+
+				Egreso egresoDBOriginal = egresoService.buscarEgresos(gastoOriginal.getPeriodoGasto(), gastoOriginal.getAfectacion()
+						.getIdAfectacion());
+
+				if (egresoDBOriginal != null) {
+					List<DetalleEgreso> detEgresos = egresoService.buscarEgresos(egresoDBOriginal.getIdEgreso());
+
+					for (DetalleEgreso detEgreso : detEgresos) {
+						if (detEgreso.getPartida().getPartida().equals(gastoOriginal.getPartida().getPartida())) {
+							detEgresoOriginal = detEgreso;
+							detEgresoOriginal.setPresupuesto(detEgreso.getPresupuesto() - this.tempOriginal);
+						}
+					}
+				}
+				egresoService.editarDetalleEgreso(detEgresoOriginal);
+
+				DetalleEgreso detEgresoAfectado = new DetalleEgreso();
+				gastoAfectado.setValorGasto(gastoAfectado.getValorGasto() - this.tempAfectado);
+
+				Egreso egresoDBAfectado = egresoService.buscarEgresos(gastoAfectado.getPeriodoGasto(), gastoAfectado.getAfectacion()
+						.getIdAfectacion());
+
+				if (egresoDBAfectado != null) {
+					List<DetalleEgreso> detEgresos = egresoService.buscarEgresos(egresoDBAfectado.getIdEgreso());
+
+					for (DetalleEgreso detEgreso : detEgresos) {
+						if (detEgreso.getPartida().getPartida().equals(gastoAfectado.getPartida().getPartida())) {
+							detEgresoAfectado = detEgreso;
+							detEgresoAfectado.setPresupuesto(detEgreso.getPresupuesto() - this.tempAfectado);
+						}
+					}
+				}
+				egresoService.editarDetalleEgreso(detEgresoAfectado);
+
+				MessagesController.addInfo(null, "El valor " + this.tempOriginal + " fue transferido exitosamente a la partida "
+						+ gastoAfectado.getPartida().getPartida());
 			}
 
 		} catch (HiperionException e) {
@@ -193,8 +287,6 @@ public class ReformaBacking implements Serializable {
 			throw new HiperionException(e);
 		}
 	}
-
-	
 
 	/**
 	 * 
@@ -497,6 +589,36 @@ public class ReformaBacking implements Serializable {
 	 */
 	public void setGastoOriginal(Gasto gastoOriginal) {
 		this.gastoOriginal = gastoOriginal;
+	}
+
+	/**
+	 * @return the tempOriginal
+	 */
+	public double getTempOriginal() {
+		return tempOriginal;
+	}
+
+	/**
+	 * @param tempOriginal
+	 *            the tempOriginal to set
+	 */
+	public void setTempOriginal(double tempOriginal) {
+		this.tempOriginal = tempOriginal;
+	}
+
+	/**
+	 * @return the tempAfectado
+	 */
+	public double getTempAfectado() {
+		return tempAfectado;
+	}
+
+	/**
+	 * @param tempAfectado
+	 *            the tempAfectado to set
+	 */
+	public void setTempAfectado(double tempAfectado) {
+		this.tempAfectado = tempAfectado;
 	}
 
 }

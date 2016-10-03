@@ -345,6 +345,7 @@ public class RecaudacionGastoBacking implements Serializable {
 					gasto.setPartida(recaudacionDTO.getPartida());
 
 					recaudacionService.guardarGastos(gasto);
+										
 				}
 
 				MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
@@ -352,7 +353,6 @@ public class RecaudacionGastoBacking implements Serializable {
 				recaudacionGastoBean.setDependencia(null);
 				recaudacionGastoBean.setIdAfectacion(null);
 				recaudacionGastoBean.setPeriodo(null);
-				recaudacionGastoBean.setComprobante(null);
 				recaudacionGastoBean.setFecha(null);
 				recaudacionGastoBean.setBeneficiario(null);
 				recaudacionGastoBean.setCur(null);
@@ -360,6 +360,8 @@ public class RecaudacionGastoBacking implements Serializable {
 
 			}
 			recaudacionesDTO.clear();
+			obtenerCodigoComprobante();
+			
 
 		} catch (HiperionException e) {
 			MessagesController.addError(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.error.save"));
