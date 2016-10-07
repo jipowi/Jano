@@ -164,4 +164,64 @@ public class EgresoServiceImpl implements EgresoService {
 		detalleEgresoDao.update(detalleEgreso);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ec.com.uce.jano.servicio.EgresoService#editarEgreso(ec.com.uce.jano.entities.Egreso)
+	 */
+	@Override
+	public void editarEgreso(Egreso egreso) throws HiperionException {
+		egresoDao.update(egreso);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ec.com.uce.jano.servicio.EgresoService#editarIngreso(ec.com.uce.jano.entities.Ingreso)
+	 */
+	@Override
+	public void editarIngreso(Ingreso ingreso) throws HiperionException {
+		ingresoDao.update(ingreso);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ec.com.uce.jano.servicio.EgresoService#eliminarEgreso(ec.com.uce.jano.entities.Egreso)
+	 */
+	@Override
+	public void eliminarEgreso(Egreso egreso) throws HiperionException {
+		egresoDao.delete(egreso);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ec.com.uce.jano.servicio.EgresoService#eliminarIngreso(ec.com.uce.jano.entities.Ingreso)
+	 */
+	@Override
+	public void eliminarIngreso(Ingreso ingreso) throws HiperionException {
+		ingresoDao.delete(ingreso);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ec.com.uce.jano.servicio.EgresoService#editarPartida(ec.com.uce.jano.entities.Partida)
+	 */
+	@Override
+	public void editarPartida(Partida partida) throws HiperionException {
+		partidaDao.update(partida);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ec.com.uce.jano.servicio.EgresoService#eliminarPartida(ec.com.uce.jano.entities.Partida)
+	 */
+	@Override
+	public void eliminarPartida(Partida partida) throws HiperionException {
+		partidaDao.delete(partida);
+	}
+
 }

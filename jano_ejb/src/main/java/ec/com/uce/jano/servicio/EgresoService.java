@@ -154,4 +154,76 @@ public interface EgresoService {
 	 */
 	public void editarDetalleEgreso(DetalleEgreso detalleEgreso) throws HiperionException;
 
+	/**
+	 * 
+	 * <b> Permite editar un egreso en la based de datos. </b>
+	 * <p>
+	 * [Author: kruger, Date: Oct 7, 2016]
+	 * </p>
+	 * 
+	 * @param egreso
+	 * @throws HiperionException
+	 */
+	public void editarEgreso(Egreso egreso) throws HiperionException;
+
+	/**
+	 * 
+	 * <b> Permite editar un ingreso en la base de datos. </b>
+	 * <p>
+	 * [Author: kruger, Date: Oct 7, 2016]
+	 * </p>
+	 * 
+	 * @param ingreso
+	 * @throws HiperionException
+	 */
+	public void editarIngreso(Ingreso ingreso) throws HiperionException;
+
+	/**
+	 * 
+	 * <b> Permite eliminar un egreso de la base de datos. </b>
+	 * <p>
+	 * [Author: kruger, Date: Oct 7, 2016]
+	 * </p>
+	 * 
+	 * @param egreso
+	 * @throws HiperionException
+	 */
+	public void eliminarEgreso(Egreso egreso) throws HiperionException;
+
+	/**
+	 * 
+	 * <b> Permite eliminar un registro de ingreso de la base de datos. </b>
+	 * <p>
+	 * [Author: kruger, Date: Oct 7, 2016]
+	 * </p>
+	 * 
+	 * @param ingreso
+	 * @throws HiperionException
+	 */
+	public void eliminarIngreso(Ingreso ingreso) throws HiperionException;
+
+	/**
+	 * 
+	 * <b> permite editar un registro de la base de datos. </b>
+	 * <p>
+	 * [Author: kruger, Date: Oct 7, 2016]
+	 * </p>
+	 * 
+	 * @param partida
+	 * @throws HiperionException
+	 */
+	public void editarPartida(Partida partida) throws HiperionException;
+
+	/**
+	 * 
+	 * <b> permite eliminar un registro de la base de datos. </b>
+	 * <p>
+	 * [Author: kruger, Date: Oct 7, 2016]
+	 * </p>
+	 * 
+	 * @param partida
+	 * @throws HiperionException
+	 */
+	public void eliminarPartida(Partida partida) throws HiperionException;
+
 }

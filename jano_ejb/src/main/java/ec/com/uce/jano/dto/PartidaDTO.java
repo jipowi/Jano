@@ -14,6 +14,7 @@ public class PartidaDTO {
 
 	private String tipoPartida;
 	private String partida;
+	private Long idPartida;
 
 	/**
 	 * 
@@ -61,6 +62,21 @@ public class PartidaDTO {
 	 */
 	public void setPartida(String partida) {
 		this.partida = partida;
+	}
+
+	/**
+	 * @return the idPartida
+	 */
+	public Long getIdPartida() {
+		return idPartida;
+	}
+
+	/**
+	 * @param idPartida
+	 *            the idPartida to set
+	 */
+	public void setIdPartida(Long idPartida) {
+		this.idPartida = idPartida;
 	}
 
 }
