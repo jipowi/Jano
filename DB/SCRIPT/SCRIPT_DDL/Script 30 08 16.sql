@@ -243,6 +243,7 @@ create table PARTIDA (
    ID_PARTIDA           SERIAL               not null,
    PARTIDA              TEXT                 null,
    TIPO_PARTIDA         TEXT                 null,
+   PRESUPUESTADO		TEXT				 null
    constraint PK_PARTIDA primary key (ID_PARTIDA)
 );
 
