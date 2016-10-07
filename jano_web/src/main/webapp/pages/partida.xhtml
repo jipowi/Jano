@@ -28,7 +28,7 @@
 								<f:selectItem itemLabel="Egreso" itemValue="Egreso" />
 							</p:selectOneMenu>
 						</h:panelGrid>
-						<p:commandLink title="Buscar partidas" action="#{partidaBacking.buscarPartidas}" update="formPartida,tablaPartidasBD">
+						<p:commandLink title="Buscar partidas" action="#{partidaBacking.buscarPartidas}" update="tablaPartidasBD">
 							<h:graphicImage name="search.png" library="img/icon" />
 						</p:commandLink>
 					</h:panelGrid>
@@ -37,22 +37,44 @@
 				<p:spacer height="30px;" />
 
 				<!-- TABLA PARTIDAS EXISTENTES -->
-				<h:panelGrid columns="1" id="tablaPartidasBD" rendered="#{partidaBacking.activarTabla}">
-					<p:dataTable value="#{partidaBacking.partidasDB}" var="partida" widgetVar="50">
-						<p:column>
-							<f:facet name="header">
-								<h:outputText value="#{emision['lbl.partida']}" />
+
+				<p:dataTable id="tablaPartidasBD" value="#{partidaBacking.partidasDB}" var="partida" widgetVar="50" editable="true">
+					<p:ajax event="rowEdit" listener="#{partidaBacking.editarPartida}" />
+					<p:ajax event="rowEditCancel" listener="#{partidaBacking.eliminarPartida}" />
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.partida']}" />
+						</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{partida.partida}" style="text-transform:uppercase;" />
 							</f:facet>
-							<h:outputText value="#{partida.partida}" />
-						</p:column>
-						<p:column>
-							<f:facet name="header">
-								<h:outputText value="#{emision['lbl.tipoPartida']}" />
+							<f:facet name="input">
+								<p:inputText value="#{partida.partida}" style="text-transform:uppercase;" />
 							</f:facet>
-							<h:outputText value="#{partida.tipoPartida}" />
-						</p:column>
-					</p:dataTable>
-				</h:panelGrid>
+						</p:cellEditor>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{emision['lbl.tipoPartida']}" />
+						</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{partida.tipoPartida}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:selectOneMenu value="#{partidaBacking.tipoPartida}" effect="drop" required="true">
+									<f:selectItem itemLabel="Seleccione tipo de partida" noSelectionOption="true" />
+									<f:selectItem itemLabel="Ingreso" itemValue="Ingreso" />
+									<f:selectItem itemLabel="Egreso" itemValue="Egreso" />
+								</p:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="Options" style="width:50px">
+						<p:rowEditor />
+					</p:column>
+				</p:dataTable>
 
 				<p:spacer height="30px;" />
 				<!-- PARTIDA NUEVA -->
@@ -70,7 +92,7 @@
 							</p:selectOneMenu>
 
 							<p:outputLabel value="#{emision['lbl.partida']}:" styleClass="negrita" />
-							<p:inputText value="#{partidaBean.partida}" style="text-transform:uppercase;"/>
+							<p:inputText value="#{partidaBean.partida}" style="text-transform:uppercase;" />
 						</h:panelGrid>
 					</h:panelGrid>
 					<div align="center">
@@ -84,40 +106,17 @@
 				<!-- TABLA PARTIDAS NUEVAS -->
 				<h:panelGrid columns="1" id="tablaPartidas" rendered="#{partidaBacking.activarTabla}">
 					<p:dataTable value="#{partidaBacking.partidas}" var="partida" widgetVar="50" editable="true">
-						<p:ajax event="rowEdit" listener="#{partidaBacking.editarPartida}" />
-						<p:ajax event="rowEditCancel" listener="#{partidaBacking.eliminarPartida}" />
 						<p:column>
 							<f:facet name="header">
 								<h:outputText value="#{emision['lbl.partida']}" />
 							</f:facet>
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{partida.partida}" style="text-transform:uppercase;"/>
-								</f:facet>
-								<f:facet name="input">
-									<p:inputText value="#{partida.partida}" style="text-transform:uppercase;" />
-								</f:facet>
-							</p:cellEditor>
+							<h:outputText value="#{partida.partida}" style="text-transform:uppercase;" />
 						</p:column>
 						<p:column>
 							<f:facet name="header">
 								<h:outputText value="#{emision['lbl.tipoPartida']}" />
 							</f:facet>
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{partida.tipoPartida}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:selectOneMenu value="#{partidaBacking.tipoPartida}" effect="drop" required="true">
-										<f:selectItem itemLabel="Seleccione tipo de partida" noSelectionOption="true" />
-										<f:selectItem itemLabel="Ingreso" itemValue="Ingreso" />
-										<f:selectItem itemLabel="Egreso" itemValue="Egreso" />
-									</p:selectOneMenu>
-								</f:facet>
-							</p:cellEditor>
-						</p:column>
-						<p:column headerText="Options" style="width:50px">
-							<p:rowEditor />
+							<h:outputText value="#{partida.tipoPartida}" />
 						</p:column>
 					</p:dataTable>
 				</h:panelGrid>

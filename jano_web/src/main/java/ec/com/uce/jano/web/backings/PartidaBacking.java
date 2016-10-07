@@ -52,7 +52,7 @@ public class PartidaBacking implements Serializable {
 	private DetalleCatalogoService detalleCatalogoService;
 
 	private List<PartidaDTO> partidas = new ArrayList<>();
-	private List<PartidaDTO> partidasDB;
+	private List<Partida> partidasDB;
 	private String tipoPartida;
 	private List<SelectItem> partidaItems;
 	private boolean activarTabla;
@@ -99,22 +99,13 @@ public class PartidaBacking implements Serializable {
 	public void buscarPartidas() throws HiperionException {
 		try {
 
-			partidasDB = new ArrayList<>();
+			partidasDB = egresoService.obtenerPartidas(tipoPartida);
 
-			List<Partida> partidasTemp = egresoService.obtenerPartidas(tipoPartida);
-
-			if (partidasTemp.isEmpty()) {
+			if (partidasDB.isEmpty()) {
 				MessagesController.addWarn(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.warn.buscar"));
 				activarTabla = false;
 			} else {
-				for (Partida partida : partidasTemp) {
-					PartidaDTO partidaDTO = new PartidaDTO();
 
-					partidaDTO.setPartida(partida.getPartida());
-					partidaDTO.setTipoPartida(partida.getTipoPartida());
-
-					partidasDB.add(partidaDTO);
-				}
 				activarTabla = true;
 			}
 		} catch (HiperionException e) {
@@ -199,11 +190,11 @@ public class PartidaBacking implements Serializable {
 	public void addPartida() {
 
 		if (partidaBean.getPartida().equals("") || partidaBean.getPartida().equals("")) {
-			
+
 			MessagesController.addWarn(null, "Todos los campos son requeridos.");
-		
+
 		} else {
-			
+
 			PartidaDTO item = new PartidaDTO(partidaBean.getTipoPartida(), partidaBean.getPartida());
 
 			partidas.add(item);
@@ -226,8 +217,16 @@ public class PartidaBacking implements Serializable {
 	 * @param event
 	 */
 	public void editarPartida(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Item Edited", ((PartidaDTO) event.getObject()).getPartida());
-		FacesContext.getCurrentInstance().addMessage(null, msg);
+		try {
+			FacesMessage msg = new FacesMessage("Item Edited", ((Partida) event.getObject()).getPartida());
+
+			egresoService.editarPartida((Partida) event.getObject());
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+
+		} catch (HiperionException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
@@ -240,9 +239,18 @@ public class PartidaBacking implements Serializable {
 	 * @param event
 	 */
 	public void eliminarPartida(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Item Cancelled");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-		partidas.remove((PartidaDTO) event.getObject());
+		try {
+
+			FacesMessage msg = new FacesMessage("Item Cancelled");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+
+			partidas.remove((Partida) event.getObject());
+
+			egresoService.eliminarPartida((Partida) event.getObject());
+
+		} catch (HiperionException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -263,7 +271,7 @@ public class PartidaBacking implements Serializable {
 	/**
 	 * @return the partidasDB
 	 */
-	public List<PartidaDTO> getPartidasDB() {
+	public List<Partida> getPartidasDB() {
 		return partidasDB;
 	}
 
@@ -271,7 +279,7 @@ public class PartidaBacking implements Serializable {
 	 * @param partidasDB
 	 *            the partidasDB to set
 	 */
-	public void setPartidasDB(List<PartidaDTO> partidasDB) {
+	public void setPartidasDB(List<Partida> partidasDB) {
 		this.partidasDB = partidasDB;
 	}
 
