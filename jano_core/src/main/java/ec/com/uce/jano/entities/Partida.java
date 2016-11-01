@@ -4,7 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the partida database table.
  * 
@@ -14,34 +13,37 @@ public class Partida implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_partida")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_partida")
 	private Long idPartida;
 
 	private String partida;
 
-	@Column(name="tipo_partida")
+	@Column(name = "tipo_partida")
 	private String tipoPartida;
 
-	//bi-directional many-to-one association to DetalleEgreso
-	@OneToMany(mappedBy="partida")
+	// bi-directional many-to-one association to DetalleEgreso
+	@OneToMany(mappedBy = "partida")
 	private List<DetalleEgreso> detalleEgresos;
 
-	//bi-directional many-to-one association to DetalleIngreso
-	@OneToMany(mappedBy="partida")
+	// bi-directional many-to-one association to DetalleIngreso
+	@OneToMany(mappedBy = "partida")
 	private List<DetalleIngreso> detalleIngresos;
 
-	//bi-directional many-to-one association to Gasto
-	@OneToMany(mappedBy="partida")
+	// bi-directional many-to-one association to Gasto
+	@OneToMany(mappedBy = "partida")
 	private List<Gasto> gastos;
 
-	//bi-directional many-to-one association to Recaudacion
-	@OneToMany(mappedBy="partida")
+	// bi-directional many-to-one association to Recaudacion
+	@OneToMany(mappedBy = "partida")
 	private List<Recaudacion> recaudacions;
 
-	//bi-directional many-to-one association to Reforma
-	@OneToMany(mappedBy="partida")
+	// bi-directional many-to-one association to Reforma
+	@OneToMany(mappedBy = "partida")
 	private List<Reforma> reformas;
+
+	@Column(name = "presupuestado")
+	private String presupuestado;
 
 	public Partida() {
 	}
@@ -178,6 +180,21 @@ public class Partida implements Serializable {
 		reforma.setPartida(null);
 
 		return reforma;
+	}
+
+	/**
+	 * @return the presupuestado
+	 */
+	public String getPresupuestado() {
+		return presupuestado;
+	}
+
+	/**
+	 * @param presupuestado
+	 *            the presupuestado to set
+	 */
+	public void setPresupuestado(String presupuestado) {
+		this.presupuestado = presupuestado;
 	}
 
 }
