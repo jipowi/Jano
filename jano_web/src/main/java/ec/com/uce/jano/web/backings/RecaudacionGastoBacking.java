@@ -345,7 +345,7 @@ public class RecaudacionGastoBacking implements Serializable {
 					gasto.setPartida(recaudacionDTO.getPartida());
 
 					recaudacionService.guardarGastos(gasto);
-										
+
 				}
 
 				MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
@@ -361,7 +361,6 @@ public class RecaudacionGastoBacking implements Serializable {
 			}
 			recaudacionesDTO.clear();
 			obtenerCodigoComprobante();
-			
 
 		} catch (HiperionException e) {
 			MessagesController.addError(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.error.save"));
@@ -456,8 +455,10 @@ public class RecaudacionGastoBacking implements Serializable {
 			partidas = egresoService.obtenerPartidas("Egreso");
 
 			for (Partida partida : partidas) {
-				SelectItem selectItem = new SelectItem(partida.getIdPartida(), partida.getPartida());
-				partidasItems.add(selectItem);
+				if (partida.getPresupuestado().equals("A")) {
+					SelectItem selectItem = new SelectItem(partida.getIdPartida(), partida.getPartida());
+					partidasItems.add(selectItem);
+				}
 			}
 		} catch (HiperionException e) {
 			throw new HiperionException(e);

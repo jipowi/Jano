@@ -178,7 +178,8 @@ public class RecaudacionIngresoBacking implements Serializable {
 		try {
 			this.departamentoItems = new ArrayList<SelectItem>();
 
-			List<Afectacion> departamentos = afectacionService.obtenerDepartamentos(recaudacionIngresoBean.getFacultad(), recaudacionIngresoBean.getDependencia());
+			List<Afectacion> departamentos = afectacionService.obtenerDepartamentos(recaudacionIngresoBean.getFacultad(),
+					recaudacionIngresoBean.getDependencia());
 
 			for (Afectacion departamento : departamentos) {
 				SelectItem selectItem = new SelectItem(departamento.getIdAfectacion(), departamento.getDescAfectacion());
@@ -226,7 +227,8 @@ public class RecaudacionIngresoBacking implements Serializable {
 				afectacion.setIdDependencia(recaudacionIngresoBean.getDependencia());
 				afectacion.setIdAfectacion(recaudacionIngresoBean.getIdAfectacion());
 
-				RecaudacionDTO recaudacionDTO = new RecaudacionDTO(beneficiario, comprobante, fechaRecaudacion, observacion, valor, afectacion, partida, periodo);
+				RecaudacionDTO recaudacionDTO = new RecaudacionDTO(beneficiario, comprobante, fechaRecaudacion, observacion, valor, afectacion,
+						partida, periodo);
 				recaudacionesDTO.add(recaudacionDTO);
 			} else {
 				MessagesController.addWarn(null, "El valor debe ser mayor que cero. ");
@@ -326,7 +328,7 @@ public class RecaudacionIngresoBacking implements Serializable {
 			}
 			recaudacionesDTO.clear();
 			obtenerCodigoComprobante();
-			
+
 		} catch (HiperionException e) {
 			MessagesController.addError(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.error.save"));
 			throw new HiperionException(e);
@@ -435,8 +437,10 @@ public class RecaudacionIngresoBacking implements Serializable {
 			partidas = egresoService.obtenerPartidas("Ingreso");
 
 			for (Partida partida : partidas) {
-				SelectItem selectItem = new SelectItem(partida.getIdPartida(), partida.getPartida());
-				partidasItems.add(selectItem);
+				if (partida.getPresupuestado().equals("A")) {
+					SelectItem selectItem = new SelectItem(partida.getIdPartida(), partida.getPartida());
+					partidasItems.add(selectItem);
+				}
 			}
 		} catch (HiperionException e) {
 			throw new HiperionException(e);

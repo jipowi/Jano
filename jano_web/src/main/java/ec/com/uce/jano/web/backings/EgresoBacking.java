@@ -321,7 +321,7 @@ public class EgresoBacking implements Serializable {
 				afectacion.setIdAfectacion(egresoBean.getAfectacion());
 
 				egreso.setAfectacion(afectacion);
-				
+
 			} else {
 				save = false;
 			}
@@ -334,6 +334,9 @@ public class EgresoBacking implements Serializable {
 					DetalleEgreso detalle = new DetalleEgreso();
 
 					detalle.setPartida(detalleEgreso.getPartida());
+
+					detalleEgreso.getPartida().setPresupuestado("A");
+					egresoService.editarPartida(detalleEgreso.getPartida());
 
 					detalle.setPresupuesto(detalleEgreso.getPresupuesto());
 
@@ -405,7 +408,7 @@ public class EgresoBacking implements Serializable {
 					MessagesController.addWarn(null, "Ya existe ingresada una partida similar ");
 				} else {
 					egresosDTO.add(egreso);
-					
+
 					this.partida = null;
 					this.presupuesto = null;
 				}

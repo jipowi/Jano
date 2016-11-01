@@ -74,6 +74,7 @@ public class PartidaBacking implements Serializable {
 				Partida partida = new Partida();
 				partida.setPartida(partidaDTO.getPartida());
 				partida.setTipoPartida(partidaDTO.getTipoPartida());
+				partida.setPresupuestado("I");
 
 				egresoService.guardarPartida(partida);
 			}

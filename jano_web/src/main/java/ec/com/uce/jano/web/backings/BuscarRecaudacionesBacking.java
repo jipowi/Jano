@@ -6,9 +6,7 @@ package ec.com.uce.jano.web.backings;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -28,10 +26,7 @@ import ec.com.uce.jano.servicio.CatalogoService;
 import ec.com.uce.jano.servicio.DetalleCatalogoService;
 import ec.com.uce.jano.servicio.RecaudacionService;
 import ec.com.uce.jano.web.beans.BuscarRecaudacionesBean;
-import ec.com.uce.jano.web.util.ConstantesUtil;
-import ec.com.uce.jano.web.util.GenerarPdfUtil;
 import ec.com.uce.jano.web.util.HiperionMensajes;
-import ec.com.uce.jano.web.util.JsfUtil;
 import ec.com.uce.jano.web.util.MessagesController;
 
 /**

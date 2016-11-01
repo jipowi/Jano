@@ -106,11 +106,19 @@ public class BuscarCompromisosBacking implements Serializable {
 	public void buscarCompromisos() throws HiperionException {
 		try {
 
-			if (buscarCompromisosBean.getPeriodo() != null && buscarCompromisosBean.getBeneficiario() != "") {
-				compromisosDTO = recaudacionService.buscarGastos(buscarCompromisosBean.getPeriodo(), buscarCompromisosBean.getBeneficiario(),
+			if (!buscarCompromisosBean.getPeriodo().equals("") && buscarCompromisosBean.getBeneficiario().equals("")) {
+
+				compromisosDTO = recaudacionService.buscarGastosByPeriodo(buscarCompromisosBean.getPeriodo());
+
+			} else if (buscarCompromisosBean.getPeriodo().equals("") && !buscarCompromisosBean.getBeneficiario().equals("")) {
+
+				compromisosDTO = recaudacionService.buscaGastosByBeneficiario(buscarCompromisosBean.getBeneficiario());
+				
+			} else if (!buscarCompromisosBean.getPeriodo().equals("") && !buscarCompromisosBean.getBeneficiario().equals("")) {
+
+				compromisosDTO = recaudacionService.buscarGastosAll(buscarCompromisosBean.getPeriodo(), buscarCompromisosBean.getBeneficiario(),
 						buscarCompromisosBean.getFechaInicio(), buscarCompromisosBean.getFechaFin());
-				
-				
+
 			} else {
 				MessagesController.addWarn(null, "Se deben ingresar todos los parametros de busqueda.");
 			}
@@ -155,7 +163,6 @@ public class BuscarCompromisosBacking implements Serializable {
 
 		compromisosDTO.remove((CompromisoDTO) event.getObject());
 	}
-
 
 	/**
 	 * 
@@ -213,7 +220,8 @@ public class BuscarCompromisosBacking implements Serializable {
 			parametrosDocumento.put(ConstantesUtil.CONTENT_TYPE_IDENTIFICADOR, ConstantesUtil.CONTENT_TYPE_PDF);
 			parametrosDocumento.put(ConstantesUtil.NOMBRE_ARCHIVO_IDENTIFICADOR, "compromiso_" + compromisoDTO.getComprobante());
 
-			parametrosDocumento.put(ConstantesUtil.CONTENIDO_BYTES_IDENTIFICADOR, GenerarPdfUtil.generarAchivoPDFCompromiso(compromisoDTO, gastos, afectacionDTOs));
+			parametrosDocumento.put(ConstantesUtil.CONTENIDO_BYTES_IDENTIFICADOR,
+					GenerarPdfUtil.generarAchivoPDFCompromiso(compromisoDTO, gastos, afectacionDTOs));
 
 			JsfUtil.setSessionAttribute(ConstantesUtil.PARAMETROS_DESCARGADOR_IDENTIFICADOR, parametrosDocumento);
 

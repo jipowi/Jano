@@ -330,14 +330,18 @@ public class IngresoBacking implements Serializable {
 
 				for (IngresoDTO detalleIngreso : ingresosDTO) {
 					DetalleIngreso detalle = new DetalleIngreso();
+					
 
 					detalle.setPartida(detalleIngreso.getPartida());
+					
+					detalleIngreso.getPartida().setPresupuestado("A");
+					egresoService.editarPartida(detalleIngreso.getPartida());
 
 					detalle.setPresupuestoIngreso(detalleIngreso.getPresupuesto());
 
 					detalles.add(detalle);
 				}
-
+				
 				egresoService.guardarIngreso(ingreso, detalles, save);
 				
 				MessagesController.addInfo(null, HiperionMensajes.getInstancia().getString("hiperion.mensaje.exito.save"));
