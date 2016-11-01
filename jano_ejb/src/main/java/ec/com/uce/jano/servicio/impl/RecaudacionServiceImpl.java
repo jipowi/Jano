@@ -102,9 +102,9 @@ public class RecaudacionServiceImpl implements RecaudacionService {
 	 * @see ec.com.uce.jano.servicio.RecaudacionService#buscarGastos(java.lang.Long)
 	 */
 	@Override
-	public List<CompromisoDTO> buscarGastos(String periodo, String beneficiario, Date fechaInicio, Date fechaFin) throws HiperionException {
+	public List<CompromisoDTO> buscarGastosAll(String periodo, String beneficiario, Date fechaInicio, Date fechaFin) throws HiperionException {
 
-		List<Gasto> gastos = gastoDao.buscarGastos(periodo, beneficiario, fechaInicio, fechaFin);
+		List<Gasto> gastos = gastoDao.buscarGastosAll(periodo, beneficiario, fechaInicio, fechaFin);
 		List<CompromisoDTO> compromisoDTOs = new ArrayList<>();
 
 		for (Gasto gasto : gastos) {
@@ -289,6 +289,62 @@ public class RecaudacionServiceImpl implements RecaudacionService {
 	@Override
 	public void actualizarGasto(Gasto gasto) throws HiperionException {
 		gastoDao.update(gasto);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ec.com.uce.jano.servicio.RecaudacionService#buscarGastosByPeriodo(java.lang.String)
+	 */
+	@Override
+	public List<CompromisoDTO> buscarGastosByPeriodo(String periodo) throws HiperionException {
+		List<Gasto> gastos = gastoDao.buscarGastosByPeriodo(periodo);
+		List<CompromisoDTO> compromisoDTOs = new ArrayList<>();
+
+		for (Gasto gasto : gastos) {
+			CompromisoDTO compromisoDTO = new CompromisoDTO();
+
+			compromisoDTO.setIdGasto(gasto.getIdGastos());
+			compromisoDTO.setBeneficiario(gasto.getBeneficiarioGasto());
+			compromisoDTO.setEstado(gasto.getEstadoGasto());
+			compromisoDTO.setPeriodo(gasto.getPeriodoGasto());
+			compromisoDTO.setValor(gasto.getValorGasto());
+			compromisoDTO.setFecha(gasto.getFechaGasto());
+			compromisoDTO.setComprobante(gasto.getComprobanteGasto());
+			compromisoDTO.setCur(gasto.getCur());
+
+			compromisoDTOs.add(compromisoDTO);
+		}
+
+		return compromisoDTOs;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ec.com.uce.jano.servicio.RecaudacionService#buscaGastosByBeneficiario(java.lang.String)
+	 */
+	@Override
+	public List<CompromisoDTO> buscaGastosByBeneficiario(String beneficiario) throws HiperionException {
+		List<Gasto> gastos = gastoDao.buscaGastosByBeneficiario(beneficiario);
+		List<CompromisoDTO> compromisoDTOs = new ArrayList<>();
+
+		for (Gasto gasto : gastos) {
+			CompromisoDTO compromisoDTO = new CompromisoDTO();
+
+			compromisoDTO.setIdGasto(gasto.getIdGastos());
+			compromisoDTO.setBeneficiario(gasto.getBeneficiarioGasto());
+			compromisoDTO.setEstado(gasto.getEstadoGasto());
+			compromisoDTO.setPeriodo(gasto.getPeriodoGasto());
+			compromisoDTO.setValor(gasto.getValorGasto());
+			compromisoDTO.setFecha(gasto.getFechaGasto());
+			compromisoDTO.setComprobante(gasto.getComprobanteGasto());
+			compromisoDTO.setCur(gasto.getCur());
+
+			compromisoDTOs.add(compromisoDTO);
+		}
+
+		return compromisoDTOs;
 	}
 
 }

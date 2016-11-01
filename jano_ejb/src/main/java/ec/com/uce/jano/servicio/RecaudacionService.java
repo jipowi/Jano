@@ -136,8 +136,34 @@ public interface RecaudacionService {
 	 * @return
 	 * @throws HiperionException
 	 */
-	public List<CompromisoDTO> buscarGastos(String periodo, String beneficiario, Date fechaInicio, Date fechaFin) throws HiperionException;
+	public List<CompromisoDTO> buscarGastosAll(String periodo, String beneficiario, Date fechaInicio, Date fechaFin) throws HiperionException;
 
+	/**
+	 * 
+	 * <b> Permite obtener el los gastos por periodo. </b>
+	 * <p>
+	 * [Author: kruger, Date: 31/10/2016]
+	 * </p>
+	 * 
+	 * @param periodo
+	 * @return
+	 * @throws HiperionException
+	 */
+	public List<CompromisoDTO> buscarGastosByPeriodo(String periodo) throws HiperionException;
+
+	/**
+	 * 
+	 * <b> Permite obetener los gastos por beneficiario. </b>
+	 * <p>
+	 * [Author: kruger, Date: 31/10/2016]
+	 * </p>
+	 * 
+	 * @param beneficiario
+	 * @return
+	 * @throws HiperionException
+	 */
+	public List<CompromisoDTO> buscaGastosByBeneficiario(String beneficiario) throws HiperionException;
+	
 	/**
 	 * 
 	 * <b> Permite buscar las recaudaciones ingresadas en la base de datos. </b>
