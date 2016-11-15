@@ -48,7 +48,7 @@
 					<p:outputLabel value="#{emision['usuario.info.menu']}" styleClass="negrita" />
 
 					<p:commandLink title="Agregar menus">
-						<h:graphicImage name="menu.png" library="img" onclick="menus.show();" />
+						<h:graphicImage name="menu.png" library="img" onclick="PF('menus').show();" />
 					</p:commandLink>
 				</h:panelGrid>
 
@@ -83,7 +83,7 @@
 				<p:spacer height="30px;" />
 				<div align="center">
 					<p:commandButton id="aceptarBtnId" action="#{usuarioBacking.agregarMenus}" icon="icon-save" value="#{emision['boton.aceptar']}"
-						oncomplete="menus.hide()" title="Guardar" />
+						oncomplete="PF('menus').hide()" title="Guardar" />
 				</div>
 			</p:dialog>
 		</h:form>
