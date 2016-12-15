@@ -11,10 +11,14 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import ec.com.uce.jano.comun.HiperionException;
+import ec.com.uce.jano.dao.DetalleEgresoDao;
+import ec.com.uce.jano.dao.EgresoDao;
 import ec.com.uce.jano.dao.GastoDao;
 import ec.com.uce.jano.dao.RecaudacionDao;
 import ec.com.uce.jano.dto.CompromisoDTO;
 import ec.com.uce.jano.dto.RecaudacionDTO;
+import ec.com.uce.jano.entities.DetalleEgreso;
+import ec.com.uce.jano.entities.Egreso;
 import ec.com.uce.jano.entities.Gasto;
 import ec.com.uce.jano.entities.Recaudacion;
 import ec.com.uce.jano.servicio.RecaudacionService;
@@ -34,6 +38,12 @@ public class RecaudacionServiceImpl implements RecaudacionService {
 
 	@EJB
 	private GastoDao gastoDao;
+	
+	@EJB
+	private EgresoDao egresoDao;
+	
+	@EJB
+	private DetalleEgresoDao detalleEgresoDao;
 
 	/*
 	 * (non-Javadoc)
@@ -273,8 +283,21 @@ public class RecaudacionServiceImpl implements RecaudacionService {
 			compromisoDTO.setValor(gasto.getValorGasto());
 			compromisoDTO.setFecha(gasto.getFechaGasto());
 			compromisoDTO.setComprobante(gasto.getComprobanteGasto());
+			compromisoDTO.setPartida(gasto.getPartida());
 			compromisoDTO.setCur(gasto.getCur());
+			
+			Egreso egresoDB = egresoDao.buscarEgresos(gasto.getPeriodoGasto(), gasto.getAfectacion().getIdAfectacion());
 
+			if (egresoDB != null) {
+				List<DetalleEgreso> detEgresos = detalleEgresoDao.buscarEgresos(egresoDB.getIdEgreso());
+
+				for (DetalleEgreso detEgreso : detEgresos) {
+					if (detEgreso.getPartida().getPartida().equals(gasto.getPartida().getPartida())) {
+						compromisoDTO.setPresupuesto(detEgreso.getPresupuesto());
+					}
+				}
+			}
+			
 			compromisoDTOs.add(compromisoDTO);
 		}
 
